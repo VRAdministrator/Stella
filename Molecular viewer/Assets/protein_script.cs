@@ -6,17 +6,19 @@ using UnityEngine.InputSystem;
 public class protein_script : MonoBehaviour
 {
     public GameObject cartoon,ball_n_stick,spacefill,surface,sur_cartoon,sur_ball_n_stick,sur_spacefill;
-    public InputActionProperty stick,pad;
+    public InputActionProperty stick;
+    public grab_script left_grab_info,right_grab_info;
+    
     private int frame,mode,protein_index;
     private bool pre_up_turn;
     private GameObject rep;
     // Update is called once per frame
     void Start(){
         rep=Instantiate(cartoon);
-        rep.transform.position=new Vector3(1.0F,2.0F,0.0F);
+        rep.transform.position=new Vector3(0.0F,1.5F,1.0F);
     }
     
-    void Update()
+    void LateUpdate()
     {
         bool change=false;
         Vector2 stick_vec=stick.action.ReadValue<Vector2>();
@@ -33,7 +35,6 @@ public class protein_script : MonoBehaviour
             frame=0;
         }
         protein_index=(protein_index+7)%7;
-
         if (change){
             Vector3 temp_locat=rep.transform.position;
             Quaternion temp_rotat=rep.transform.rotation;
@@ -61,9 +62,20 @@ public class protein_script : MonoBehaviour
                 rep=Instantiate(sur_spacefill);
                 break;
             }
-            
             rep.transform.position=temp_locat;
             rep.transform.rotation=temp_rotat;
+            if (right_grab_info.grabbed){
+                right_grab_info.grabbed_ob=rep;
+                right_grab_info.grabbed_rig=rep.GetComponent<Rigidbody>();
+                right_grab_info.grabbed_rig.useGravity=false;
+                rep.transform.parent=right_grab_info.hand.transform;
+            }
+            if (left_grab_info.grabbed){
+                left_grab_info.grabbed_ob=rep;
+                left_grab_info.grabbed_rig=rep.GetComponent<Rigidbody>();
+                left_grab_info.grabbed_rig.useGravity=false;
+                rep.transform.parent=left_grab_info.hand.transform;
+            }
 
         }
 

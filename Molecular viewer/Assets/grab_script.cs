@@ -8,10 +8,11 @@ public class grab_script : MonoBehaviour
     public GameObject hand,other_hand,grabbed_ob;
     public Collider main_Collider;
     public InputActionProperty grip,grab;
+    public Rigidbody grabbed_rig;
+
     public bool grabbed;
     public bool inside;
     private float closest=1000;
-    private Rigidbody grabbed_rig;
 
     float dis_form(Vector3 tp1,Vector3 tp2){
         return Mathf.Sqrt(Mathf.Pow(tp1.x-tp2.x,2)+Mathf.Pow(tp1.y-tp2.y,2)+Mathf.Pow(tp1.z-tp2.z,2));
