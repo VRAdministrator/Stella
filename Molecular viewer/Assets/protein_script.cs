@@ -10,7 +10,7 @@ public class protein_script : MonoBehaviour
     public grab_script left_grab_info,right_grab_info;
     
     private int frame,mode,protein_index;
-    private bool pre_up_turn;
+    private bool pre_up_turn,mid_turn;
     private GameObject rep;
     // Update is called once per frame
     void Start(){
@@ -22,17 +22,22 @@ public class protein_script : MonoBehaviour
     {
         bool change=false;
         Vector2 stick_vec=stick.action.ReadValue<Vector2>();
-        if (stick_vec.y>0.5&&(frame>90||!pre_up_turn)){
+        if (stick_vec.y>0.5&&(frame>90||!pre_up_turn||mid_turn)){
             pre_up_turn=true;
+            mid_turn=false;
             protein_index++;
             change=true;
             frame=0;
         }
-        if (stick_vec.y<-0.5&&(frame>90||pre_up_turn)){
+        else if (stick_vec.y<-0.5&&(frame>90||pre_up_turn||mid_turn)){
             pre_up_turn=false;
+            mid_turn=false;
             protein_index--;
             change=true;
             frame=0;
+        }
+        else if (!mid_turn&&Mathf.Round(stick_vec.y*10)==0){
+            mid_turn=true;
         }
         protein_index=(protein_index+7)%7;
         if (change){
