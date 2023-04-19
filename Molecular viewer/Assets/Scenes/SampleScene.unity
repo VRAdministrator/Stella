@@ -249,7 +249,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb7024c517a2c8049a47ae41f5d4c1bf, type: 2}
+  - {fileID: 2100000, guid: fd27f5ecf8e8aca49b7cfd868ecb94b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1077,8 +1077,8 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   grabbed_rig: {fileID: 0}
+  instructions: {fileID: 271104825}
   grabbed: 0
-  inside: 0
 --- !u!1001 &1262609629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1492,8 +1492,8 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   grabbed_rig: {fileID: 0}
+  instructions: {fileID: 271104825}
   grabbed: 0
-  inside: 0
 --- !u!1 &1405169260
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,6 +1844,8 @@ MonoBehaviour:
   sur_cartoon: {fileID: 2726405340997513956, guid: 6583d78a29bc8194f8cf95969ef1762e, type: 3}
   sur_ball_n_stick: {fileID: 1313229590214581910, guid: 8ef3f2360d44dc242aed599678b9bbb8, type: 3}
   sur_spacefill: {fileID: 3390207189658747812, guid: 74f2d749dc7e4de4eabcaee8411bc83d, type: 3}
+  right_hand: {fileID: 1222297889}
+  left_hand: {fileID: 1292273933}
   stick:
     m_UseReference: 1
     m_Action:
@@ -1856,6 +1858,54 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 875253871413052681, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  left_grab:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left_grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 23178d77-198d-4011-891b-646aba181229
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  right_grab:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right_grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: be053653-8115-486a-b343-2844525db934
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  left_grip:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left_grip
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 211fd1f4-9d09-4cff-80b4-87b01fe6919f
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  right_grip:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right_grip
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 284c52c4-9580-4166-8676-e4246b1ea3d9
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   left_grab_info: {fileID: 1292273942}
   right_grab_info: {fileID: 1222297898}
 --- !u!1 &2015691285 stripped
