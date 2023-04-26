@@ -9,11 +9,12 @@ public class protein_script : MonoBehaviour
     public InputActionProperty stick,left_grab,right_grab,left_grip,right_grip;
     public grab_script left_grab_info,right_grab_info;
     
+
     private Vector3 base_size,start_scale;
     private Collider protien_collider;
     private Rigidbody rb;
     private float predistance,base_scale,cur_scale;
-    private int frame,mode,protein_index;
+    private int frame,mode,protein_index,pre_index;
     private bool pre_up_turn,mid_turn,pregrabbed;
     private GameObject rep;
     private UnityEngine.XR.InputDevice left_con;
@@ -38,7 +39,7 @@ public class protein_script : MonoBehaviour
         if (leftHandDevices.Count==1){
             var left_con=leftHandDevices[0];
             bool padvalue;
-            if (left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxisClick, out padvalue)&&padvalue){
+            if (left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondary2DAxisClick, out padvalue)&&padvalue){
                 rep.transform.position=new Vector3(0.0F,1.5F,1.0F);
                 cur_scale=start_scale.x;
                 rep.transform.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
@@ -49,6 +50,7 @@ public class protein_script : MonoBehaviour
         if (stick_vec.y>0.5&&(frame>90||!pre_up_turn||mid_turn)){
             pre_up_turn=true;
             mid_turn=false;
+            pre_index=protein_index;
             protein_index++;
             change=true;
             frame=0;
@@ -56,6 +58,7 @@ public class protein_script : MonoBehaviour
         else if (stick_vec.y<-0.5&&(frame>90||pre_up_turn||mid_turn)){
             pre_up_turn=false;
             mid_turn=false;
+            pre_index=protein_index;
             protein_index--;
             change=true;
             frame=0;
@@ -72,15 +75,24 @@ public class protein_script : MonoBehaviour
             switch (protein_index){
                 case 0:
                 rep=Instantiate(cartoon);
+                if (pre_index==6){
+                    temp_scale/=100;
+                }
                 break;
                 case 1:
                 rep=Instantiate(ball_n_stick);
                 break;
                 case 2:
                 rep=Instantiate(spacefill);
+                if (pre_index==3){
+                    temp_scale/=100;
+                }
                 break;
                 case 3:
                 rep=Instantiate(surface);
+                if (pre_index==2){
+                    temp_scale*=100;
+                }
                 break;
                 case 4:
                 rep=Instantiate(sur_cartoon);
@@ -90,6 +102,9 @@ public class protein_script : MonoBehaviour
                 break;
                 case 6:
                 rep=Instantiate(sur_spacefill);
+                if (pre_index==0){
+                    temp_scale*=100;
+                }
                 break;
             }
             rep.transform.position=temp_locat;
