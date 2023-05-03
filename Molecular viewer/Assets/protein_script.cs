@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 
 public class protein_script : MonoBehaviour
 {
-    public GameObject cartoon,ball_n_stick,spacefill,surface,sur_cartoon,sur_ball_n_stick,sur_spacefill,right_hand,left_hand;
+    public GameObject cartoon,ball_n_stick,spacefill,surface,sur_cartoon,sur_ball_n_stick,sur_spacefill,mis_unit_sur,mis_unit_car,mis_unit_sur_n_car,right_hand,left_hand;
     public InputActionProperty stick,left_grab,right_grab,left_grip,right_grip;
     public grab_script left_grab_info,right_grab_info;
-    
+    public MeshRenderer instructions;
 
     private Vector3 base_size,start_scale;
     private Collider protien_collider;
@@ -22,7 +22,7 @@ public class protein_script : MonoBehaviour
     void Start(){
         rep=Instantiate(cartoon);
         rep.transform.position=new Vector3(0.0F,1.5F,1.0F);
-        messure();
+        messure(0);
     }
     float dis_form(Vector3 tp1,Vector3 tp2){
         return Mathf.Sqrt(Mathf.Pow(tp1.x-tp2.x,2)+Mathf.Pow(tp1.y-tp2.y,2)+Mathf.Pow(tp1.z-tp2.z,2));
@@ -39,10 +39,12 @@ public class protein_script : MonoBehaviour
         if (leftHandDevices.Count==1){
             var left_con=leftHandDevices[0];
             bool padvalue;
-            if (left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondary2DAxisClick, out padvalue)&&padvalue){
+            bool A_pressed=Input.GetKeyDown(KeyCode.JoystickButton0);
+            if ((left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondary2DAxisClick, out padvalue)&&padvalue)||A_pressed){
                 rep.transform.position=new Vector3(0.0F,1.5F,1.0F);
                 cur_scale=start_scale.x;
                 rep.transform.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
+                instructions.enabled=true;
             }
         }
         bool change=false;
@@ -66,7 +68,7 @@ public class protein_script : MonoBehaviour
         else if (!mid_turn&&Mathf.Round(stick_vec.y*10)==0){
             mid_turn=true;
         }
-        protein_index=(protein_index+7)%7;
+        protein_index=(protein_index+10)%10;
         if (change){
             Vector3 temp_locat=rep.transform.position;
             Quaternion temp_rotat=rep.transform.rotation;
@@ -74,10 +76,10 @@ public class protein_script : MonoBehaviour
             Destroy(rep);
             switch (protein_index){
                 case 0:
-                rep=Instantiate(cartoon);
-                if (pre_index==6){
+                if (pre_index==9){
                     temp_scale/=100;
                 }
+                rep=Instantiate(cartoon);
                 break;
                 case 1:
                 rep=Instantiate(ball_n_stick);
@@ -102,14 +104,23 @@ public class protein_script : MonoBehaviour
                 break;
                 case 6:
                 rep=Instantiate(sur_spacefill);
+                break;
+                case 7:
+                rep=Instantiate(mis_unit_sur);
+                break;
+                case 8:
+                rep=Instantiate(mis_unit_car);
+                break;
+                case 9:
                 if (pre_index==0){
                     temp_scale*=100;
                 }
+                rep=Instantiate(mis_unit_sur_n_car);
                 break;
             }
             rep.transform.position=temp_locat;
             rep.transform.rotation=temp_rotat;
-            messure();
+            messure(protein_index);
             cur_scale=temp_scale;
             rep.transform.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
             if (right_grab_info.grabbed){
@@ -143,12 +154,16 @@ public class protein_script : MonoBehaviour
         }
         frame++;
     }
-    void messure(){
+    void messure(int pt){
         cur_scale=rep.transform.localScale.x;
         rb=rep.GetComponent<Rigidbody>();
         protien_collider=rep.GetComponent<MeshCollider>();
         base_size=protien_collider.bounds.size;
         base_scale=cur_scale*3/(base_size.x+base_size.y+base_size.z);
         start_scale=rep.transform.localScale;
+        if (pt>2&&pt<7){
+            start_scale*=100;   
+        }
+
     }
 }
