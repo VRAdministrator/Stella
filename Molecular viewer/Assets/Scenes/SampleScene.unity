@@ -1844,6 +1844,9 @@ MonoBehaviour:
   sur_cartoon: {fileID: 2726405340997513956, guid: 6583d78a29bc8194f8cf95969ef1762e, type: 3}
   sur_ball_n_stick: {fileID: 1313229590214581910, guid: 8ef3f2360d44dc242aed599678b9bbb8, type: 3}
   sur_spacefill: {fileID: 3390207189658747812, guid: 74f2d749dc7e4de4eabcaee8411bc83d, type: 3}
+  mis_unit_sur: {fileID: 8572475687667526538, guid: f72d8cfd08f2d1345a27a52cab278f2c, type: 3}
+  mis_unit_car: {fileID: 2708519849021524887, guid: 577c61df6d5423e438732c21384bf23f, type: 3}
+  mis_unit_sur_n_car: {fileID: 5956897641629152500, guid: b846ebd3a9f922344a20c5c9aefb5b58, type: 3}
   right_hand: {fileID: 1222297889}
   left_hand: {fileID: 1292273933}
   stick:
@@ -1908,6 +1911,7 @@ MonoBehaviour:
     m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   left_grab_info: {fileID: 1292273942}
   right_grab_info: {fileID: 1222297898}
+  instructions: {fileID: 271104825}
 --- !u!1 &2015691285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 109434732395284509, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
