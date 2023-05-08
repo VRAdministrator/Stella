@@ -9,7 +9,6 @@ public class protein_script : MonoBehaviour
     public InputActionProperty stick,left_grab,right_grab,left_grip,right_grip;
     public grab_script left_grab_info,right_grab_info;
     public MeshRenderer instructions;
-
     private Vector3 base_size,start_scale;
     private Collider protien_collider;
     private Rigidbody rb;
@@ -22,6 +21,7 @@ public class protein_script : MonoBehaviour
     void Start(){
         rep=Instantiate(cartoon);
         rep.transform.position=new Vector3(0.0F,1.5F,1.0F);
+        rep.transform.eulerAngles=new Vector3(112.0F,-33.0F,-91.0F);
         messure(0);
     }
     float dis_form(Vector3 tp1,Vector3 tp2){
@@ -42,9 +42,15 @@ public class protein_script : MonoBehaviour
             bool A_pressed=Input.GetKeyDown(KeyCode.JoystickButton0);
             if ((left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondary2DAxisClick, out padvalue)&&padvalue)||A_pressed){
                 rep.transform.position=new Vector3(0.0F,1.5F,1.0F);
+                rep.transform.eulerAngles=new Vector3(112.0F,-33.0F,-91.0F);
+                var rb=rep.GetComponent<Rigidbody>();
+                rb.angularVelocity=new Vector3(0.0F,0.0F,0.0F);
+                rb.velocity=new Vector3(0.0F,0.0F,0.0F);
                 cur_scale=start_scale.x;
                 rep.transform.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
                 instructions.enabled=true;
+                left_grab_info.before_grabbed=false;
+                right_grab_info.before_grabbed=false;
             }
         }
         bool change=false;
@@ -78,6 +84,7 @@ public class protein_script : MonoBehaviour
                 case 0:
                 if (pre_index==9){
                     temp_scale/=100;
+                    temp_locat+=new Vector3(0.047F,0.087F,-0.037F);
                 }
                 rep=Instantiate(cartoon);
                 break;
@@ -103,9 +110,15 @@ public class protein_script : MonoBehaviour
                 rep=Instantiate(sur_ball_n_stick);
                 break;
                 case 6:
+                if (pre_index==7){
+                    temp_locat+=new Vector3(0.047F,0.087F,-0.037F);
+                }
                 rep=Instantiate(sur_spacefill);
                 break;
                 case 7:
+                if (pre_index==6){
+                    temp_locat-=new Vector3(0.047F,0.087F,-0.037F);
+                }
                 rep=Instantiate(mis_unit_sur);
                 break;
                 case 8:
@@ -114,6 +127,7 @@ public class protein_script : MonoBehaviour
                 case 9:
                 if (pre_index==0){
                     temp_scale*=100;
+                    temp_locat-=new Vector3(0.047F,0.087F,-0.037F);
                 }
                 rep=Instantiate(mis_unit_sur_n_car);
                 break;
@@ -136,7 +150,6 @@ public class protein_script : MonoBehaviour
                 rep.transform.parent=left_grab_info.hand.transform;
             }
         }
-
         if ((lgb>.5||lgp>.5)&&(rgb>.5||rgp>.5)){
             float new_distance=dis_form(right_hand.transform.position,left_hand.transform.position);
             if (pregrabbed){
