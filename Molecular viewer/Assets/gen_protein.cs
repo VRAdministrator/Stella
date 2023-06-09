@@ -7,7 +7,7 @@ using System.IO;
 public class gen_protein : MonoBehaviour
 {
     public GameObject atom_model;
-    public Transform parent; 
+    //public Transform parent; 
     
     private GameObject temp_atom;
     private List<GameObject> Cs,Ns,Os,Ss;
@@ -24,9 +24,9 @@ public class gen_protein : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-        Collider collider=GetComponent<Collider>();
-        rigidbody.isKinematic=true;
+        //Rigidbody rigidbody = GetComponent<Rigidbody>();
+        //Collider collider=GetComponent<Collider>();
+        //rigidbody.isKinematic=true;
         Cs=new List<GameObject>();
         Ns=new List<GameObject>();
         Os=new List<GameObject>();
@@ -38,12 +38,14 @@ public class gen_protein : MonoBehaviour
         int len_string=text.Length-81;
         float sum=0;
         float total=0;
-        Vector3 offset=collider.bounds.center;
+        //Vector3 offset=collider.bounds.center;
+        Vector3 offset=new Vector3(-.7f,1.0f,.8f);
         for (;start<len_string;){  
             if (text.Substring(start,4)=="ATOM"){
-                temp_atom=Instantiate(atom_model,parent);
+                temp_atom=Instantiate(atom_model);
                 sum+=str_to_float(text,start+48);
-                temp_atom.transform.position=new Vector3(str_to_float(text,start+32)-0.7218993F,str_to_float(text,start+40)-0.2659971F,str_to_float(text,start+48)-0.1989838F)+offset;
+                //temp_atom.transform.position=new Vector3(str_to_float(text,start+32)-0.7218993F,str_to_float(text,start+40)-0.2659971F,str_to_float(text,start+48)-0.1989838F)+offset;
+                temp_atom.transform.position=new Vector3(str_to_float(text,start+32),str_to_float(text,start+40),str_to_float(text,start+48))+offset;
                 switch (text[start+77]){
                     case (char)67:
                     Cs.Add(temp_atom);
@@ -71,8 +73,8 @@ public class gen_protein : MonoBehaviour
                 start++;
             }
         }
-        Debug.Log(sum/total);
+        //Debug.Log(sum/total);
         //place as child of transparent grabable object
-        rigidbody.isKinematic=false;
+        //rigidbody.isKinematic=false;
     }
 }

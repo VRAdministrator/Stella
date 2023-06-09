@@ -1741,6 +1741,7 @@ GameObject:
   - component: {fileID: 1896323065}
   - component: {fileID: 1896323064}
   - component: {fileID: 1896323068}
+  - component: {fileID: 1896323069}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1834,7 +1835,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896323063}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d70405b3b6d62c429c91170b93cc1b8, type: 3}
   m_Name: 
@@ -1914,6 +1915,19 @@ MonoBehaviour:
   left_grab_info: {fileID: 1292273942}
   right_grab_info: {fileID: 1222297898}
   instructions: {fileID: 271104825}
+--- !u!114 &1896323069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896323063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5581b6c5719a7d499f241c43c8f0fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
 --- !u!1 &2015691285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 109434732395284509, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
