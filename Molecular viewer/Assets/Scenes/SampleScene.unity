@@ -2041,6 +2041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
+  bond_model: {fileID: 0}
 --- !u!65 &1896323070
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2147,6 +2148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
+  bond_model: {fileID: 2703716214361908495, guid: 2a9dce7ba4a303645b992987d3fde96e, type: 3}
 --- !u!65 &2100259190
 BoxCollider:
   m_ObjectHideFlags: 0

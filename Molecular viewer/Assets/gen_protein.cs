@@ -10,10 +10,10 @@ using System.Linq;
 public class gen_protein : MonoBehaviour
 {
     public GameObject atom_model;
-    //public Transform parent; 
+    public GameObject bond_model;
     
     private GameObject temp_atom;
-    private List<GameObject> Cs,Ns,Os,Ss;
+    private List<GameObject> Cs,Ns,Os,Ss,atoms;
 
 
     public ref struct CustomRef
@@ -60,7 +60,7 @@ public class gen_protein : MonoBehaviour
                     continue;
                 }
                 double dis=Math.Sqrt(dx*dx+dy*dy+dz*dz);
-                if (max>dis||dis==0){
+                if (max<dis||dis==0){
                     continue;
                 }
                 atoms.Add(i);
@@ -97,23 +97,24 @@ public class gen_protein : MonoBehaviour
 
         int pair(int a,int b){
             if (a<b){
-                return (a + b) * (a + b + 1) / 2 + b;
+                return (a+b)*(a+b+1)/2+b;
             }
-            return (a + b) * (a + b + 1) / 2 + a;
+            return (a+b)*(a+b+1)/2+a;
         }
 
         double pairThreshold(int i,int j){
             if (i < 0 || j < 0) return -1;
-            double r=__ElementPairThresholds[pair(i, j)];
+            double r;
+            __ElementPairThresholds.TryGetValue(pair(i,j),out r);
             if (r==0) return -1;
             return r;
         }
 
-        (List<Vector3>,List<Vector3>) compute_bonds(List<string> els,List<Vector3> positions){
+        (List<int>,List<int>) compute_bonds(List<string> els,List<Vector3> positions){
             int total_atoms=els.Count;
             int total_bonds=total_atoms+total_atoms/3;
-            List<Vector3> atomA=new List<Vector3>(new Vector3[total_bonds]);
-            List<Vector3> atomB=new List<Vector3>(new Vector3[total_bonds]);
+            List<int> atomA=new List<int>(new int[total_bonds]);
+            List<int> atomB=new List<int>(new int[total_bonds]);
             //bond_types=new List<int>(new int[total_bonds]);
             for (int ai=0;ai<total_atoms;ai++){
                 int aei=idx(els[ai]);
@@ -133,8 +134,8 @@ public class gen_protein : MonoBehaviour
                     }
                     if (isHa||isHb){
                         if (atom_infos.Item2[ni]<1.15){//maybe 1.15
-                            atomA.Add(positions[ai]);
-                            atomB.Add(positions[bi]);
+                            atomA.Add(ai);
+                            atomB.Add(bi);
                             //bond_types.Add(1);
                         }
                         continue;
@@ -158,29 +159,29 @@ public class gen_protein : MonoBehaviour
                     }
                     bool metalB=MetalsSet.Contains(els[bi]);
                     if (atom_infos.Item2[ni]<=pairingThreshold){
-                        atomA.Add(positions[ai]);
-                        atomB.Add(positions[bi]);
+                        atomA.Add(ai);
+                        atomB.Add(bi);
                     }
                 }
             }
             return (atomA,atomB);
         }
 
-        (List<Vector3>,List<Vector3>) get_bonds(List<string> els,List<Vector3> positions){
+        (List<Vector3>,List<int>) get_bonds(List<string> els,List<Vector3> positions){
             var atom_lists=compute_bonds(els,positions);
             var atomsA=atom_lists.Item1;
             var atomsB=atom_lists.Item2;
             List<Vector3> bond_positions=new List<Vector3>(new Vector3[atomsA.Count]);
-            List<Vector3> bond_rotations=new List<Vector3>(new Vector3[atomsA.Count]);
+            Debug.Log(atomsA[23]);
             for (int i=0;i<atomsA.Count;i++){
-                bond_positions[i]=(atomsA[i]+atomsB[i])/2;
-                //still need to add rotation
+                bond_positions[i]=(positions[atomsA[i]]+positions[atomsB[i]])/2;
             }
-            return (bond_positions,bond_rotations);
+            return (bond_positions,atomsA);
         }
 
 
         Transform trans=GetComponent<Transform>();
+        atoms=new List<GameObject>();
         Cs=new List<GameObject>();
         Ns=new List<GameObject>();
         Os=new List<GameObject>();
@@ -200,9 +201,11 @@ public class gen_protein : MonoBehaviour
                 temp_atom=Instantiate(atom_model,trans);
                 sum+=str_to_float(text,start+48);
                 Vector3 temp_pos=new Vector3(str_to_float(text,start+32),str_to_float(text,start+40),str_to_float(text,start+48));
-                temp_atom.transform.position=temp_pos+offset;
-                eles.Add(text.Substring(start+77,1));
                 atom_pos.Add(temp_pos);
+                temp_atom.transform.position=temp_pos+offset;
+                temp_atom.transform.localScale=new Vector3(0.01f,0.01f,0.01f);
+                eles.Add(text.Substring(start+77,1));
+                atoms.Add(temp_atom);
                 switch (text[start+77]){
                     case (char)67:
                     Cs.Add(temp_atom);
@@ -230,7 +233,15 @@ public class gen_protein : MonoBehaviour
                 start++;
             }
         }
-        get_bonds(eles,atom_pos);
+        var bond_info=get_bonds(eles,atom_pos);
+        var bond_positions=bond_info.Item1;
+        var base_atoms=bond_info.Item2;
+        for (int i=0;i<bond_positions.Count;i++){
+            GameObject bond=Instantiate(bond_model,trans);
+            bond.transform.position=bond_positions[i]+offset;
+            bond.transform.LookAt(atoms[base_atoms[i]].transform);
+        }
+
 
     }
 }
