@@ -60,7 +60,7 @@ public class gen_protein : MonoBehaviour
                     continue;
                 }
                 double dis=Math.Sqrt(dx*dx+dy*dy+dz*dz);
-                if (max<dis||dis==0){
+                if (max<dis || dis==0){
                     continue;
                 }
                 atoms.Add(i);
@@ -112,15 +112,17 @@ public class gen_protein : MonoBehaviour
 
         (List<int>,List<int>) compute_bonds(List<string> els,List<Vector3> positions){
             int total_atoms=els.Count;
-            int total_bonds=total_atoms+total_atoms/3;
-            List<int> atomA=new List<int>(new int[total_bonds]);
-            List<int> atomB=new List<int>(new int[total_bonds]);
+            //int total_bonds=total_atoms+total_atoms/3;
+            List<int> atomA=new List<int>();
+            List<int> atomB=new List<int>();
             //bond_types=new List<int>(new int[total_bonds]);
+            //mask compute
             for (int ai=0;ai<total_atoms;ai++){
                 int aei=idx(els[ai]);
-                var atom_infos=quary_3d(positions[ai],positions,3);
+                var atom_infos=quary_3d(positions[ai],positions,0.02);
                 bool isHa=isHydrogen(aei);
                 double thesholdA=theshold(aei);
+                //altloc
                 bool metalA=MetalsSet.Contains(els[ai]);
                 for (int ni=0;ni<atom_infos.Item1.Count;ni++){
                     int bi=atom_infos.Item1[ni];
@@ -129,10 +131,10 @@ public class gen_protein : MonoBehaviour
                     }
                     int bei=idx(els[bi]);
                     bool isHb=isHydrogen(bei);
-                    if (isHa&&isHb){
+                    if (isHa && isHb){
                         continue;
                     }
-                    if (isHa||isHb){
+                    if (isHa || isHb){
                         if (atom_infos.Item2[ni]<1.15){//maybe 1.15
                             atomA.Add(ai);
                             atomB.Add(bi);
@@ -171,8 +173,8 @@ public class gen_protein : MonoBehaviour
             var atom_lists=compute_bonds(els,positions);
             var atomsA=atom_lists.Item1;
             var atomsB=atom_lists.Item2;
+             Debug.Log(atomsA.Count);
             List<Vector3> bond_positions=new List<Vector3>(new Vector3[atomsA.Count]);
-            Debug.Log(atomsA[23]);
             for (int i=0;i<atomsA.Count;i++){
                 bond_positions[i]=(positions[atomsA[i]]+positions[atomsB[i]])/2;
             }
@@ -236,10 +238,13 @@ public class gen_protein : MonoBehaviour
         var bond_info=get_bonds(eles,atom_pos);
         var bond_positions=bond_info.Item1;
         var base_atoms=bond_info.Item2;
+        Debug.Log(bond_positions.Count);
+        Debug.Log(atoms.Count);
         for (int i=0;i<bond_positions.Count;i++){
             GameObject bond=Instantiate(bond_model,trans);
             bond.transform.position=bond_positions[i]+offset;
             bond.transform.LookAt(atoms[base_atoms[i]].transform);
+            bond.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
         }
 
 
