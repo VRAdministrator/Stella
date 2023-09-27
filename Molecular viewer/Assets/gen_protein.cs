@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.IO;
 using System.Linq;
 
@@ -9,11 +10,16 @@ using System.Linq;
 
 public class gen_protein : MonoBehaviour
 {
+    //public InputActionProperty stick;
+    public grab_script left_grab_info,right_grab_info;
     public GameObject atom_model;
     public GameObject bond_model;
     
     private GameObject temp_atom;
-    private List<GameObject> Cs,Ns,Os,Ss,atoms;
+    private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs;
+    private bool pre_up_turn,mid_turn,pregrabbed;
+    private int frame,mode,protein_index,pre_index;
+    //private float cur_scale;
 
 
     public ref struct CustomRef
@@ -42,10 +48,10 @@ public class gen_protein : MonoBehaviour
         var __ElementPairThresholds=new Dictionary<int,double>{{0,0.8},{ 20,1.31},{ 27,1.3},{ 35,1.3},{ 44,1.05},{ 54,1},{ 60,1.84},{ 72,1.88},{ 84,1.75},{ 85,1.56},{ 86,1.76},{ 98,1.6},{ 99,1.68},{ 100,1.63},{ 112,1.55},{ 113,1.59},{ 114,1.36},{ 129,1.45},{ 144,1.6},{ 170,1.4},{ 180,1.55},{ 202,2.4},{ 222,2.24},{ 224,1.91},{ 225,1.98},{ 243,2.02},{ 269,2},{ 293,1.9},{ 480,2.3},{ 512,2.3},{ 544,2.3},{ 612,2.1},{ 629,1.54},{ 665,1},{ 813,2.6},{ 854,2.27},{ 894,1.93},{ 896,2.1},{ 937,2.05},{ 938,2.06},{ 981,1.62},{ 1258,2.68},{ 1309,2.33},{ 1484,1},{ 1763,2.14},{ 1823,2.48},{ 1882,2.1},{ 1944,1.72},{ 2380,2.34},{ 3367,2.44},{ 3733,2.11},{ 3819,2.6},{ 3821,2.36},{ 4736,2.75},{ 5724,2.73},{ 5959,2.63},{ 6519,2.84},{ 6750,2.87},{ 8991,2.81}};
         List<string> MetalsSet=new List<string>{"LI", "NA", "K", "RB", "CS", "FR", "BE", "MG", "CA", "SR", "BA", "RA","AL", "GA", "IN", "SN", "TL", "PB", "BI", "SC", "TI", "V", "CR", "MN", "FE", "CO", "NI", "CU", "ZN", "Y", "ZR", "NB", "MO", "TC", "RU", "RH", "PD", "AG", "CD", "LA", "HF", "TA", "W", "RE", "OS", "IR", "PT", "AU", "HG", "AC", "RF", "DB", "SG", "BH", "HS", "MT", "CE", "PR", "ND", "PM", "SM", "EU", "GD", "TB", "DY", "HO", "ER", "TM", "YB", "LU", "TH", "PA", "U", "NP", "PU", "AM", "CM", "BK", "CF", "ES", "FM", "MD", "NO", "LR"};
 
-        (List<int>,List<double>) quary_3d(Vector3 pos,List<Vector3> positions,double max){
+        (List<int>,List<double>) quary_3d(Vector3 pos,List<Vector3> positions,double max,int start){
             var atoms=new List<int>();
             var distances=new List<double>();
-            for (int i=0;i<positions.Count;i++){
+            for (int i=start+1;i<positions.Count;i++){
                 Vector3 temp_pos=positions[i];
                 double dx=Math.Abs(temp_pos.x-pos.x);
                 if (dx>max){
@@ -119,16 +125,13 @@ public class gen_protein : MonoBehaviour
             //mask compute
             for (int ai=0;ai<total_atoms;ai++){
                 int aei=idx(els[ai]);
-                var atom_infos=quary_3d(positions[ai],positions,0.02);
+                var atom_infos=quary_3d(positions[ai],positions,0.02,ai);
                 bool isHa=isHydrogen(aei);
                 double thesholdA=theshold(aei);
                 //altloc
                 bool metalA=MetalsSet.Contains(els[ai]);
                 for (int ni=0;ni<atom_infos.Item1.Count;ni++){
                     int bi=atom_infos.Item1[ni];
-                    if (bi<=ai){//there is also a mask check here
-                        continue;
-                    }
                     int bei=idx(els[bi]);
                     bool isHb=isHydrogen(bei);
                     if (isHa && isHb){
@@ -238,15 +241,82 @@ public class gen_protein : MonoBehaviour
         var bond_info=get_bonds(eles,atom_pos);
         var bond_positions=bond_info.Item1;
         var base_atoms=bond_info.Item2;
-        Debug.Log(bond_positions.Count);
-        Debug.Log(atoms.Count);
+        bonds_obs=new List<GameObject>(new GameObject[bond_positions.Count]);
         for (int i=0;i<bond_positions.Count;i++){
             GameObject bond=Instantiate(bond_model,trans);
             bond.transform.position=bond_positions[i]+offset;
             bond.transform.LookAt(atoms[base_atoms[i]].transform);
             bond.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+            bonds_obs[i]=bond;
         }
+    }
+    void LateUpdate(){
+        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
+        Vector2 stick_vec=new Vector2();
+        if (leftHandDevices.Count==1){
+            var left_con=leftHandDevices[0];
+            bool padvalue;
+            bool A_pressed=Input.GetKeyDown(KeyCode.JoystickButton0);
+            if ((left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondary2DAxisClick, out padvalue)&&padvalue)||A_pressed){
+                Transform trans=GetComponent<Transform>();
+                trans.position=new Vector3(0.0F,1.5F,1.0F);
+                trans.eulerAngles=new Vector3(112.0F,-33.0F,-91.0F);
+                var rb=GetComponent<Rigidbody>();
+                rb.angularVelocity=new Vector3(0.0F,0.0F,0.0F);
+                rb.velocity=new Vector3(0.0F,0.0F,0.0F);
+                //cur_scale=start_scale.x;
+                //trans.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
+                //instructions.enabled=true;
+                left_grab_info.before_grabbed=false;
+                right_grab_info.before_grabbed=false;
+            }
+            left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out stick_vec);
+        }
+        bool change=false;
+        //Vector2 stick_vec=stick.action.ReadValue<Vector2>();
+        if (stick_vec.y>0.5&&(frame>90||!pre_up_turn||mid_turn)){
+            pre_up_turn=true;
+            mid_turn=false;
+            pre_index=protein_index;
+            protein_index++;
+            change=true;
+            frame=0;
+        }
+        else if (stick_vec.y<-0.5&&(frame>90||pre_up_turn||mid_turn)){
+            pre_up_turn=false;
+            mid_turn=false;
+            pre_index=protein_index;
+            protein_index--;
+            change=true;
+            frame=0;
+        }
+        else if (!mid_turn&&Mathf.Round(stick_vec.y*10)==0){
+            mid_turn=true;
+        }
+        protein_index=(protein_index+2)%2;
+        if (change){
+            switch (protein_index){
+                case 0:
+                for (int i=0;i<bonds_obs.Count;i++){
+                    bonds_obs[i].GetComponent<Renderer>().enabled=true;
+                }
+                for (int i=0;i<atoms.Count;i++){
+                    atoms[i].transform.localScale=new Vector3(0.01f,0.01f,0.01f);
+                }
+                break;
 
+                case 1:
+                for (int i=0;i<atoms.Count;i++){
+                    atoms[i].transform.localScale=new Vector3(0.04f,0.04f,0.04f);
+                }
+                for (int i=0;i<bonds_obs.Count;i++){
+                    bonds_obs[i].GetComponent<Renderer>().enabled=false;
+                }
 
+                break;
+            }
+
+        }
     }
 }

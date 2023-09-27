@@ -500,10 +500,10 @@ MonoBehaviour:
   m_TrackingStateInput:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Tracking State Input
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: f870667e-55b6-481f-bf01-85115e4d777c
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -849,7 +849,7 @@ MonoBehaviour:
       m_Name: Is Tracked
       m_Type: 1
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: b8db3409-3813-4143-9f51-13ef20ff48a7
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -945,7 +945,7 @@ MonoBehaviour:
       m_Name: UI Scroll
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 
+      m_Id: e3562c79-d750-4c37-8523-9047ed973230
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -1310,7 +1310,7 @@ MonoBehaviour:
       m_Name: Is Tracked
       m_Type: 1
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: 097f6e23-ff14-4e32-b2b1-9299a48635ce
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -1406,7 +1406,7 @@ MonoBehaviour:
       m_Name: UI Scroll
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 
+      m_Id: a6c76bdf-2c1a-4f42-920b-dd1374c4ce7e
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -2040,6 +2040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5581b6c5719a7d499f241c43c8f0fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  left_grab_info: {fileID: 0}
+  right_grab_info: {fileID: 0}
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
   bond_model: {fileID: 0}
 --- !u!65 &1896323070
@@ -2147,6 +2149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5581b6c5719a7d499f241c43c8f0fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  left_grab_info: {fileID: 1292273942}
+  right_grab_info: {fileID: 1222297898}
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
   bond_model: {fileID: 2703716214361908495, guid: 2a9dce7ba4a303645b992987d3fde96e, type: 3}
 --- !u!65 &2100259190
