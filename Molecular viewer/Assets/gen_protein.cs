@@ -184,30 +184,30 @@ public class gen_protein : MonoBehaviour
             return (bond_positions,atomsA);
         }
 
-
         Transform trans=GetComponent<Transform>();
+        Vector3 proir_position=trans.position;
+        trans.position=new Vector3(0,0,0);
         atoms=new List<GameObject>();
         Cs=new List<GameObject>();
         Ns=new List<GameObject>();
         Os=new List<GameObject>();
         Ss=new List<GameObject>();
-
         TextAsset textFile=(TextAsset)Resources.Load("1mbo");
         string text=textFile.text;
         int start=0;
         int len_string=text.Length-81;
-        float sum=0;
         float total=0;
-        Vector3 offset=new Vector3(-.7f,1.0f,.8f);
+        Vector3 center_pt=new Vector3();
+        //Vector3 offset=new Vector3(-.7f,1.0f,.8f);
         List<string> eles=new List<string>();
         List<Vector3> atom_pos=new List<Vector3>();
         for (;start<len_string;){  
             if (text.Substring(start,4)=="ATOM"){
                 temp_atom=Instantiate(atom_model,trans);
-                sum+=str_to_float(text,start+48);
                 Vector3 temp_pos=new Vector3(str_to_float(text,start+32),str_to_float(text,start+40),str_to_float(text,start+48));
                 atom_pos.Add(temp_pos);
-                temp_atom.transform.position=temp_pos+offset;
+                center_pt+=temp_pos;
+                temp_atom.transform.position=temp_pos;
                 temp_atom.transform.localScale=new Vector3(0.01f,0.01f,0.01f);
                 eles.Add(text.Substring(start+77,1));
                 atoms.Add(temp_atom);
@@ -238,19 +238,36 @@ public class gen_protein : MonoBehaviour
                 start++;
             }
         }
+        center_pt/=total;
+        for (int i=0;i<atoms.Count;i++){
+            atoms[i].transform.position-=center_pt;
+            atom_pos[i]-=center_pt;
+        }
         var bond_info=get_bonds(eles,atom_pos);
         var bond_positions=bond_info.Item1;
         var base_atoms=bond_info.Item2;
         bonds_obs=new List<GameObject>(new GameObject[bond_positions.Count]);
         for (int i=0;i<bond_positions.Count;i++){
             GameObject bond=Instantiate(bond_model,trans);
-            bond.transform.position=bond_positions[i]+offset;
+            bond.transform.position=bond_positions[i];
             bond.transform.LookAt(atoms[base_atoms[i]].transform);
             bond.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
             bonds_obs[i]=bond;
         }
+        //add code here
+        int spacer=Cs.Count()/100;
+        for (int i=0;i<Cs.Count;i++){
+            if (i%spacer!=0){
+                continue;
+            }
+            SphereCollider temp_collider=gameObject.AddComponent<SphereCollider>();
+            temp_collider.radius=0.05F;
+            temp_collider.center=Cs[i].transform.position;
+        }
+        trans.position=proir_position;
     }
     void LateUpdate(){
+
         var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
         Vector2 stick_vec=new Vector2();
@@ -265,9 +282,6 @@ public class gen_protein : MonoBehaviour
                 var rb=GetComponent<Rigidbody>();
                 rb.angularVelocity=new Vector3(0.0F,0.0F,0.0F);
                 rb.velocity=new Vector3(0.0F,0.0F,0.0F);
-                //cur_scale=start_scale.x;
-                //trans.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
-                //instructions.enabled=true;
                 left_grab_info.before_grabbed=false;
                 right_grab_info.before_grabbed=false;
             }
@@ -294,6 +308,7 @@ public class gen_protein : MonoBehaviour
         else if (!mid_turn&&Mathf.Round(stick_vec.y*10)==0){
             mid_turn=true;
         }
+
         protein_index=(protein_index+2)%2;
         if (change){
             switch (protein_index){
@@ -316,7 +331,7 @@ public class gen_protein : MonoBehaviour
 
                 break;
             }
-
         }
+
     }
 }
