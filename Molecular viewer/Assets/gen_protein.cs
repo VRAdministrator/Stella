@@ -16,7 +16,7 @@ public class gen_protein : MonoBehaviour
     public GameObject bond_model;
     
     private GameObject temp_atom;
-    private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs;
+    private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs,bones_obs;
     private bool pre_up_turn,mid_turn,pregrabbed;
     private int frame,mode,protein_index,pre_index;
     //private float cur_scale;
@@ -118,17 +118,13 @@ public class gen_protein : MonoBehaviour
 
         (List<int>,List<int>) compute_bonds(List<string> els,List<Vector3> positions){
             int total_atoms=els.Count;
-            //int total_bonds=total_atoms+total_atoms/3;
             List<int> atomA=new List<int>();
             List<int> atomB=new List<int>();
-            //bond_types=new List<int>(new int[total_bonds]);
-            //mask compute
             for (int ai=0;ai<total_atoms;ai++){
                 int aei=idx(els[ai]);
                 var atom_infos=quary_3d(positions[ai],positions,0.02,ai);
                 bool isHa=isHydrogen(aei);
                 double thesholdA=theshold(aei);
-                //altloc
                 bool metalA=MetalsSet.Contains(els[ai]);
                 for (int ni=0;ni<atom_infos.Item1.Count;ni++){
                     int bi=atom_infos.Item1[ni];
@@ -176,13 +172,13 @@ public class gen_protein : MonoBehaviour
             var atom_lists=compute_bonds(els,positions);
             var atomsA=atom_lists.Item1;
             var atomsB=atom_lists.Item2;
-             Debug.Log(atomsA.Count);
             List<Vector3> bond_positions=new List<Vector3>(new Vector3[atomsA.Count]);
             for (int i=0;i<atomsA.Count;i++){
                 bond_positions[i]=(positions[atomsA[i]]+positions[atomsB[i]])/2;
             }
             return (bond_positions,atomsA);
         }
+
 
         Transform trans=GetComponent<Transform>();
         Vector3 proir_position=trans.position;
@@ -201,6 +197,10 @@ public class gen_protein : MonoBehaviour
         //Vector3 offset=new Vector3(-.7f,1.0f,.8f);
         List<string> eles=new List<string>();
         List<Vector3> atom_pos=new List<Vector3>();
+        List<Vector3> amino_pos=new List<Vector3>();
+        int preres=0;
+        float div=0.0F;
+        Vector3 cur_amino_pos=new Vector3();
         for (;start<len_string;){  
             if (text.Substring(start,4)=="ATOM"){
                 temp_atom=Instantiate(atom_model,trans);
@@ -229,6 +229,18 @@ public class gen_protein : MonoBehaviour
                     temp_atom.GetComponent<Renderer>().material.color=Color.green;
                     break;
                 }
+                int res_start=22;
+                for (;text[start+res_start]==" "[0];res_start++){}
+                int res_index=int.Parse(text.Substring(start+res_start,26-res_start));
+                if (res_index==preres){
+                    cur_amino_pos+=temp_pos;
+                    div++;
+                }else{
+                    amino_pos.Add(cur_amino_pos/div);
+                    cur_amino_pos=temp_pos;
+                    div=1.0F;
+                    preres=res_index;
+                }
                 total++;
                 start+=81;
             }else{
@@ -238,11 +250,16 @@ public class gen_protein : MonoBehaviour
                 start++;
             }
         }
+        amino_pos.Add(cur_amino_pos/div);
         center_pt/=total;
         for (int i=0;i<atoms.Count;i++){
             atoms[i].transform.position-=center_pt;
             atom_pos[i]-=center_pt;
         }
+        for (int i=0;i<amino_pos.Count;i++){
+            amino_pos[i]-=center_pt;
+        }
+
         var bond_info=get_bonds(eles,atom_pos);
         var bond_positions=bond_info.Item1;
         var base_atoms=bond_info.Item2;
@@ -254,7 +271,19 @@ public class gen_protein : MonoBehaviour
             bond.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
             bonds_obs[i]=bond;
         }
-        //add code here
+        int size=amino_pos.Count-1;
+        Vector3 dif=new Vector3();
+        bones_obs=new List<GameObject>(new GameObject[size]);
+        for (int i=0;i<size;i++){
+            GameObject bone=Instantiate(bond_model,trans);
+            dif=amino_pos[i]-amino_pos[i+1];
+            bone.transform.localScale=new Vector3(0.003F,MathF.Sqrt(dif.x*dif.x+dif.y*dif.y+dif.z*dif.z)*0.5F,0.003F);
+            bone.transform.position=(amino_pos[i]+amino_pos[i+1])/2;
+            bone.transform.LookAt(amino_pos[i]);
+            bone.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+            bones_obs[i]=bone;
+            bone.GetComponent<Renderer>().enabled=false;
+        }
         int spacer=Cs.Count()/100;
         for (int i=0;i<Cs.Count;i++){
             if (i%spacer!=0){
@@ -265,9 +294,60 @@ public class gen_protein : MonoBehaviour
             temp_collider.center=Cs[i].transform.position;
         }
         trans.position=proir_position;
+        /*mesh version get to work later
+        Mesh cartoon_mesh=new Mesh();
+        cartoon_mesh.name="cartoon_mesh";
+        GetComponent<MeshFilter>().mesh=cartoon_mesh;
+        cartoon_mesh.vertices=new Vector3[amino_pos.Count<<2];
+        //create four verts for each point in the mesh
+        int I=0;
+        for (int i=0;i<amino_pos.Count;i++){
+            cartoon_mesh.vertices[I]=amino_pos[i];
+            cartoon_mesh.vertices[I+1]=amino_pos[i];
+            cartoon_mesh.vertices[I+2]=amino_pos[i];
+            cartoon_mesh.vertices[I+3]=amino_pos[i];
+            cartoon_mesh.vertices[I].x+=0.001F;
+            cartoon_mesh.vertices[I+1].y+=0.001F;
+            cartoon_mesh.vertices[I+2].x-=0.001F;
+            cartoon_mesh.vertices[I+3].y-=0.001F;
+            I+=4;
+        }
+        int size=I*6-24;
+        I=0;
+        cartoon_mesh.triangles=new int[size];
+        for (int i=0;i<size;i+=24){
+            cartoon_mesh.triangles[i]=I;
+            cartoon_mesh.triangles[i+1]=I+1;
+            cartoon_mesh.triangles[i+2]=I+4;
+            cartoon_mesh.triangles[i+3]=I+4;
+            cartoon_mesh.triangles[i+4]=I+5;
+            cartoon_mesh.triangles[i+5]=I+1;
+            cartoon_mesh.triangles[i+6]=I+1;
+            cartoon_mesh.triangles[i+7]=I+2;
+            cartoon_mesh.triangles[i+8]=I+5;
+            cartoon_mesh.triangles[i+9]=I+5;
+            cartoon_mesh.triangles[i+10]=I+6;
+            cartoon_mesh.triangles[i+11]=I+2;
+            cartoon_mesh.triangles[i+12]=I+2;
+            cartoon_mesh.triangles[i+13]=I+3;
+            cartoon_mesh.triangles[i+14]=I+6;
+            cartoon_mesh.triangles[i+15]=I+6;
+            cartoon_mesh.triangles[i+16]=I+7;
+            cartoon_mesh.triangles[i+17]=I+3;
+            cartoon_mesh.triangles[i+18]=I+3;
+            cartoon_mesh.triangles[i+19]=I;
+            cartoon_mesh.triangles[i+20]=I+7;
+            cartoon_mesh.triangles[i+21]=I+7;
+            cartoon_mesh.triangles[i+22]=I+4;
+            cartoon_mesh.triangles[i+23]=I;
+            I+=4;
+        }
+        GetComponent<Renderer>().enabled=false;
+        */
+
+
     }
     void LateUpdate(){
-
         var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
         Vector2 stick_vec=new Vector2();
@@ -309,7 +389,7 @@ public class gen_protein : MonoBehaviour
             mid_turn=true;
         }
 
-        protein_index=(protein_index+2)%2;
+        protein_index=(protein_index+3)%3;
         if (change){
             switch (protein_index){
                 case 0:
@@ -318,17 +398,43 @@ public class gen_protein : MonoBehaviour
                 }
                 for (int i=0;i<atoms.Count;i++){
                     atoms[i].transform.localScale=new Vector3(0.01f,0.01f,0.01f);
+                    atoms[i].GetComponent<Renderer>().enabled=true;
+                }
+                if (pre_index==2){
+                    for (int i=0;i<bones_obs.Count;i++){
+                        bones_obs[i].GetComponent<Renderer>().enabled=false;
+                    }
                 }
                 break;
-
                 case 1:
+                if (pre_index==0){
+                    for (int i=0;i<bonds_obs.Count;i++){
+                        bonds_obs[i].GetComponent<Renderer>().enabled=false;
+                    }
+                }else{
+                    for (int i=0;i<atoms.Count;i++){
+                        atoms[i].GetComponent<Renderer>().enabled=true;
+                    }
+                    for (int i=0;i<bones_obs.Count;i++){
+                        bones_obs[i].GetComponent<Renderer>().enabled=false;
+                    }
+                }
                 for (int i=0;i<atoms.Count;i++){
                     atoms[i].transform.localScale=new Vector3(0.04f,0.04f,0.04f);
                 }
-                for (int i=0;i<bonds_obs.Count;i++){
-                    bonds_obs[i].GetComponent<Renderer>().enabled=false;
+                break;
+                case 2:
+                for (int i=0;i<atoms.Count;i++){
+                    atoms[i].GetComponent<Renderer>().enabled=false;
                 }
-
+                if (pre_index==0){
+                    for (int i=0;i<bonds_obs.Count;i++){
+                        bonds_obs[i].GetComponent<Renderer>().enabled=false;
+                    }
+                }
+                for (int i=0;i<bones_obs.Count;i++){
+                    bones_obs[i].GetComponent<Renderer>().enabled=true;
+                }
                 break;
             }
         }
