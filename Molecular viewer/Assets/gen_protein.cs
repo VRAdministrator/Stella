@@ -14,6 +14,7 @@ public class gen_protein : MonoBehaviour
     public grab_script left_grab_info,right_grab_info;
     public GameObject atom_model;
     public GameObject bond_model;
+    public GameObject helix_model;
     
     private GameObject temp_atom;
     private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs,bones_obs;
@@ -201,6 +202,8 @@ public class gen_protein : MonoBehaviour
         int preres=0;
         float div=0.0F;
         Vector3 cur_amino_pos=new Vector3();
+        List<int> start_helix=new List<int>();
+        List<int> end_helix=new List<int>();
         for (;start<len_string;){  
             if (text.Substring(start,4)=="ATOM"){
                 temp_atom=Instantiate(atom_model,trans);
@@ -243,6 +246,13 @@ public class gen_protein : MonoBehaviour
                 }
                 total++;
                 start+=81;
+            }else if (text.Substring(start,5)=="HELIX"){
+                int res_start=22;
+                for (;text[start+res_start]==" "[0];res_start++){}
+                start_helix.Add(int.Parse(text.Substring(start+res_start,26-res_start))-1);
+                res_start=34;
+                end_helix.Add(int.Parse(text.Substring(start+res_start,26-res_start))-1);
+                start+=81;
             }else{
                 for (;text[start]!=10;){
                     start++;
@@ -274,7 +284,27 @@ public class gen_protein : MonoBehaviour
         int size=amino_pos.Count-1;
         Vector3 dif=new Vector3();
         bones_obs=new List<GameObject>(new GameObject[size]);
+        int pt=0;
+        int len_helix=start_helix.Count;
         for (int i=0;i<size;i++){
+            if (len_helix<pt){
+                if (start_helix[pt]==i){
+                    Vector3 end_vt=amino_pos[end_helix[pt]];
+                    Vector3 start_vt=amino_pos[start_helix[pt]];
+                    int turns=(int)(Mathf.Ceil((float)(start_helix[pt]-end_helix[pt])/3.5F))+1;
+                    Vector3 offset=(end_vt-start_vt)/turns;
+                    start_vt+=offset/2;
+                    for (int I=1;I<turns;I++){
+                        GameObject helix=Instantiate(helix_model,trans);
+                        start_vt+=offset;
+                        helix.transform.position=start_vt;
+                    }
+
+                    i=end_helix[pt];
+                    pt++;
+                    continue;
+                }
+            }
             GameObject bone=Instantiate(bond_model,trans);
             dif=amino_pos[i]-amino_pos[i+1];
             bone.transform.localScale=new Vector3(0.003F,MathF.Sqrt(dif.x*dif.x+dif.y*dif.y+dif.z*dif.z)*0.5F,0.003F);

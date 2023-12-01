@@ -1939,6 +1939,7 @@ MonoBehaviour:
   right_grab_info: {fileID: 0}
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
   bond_model: {fileID: 0}
+  helix_model: {fileID: 0}
 --- !u!65 &1896323070
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2047,6 +2048,7 @@ MonoBehaviour:
   right_grab_info: {fileID: 1222297898}
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
   bond_model: {fileID: 2703716214361908495, guid: 2a9dce7ba4a303645b992987d3fde96e, type: 3}
+  helix_model: {fileID: 8606039477329911050, guid: 1988b16c07d1a814eae2b4e452d88c2e, type: 3}
 --- !u!4 &2100259192
 Transform:
   m_ObjectHideFlags: 0
