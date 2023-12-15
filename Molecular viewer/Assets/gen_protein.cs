@@ -288,25 +288,6 @@ public class gen_protein : MonoBehaviour
         int pt=0;
         int len_helix=start_helix.Count;
         for (int i=0;i<size;i++){
-            if (pt<len_helix){
-                if (start_helix[pt]==i){
-                    Vector3 end_vt=amino_pos[end_helix[pt]];
-                    Vector3 start_vt=amino_pos[start_helix[pt]];
-                    int turns=(int)(Mathf.Ceil((float)(end_helix[pt]-start_helix[pt])/3.5F))+1;
-                    Vector3 offset=(end_vt-start_vt)/turns;
-                    start_vt+=offset/2;
-                    for (int I=1;I<turns;I++){
-                        GameObject helix=Instantiate(helix_model,trans);
-                        start_vt+=offset;
-                        helix.transform.position=start_vt;
-                        helix.transform.LookAt(amino_pos[end_helix[pt]]);
-                        bones_obs.Add(helix);
-                        helix.GetComponent<Renderer>().enabled=false;
-                    }
-                    i=end_helix[pt];
-                    pt++;
-                }
-            }
             GameObject bone=Instantiate(bond_model,trans);
             dif=amino_pos[i]-amino_pos[i+1];
             bone.transform.localScale=new Vector3(0.003F,MathF.Sqrt(dif.x*dif.x+dif.y*dif.y+dif.z*dif.z)*0.5F,0.003F);
@@ -315,6 +296,27 @@ public class gen_protein : MonoBehaviour
             bone.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
             bones_obs.Add(bone);
             bone.GetComponent<Renderer>().enabled=false;
+            if (pt<len_helix){
+                if (start_helix[pt]==i){
+                    Vector3 end_vt=amino_pos[end_helix[pt]];
+                    Vector3 start_vt=amino_pos[start_helix[pt]];
+                    int turns=(int)(Mathf.Ceil((float)(end_helix[pt]-start_helix[pt])/3.5F));
+                    Vector3 offset=(end_vt-start_vt)/turns;
+                    float z_strech=0.4F*Mathf.Sqrt(Mathf.Pow(end_vt.x-start_vt.x,2)+Mathf.Pow(end_vt.y-start_vt.y,2)+Mathf.Pow(end_vt.z-start_vt.z,2))/((float)(turns)*0.0265F);
+                    start_vt+=offset;
+                    for (int I=0;I<turns;I++){
+                        GameObject helix=Instantiate(helix_model,trans);
+                        helix.transform.localScale=new Vector3(0.4F,0.4F,z_strech);
+                        helix.transform.position=start_vt;
+                        helix.transform.LookAt(amino_pos[end_helix[pt]]);
+                        bones_obs.Add(helix);
+                        helix.GetComponent<Renderer>().enabled=false;
+                        start_vt+=offset;
+                    }
+                    i=end_helix[pt]-1;
+                    pt++;
+                }
+            }
         }
         int spacer=Cs.Count()/100;
         for (int i=0;i<Cs.Count;i++){
