@@ -29,8 +29,7 @@ public class grab_script : MonoBehaviour
             grabbed_ob.transform.parent=hand.transform; 
             grabbed_rig=grabbed_ob.GetComponent<Rigidbody>();
             grabbed_rig.useGravity=false;
-            grabbed_rig.velocity=new Vector3(0,0,0);
-            grabbed_rig.angularVelocity=new Vector3(0,0,0);
+            grabbed_rig.isKinematic=false;
             grabbed=true;
         }
     }
@@ -39,7 +38,7 @@ public class grab_script : MonoBehaviour
         if (collision.gameObject==grabbed_ob){
             grabbed=false;
             grabbed_ob.transform.parent=null;
-            grabbed_rig.useGravity=true;
+            grabbed_rig.useGravity=false;
         }
     }
 
@@ -52,7 +51,8 @@ public class grab_script : MonoBehaviour
             if (trigger_grip<.5&&trigger_grab<.5){
                 grabbed=false;
                 grabbed_ob.transform.parent=null;
-                grabbed_rig.useGravity=true;
+                grabbed_rig.useGravity=false;
+                grabbed_rig.isKinematic=true;
                 return;
             }
             grabbed_rig.velocity=new Vector3(0,0,0);

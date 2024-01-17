@@ -303,7 +303,7 @@ public class gen_protein : MonoBehaviour
                     int turns=(int)(Mathf.Ceil((float)(end_helix[pt]-start_helix[pt])/3.5F));
                     Vector3 offset=(end_vt-start_vt)/turns;
                     float z_strech=0.4F*Mathf.Sqrt(Mathf.Pow(end_vt.x-start_vt.x,2)+Mathf.Pow(end_vt.y-start_vt.y,2)+Mathf.Pow(end_vt.z-start_vt.z,2))/((float)(turns)*0.0265F);
-                    start_vt+=offset;
+                    start_vt+=offset/2;
                     for (int I=0;I<turns;I++){
                         GameObject helix=Instantiate(helix_model,trans);
                         helix.transform.localScale=new Vector3(0.4F,0.4F,z_strech);
@@ -391,11 +391,9 @@ public class gen_protein : MonoBehaviour
             bool A_pressed=Input.GetKeyDown(KeyCode.JoystickButton0);
             if ((left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondary2DAxisClick, out padvalue)&&padvalue)||A_pressed){
                 Transform trans=GetComponent<Transform>();
-                trans.position=new Vector3(0.0F,1.5F,1.0F);
+                trans.position=new Vector3(0.0F,1.0F,1.0F);
                 trans.eulerAngles=new Vector3(112.0F,-33.0F,-91.0F);
                 var rb=GetComponent<Rigidbody>();
-                rb.angularVelocity=new Vector3(0.0F,0.0F,0.0F);
-                rb.velocity=new Vector3(0.0F,0.0F,0.0F);
                 left_grab_info.before_grabbed=false;
                 right_grab_info.before_grabbed=false;
             }
