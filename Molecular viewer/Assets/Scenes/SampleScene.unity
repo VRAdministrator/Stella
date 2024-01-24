@@ -758,6 +758,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left_grab_info: {fileID: 1292273942}
   right_grab_info: {fileID: 1222297898}
+  left_hand: {fileID: 1292273933}
+  right_hand: {fileID: 1222297889}
+  left_grab:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left_grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 81a8f100-7594-4f12-ac37-cfa7011aaba3
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  right_grab:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right_grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 8e69549b-4131-4541-b819-1b726bb97b3d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  left_grip:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left_grip
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e4ae50ac-bfed-49cb-a5b8-0b6e7c2e5217
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  right_grip:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right_grip
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: a90b6534-ca08-45f3-80b2-087321ac73f0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
   bond_model: {fileID: 2703716214361908495, guid: 2a9dce7ba4a303645b992987d3fde96e, type: 3}
   helix_model: {fileID: 3201644445148108194, guid: 1988b16c07d1a814eae2b4e452d88c2e, type: 3}
@@ -770,7 +820,7 @@ Transform:
   m_GameObject: {fileID: 1186441979}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2057,6 +2107,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left_grab_info: {fileID: 0}
   right_grab_info: {fileID: 0}
+  left_hand: {fileID: 0}
+  right_hand: {fileID: 0}
+  left_grab:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  right_grab:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  left_grip:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  right_grip:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   atom_model: {fileID: 8959088161070233907, guid: d0c1338e2c4623d4c98b9930fb6fc83c, type: 3}
   bond_model: {fileID: 0}
   helix_model: {fileID: 0}

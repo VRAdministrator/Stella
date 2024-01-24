@@ -12,13 +12,16 @@ public class gen_protein : MonoBehaviour
 {
     //public InputActionProperty stick;
     public grab_script left_grab_info,right_grab_info;
+    public GameObject left_hand,right_hand;
+    public InputActionProperty left_grab,right_grab,left_grip,right_grip;
     public GameObject atom_model;
     public GameObject bond_model;
     public GameObject helix_model;
     
+    private float predistance,base_scale,cur_scale;
     private GameObject temp_atom;
     private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs,bones_obs;
-    private bool pre_up_turn,mid_turn,pregrabbed;
+    private bool pre_up_turn,mid_turn,pregrabed;
     private int frame,mode,protein_index,pre_index;
     //private float cur_scale;
 
@@ -262,6 +265,22 @@ public class gen_protein : MonoBehaviour
             }
         }
         amino_pos.Add(cur_amino_pos/div);
+        float max_length=0.0F;
+        Vector3 farthest1=Vector3.zero;
+        for (int i=1;i<amino_pos.Count;i++){
+            float temp_length=Mathf.Sqrt(Mathf.Pow(amino_pos[0].x-amino_pos[i].x,2)+Mathf.Pow(amino_pos[0].y-amino_pos[i].y,2)+Mathf.Pow(amino_pos[0].z-amino_pos[i].z,2));
+            if (temp_length>max_length){
+                max_length=temp_length;
+                farthest1=amino_pos[i];
+            }
+        }
+        for (int i=0;i<amino_pos.Count;i++){
+            float temp_length=Mathf.Sqrt(Mathf.Pow(farthest1.x-amino_pos[i].x,2)+Mathf.Pow(farthest1.y-amino_pos[i].y,2)+Mathf.Pow(farthest1.z-amino_pos[i].z,2));
+            if (temp_length>max_length){
+                max_length=temp_length;
+            }
+        }
+        base_scale=1.0F/max_length;
         center_pt/=total;
         for (int i=0;i<atoms.Count;i++){
             atoms[i].transform.position-=center_pt;
@@ -470,6 +489,25 @@ public class gen_protein : MonoBehaviour
                 break;
             }
         }
+        float lgb=left_grab.action.ReadValue<float>();
+        float lgp=left_grip.action.ReadValue<float>();
+        float rgp=right_grip.action.ReadValue<float>();
+        float rgb=right_grab.action.ReadValue<float>();
 
+        if ((lgb>.5||lgp>.5)&&(rgb>.5||rgp>.5)){
+            float new_distance=Mathf.Sqrt(Mathf.Pow(right_hand.transform.position.y-left_hand.transform.position.y,2)+Mathf.Pow(right_hand.transform.position.x-left_hand.transform.position.x,2)+Mathf.Pow(right_hand.transform.position.z-left_hand.transform.position.z,2));
+            if (pregrabed){
+                cur_scale+=(new_distance-predistance)*base_scale;
+                if (cur_scale<0){
+                    cur_scale=1.0F;
+                }
+                transform.localScale=new Vector3(cur_scale,cur_scale,cur_scale);
+            }else{
+                pregrabed=true;
+            }
+            predistance=new_distance;
+        }else{
+            pregrabed=false;
+        }
     }
 }
