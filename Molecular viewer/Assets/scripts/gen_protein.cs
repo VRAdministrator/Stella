@@ -222,7 +222,6 @@ public class gen_protein : MonoBehaviour
                     temp_atom.GetComponent<Renderer>().material.color=Color.gray;
                     if (text[start+14]==65){
                         amino_pos.Add(temp_pos);
-                        Debug.Log("works");
                     }
                     break;
                     case (char)78:
