@@ -388,7 +388,7 @@ public class gen_protein : MonoBehaviour
 
     }
     void LateUpdate(){
-        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
+        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();//could be way better and include grip and grab values
         UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
         Vector2 stick_vec=new Vector2();
         if (leftHandDevices.Count==1){
@@ -406,8 +406,9 @@ public class gen_protein : MonoBehaviour
             left_con.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out stick_vec);
         }
         bool change=false;
-        //Vector2 stick_vec=stick.action.ReadValue<Vector2>();
-        if (stick_vec.y>0.5&&(frame>90||!pre_up_turn||mid_turn)){
+        bool up_press=Input.GetKeyDown(KeyCode.UpArrow);
+        bool down_press=Input.GetKeyDown(KeyCode.DownArrow);
+        if (up_press||stick_vec.y>0.5&&(frame>90||!pre_up_turn||mid_turn)){
             pre_up_turn=true;
             mid_turn=false;
             pre_index=protein_index;
@@ -415,7 +416,7 @@ public class gen_protein : MonoBehaviour
             change=true;
             frame=0;
         }
-        else if (stick_vec.y<-0.5&&(frame>90||pre_up_turn||mid_turn)){
+        else if (down_press||stick_vec.y<-0.5&&(frame>90||pre_up_turn||mid_turn)){
             pre_up_turn=false;
             mid_turn=false;
             pre_index=protein_index;
@@ -500,7 +501,6 @@ public class gen_protein : MonoBehaviour
     }
 
     private void gen_tube_mesh(Vector3[] pts){
-
         List<Vector3> neo_pts=new List<Vector3>();
         int size=pts.Length-1;
         neo_pts.Add(pts[0]);
@@ -523,12 +523,9 @@ public class gen_protein : MonoBehaviour
                 z_resize=0;
             }
             Vector3 pt_shift=new Vector3(0,cur_pt.y-start_y*y_resize,cur_pt.z-start_z*z_resize);
-            Debug.Log(pt_shift);
-            Debug.Log(y_resize);
             neo_pts.Add(pts[i]);
             for (int I=0;I<3;I++){
                 pt1_angle+=angle_step;
-                Debug.Log(angle_to_curve(pt1_angle.z));
                 neo_pts.Add(new Vector3(start_x,y_resize*angle_to_curve(pt1_angle.z),z_resize*angle_to_curve(pt1_angle.y))+pt_shift);
                 start_x+=x_step;
             }
@@ -542,7 +539,6 @@ public class gen_protein : MonoBehaviour
         Vector3 temp_vec;
         mesh_help_trans.localPosition=pts[0];
         temp_vec=dif_to_euler(pts[1]-pts[0]);
-        //Debug.Log(temp_vec);
         mesh_help_trans.eulerAngles=temp_vec;
         for (int i=0;i<4;i++){
             verts.Add(mesh_pts[i].position-mesh_locat);
@@ -551,9 +547,6 @@ public class gen_protein : MonoBehaviour
         for (int i=1;i<end_pt;i++){
             mesh_help_trans.localPosition=pts[i];
             temp_vec=(dif_to_euler(pts[i+1]-pts[i])+dif_to_euler(pts[i]-pts[i-1]))/2.0F;//-new Vector3(0,90,0)
-            //Debug.Log(pts[i-1]);
-            //Debug.Log(pts[i]);
-            //Debug.Log(temp_vec);
             mesh_help_trans.eulerAngles=temp_vec;
             for (int I=0;I<4;I++){
                 verts.Add(mesh_pts[I].position-mesh_locat);
@@ -561,7 +554,6 @@ public class gen_protein : MonoBehaviour
         }
         mesh_help_trans.localPosition=pts[end_pt];
         temp_vec=dif_to_euler(pts[end_pt]-pts[end_pt-1]);
-        //Debug.Log(temp_vec);
         mesh_help_trans.eulerAngles=temp_vec;
         for (int i=0;i<4;i++){
             verts.Add(mesh_pts[i].position-mesh_locat);
