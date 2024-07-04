@@ -20,7 +20,7 @@ public class gen_protein : MonoBehaviour
     
     private float predistance,base_scale,cur_scale;
     private GameObject temp_atom;
-    private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs,bones_obs;
+    private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs;
     private bool pre_up_turn,mid_turn,pregrabed;
     private int frame,mode,protein_index,pre_index;
     //private float cur_scale;
@@ -439,11 +439,6 @@ public class gen_protein : MonoBehaviour
                     atoms[i].transform.localScale=new Vector3(0.01f,0.01f,0.01f);
                     atoms[i].GetComponent<Renderer>().enabled=true;
                 }
-                if (pre_index==2){
-                    for (int i=0;i<bones_obs.Count;i++){
-                        bones_obs[i].GetComponent<Renderer>().enabled=false;
-                    }
-                }
                 break;
                 case 1:
                 if (pre_index==0){
@@ -454,16 +449,14 @@ public class gen_protein : MonoBehaviour
                     for (int i=0;i<atoms.Count;i++){
                         atoms[i].GetComponent<Renderer>().enabled=true;
                     }
-                    for (int i=0;i<bones_obs.Count;i++){
-                        bones_obs[i].GetComponent<Renderer>().enabled=false;
-                    }
                 }
                 for (int i=0;i<atoms.Count;i++){
                     atoms[i].transform.localScale=new Vector3(0.04f,0.04f,0.04f);
                 }
                 break;
                 case 2:
-                for (int i=0;i<atoms.Count;i++){
+                mesh_render.enabled=true;
+                    for (int i=0;i<atoms.Count;i++){
                     atoms[i].GetComponent<Renderer>().enabled=false;
                 }
                 if (pre_index==0){
@@ -471,10 +464,6 @@ public class gen_protein : MonoBehaviour
                         bonds_obs[i].GetComponent<Renderer>().enabled=false;
                     }
                 }
-                for (int i=0;i<bones_obs.Count;i++){
-                    bones_obs[i].GetComponent<Renderer>().enabled=true;
-                }
-                mesh_render.enabled=true;
                 break;
             }
         }
