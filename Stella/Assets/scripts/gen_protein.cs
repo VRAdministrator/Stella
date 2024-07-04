@@ -446,6 +446,7 @@ public class gen_protein : MonoBehaviour
                         bonds_obs[i].GetComponent<Renderer>().enabled=false;
                     }
                 }else{
+                    mesh_render.enabled=false;
                     for (int i=0;i<atoms.Count;i++){
                         atoms[i].GetComponent<Renderer>().enabled=true;
                     }

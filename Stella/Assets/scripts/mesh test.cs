@@ -21,8 +21,8 @@ public class meshtest : MonoBehaviour
     private Vector3[] base_verts=new Vector3[]{
             new Vector3(-1,0,1),
             new Vector3(-1,0,-1),
-            new Vector3(-1,2,1),
-            new Vector3(-1,2,-1),
+            new Vector3(-1,0.2F,1),
+            new Vector3(-1,0.2F,-1),
     };
     private int[] base_triangles=new int[]{
             //bottom
@@ -66,7 +66,31 @@ public class meshtest : MonoBehaviour
             new Vector3(Mathf.Cos(Mathf.PI*(1.0F-1.0F)),Mathf.Sin(Mathf.PI*1.0F),1.0F),
             */
         };
-        gen_tube_mesh(pts);
+        List<Vector3> verts=new List<Vector3>();
+        List<int> triangles=new List<int>();
+
+        for (int i=0;i<pts.Length;i++){
+            for (int I=0;I<4;I++){
+                verts.Add(base_verts[I]+new Vector3(Mathf.Cos(Mathf.PI*(1.0F-0.1F)),Mathf.Sin(Mathf.PI*.1F),0.1F));
+            }
+        }
+
+        int shift=0;
+        for (int i=1;i<pts.Length;i++){
+            for (int I=0;I<24;I++){
+                triangles.Add(base_triangles[I]+shift);
+            }
+            shift+=4;
+        }
+
+        Mesh.vertices=verts.ToArray();
+        Mesh.triangles=triangles.ToArray();
+        Mesh.RecalculateNormals();
+        Mesh.RecalculateBounds();
+        MeshFilter=gameObject.AddComponent<MeshFilter>();
+        MeshFilter.mesh=Mesh;
+
+        //gen_tube_mesh(pts);
     }
 
 
@@ -178,10 +202,5 @@ public class meshtest : MonoBehaviour
             return((180-angle)%360);
         }
         return(angle);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
