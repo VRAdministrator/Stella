@@ -19,10 +19,10 @@ public class meshtest : MonoBehaviour
 
     const float mesh_resize=0.1F;
     private Vector3[] base_verts=new Vector3[]{
-            new Vector3(-1,0,1),
-            new Vector3(-1,0,-1),
-            new Vector3(-1,0.2F,1),
-            new Vector3(-1,0.2F,-1),
+            new Vector3(-1,0,0.1F),
+            new Vector3(-1,0,-0.1F),
+            new Vector3(-1,0.2F,0.1F),
+            new Vector3(-1,0.2F,-0.1F),
     };
     private int[] base_triangles=new int[]{
             //bottom
@@ -69,14 +69,18 @@ public class meshtest : MonoBehaviour
         List<Vector3> verts=new List<Vector3>();
         List<int> triangles=new List<int>();
 
-        for (int i=0;i<pts.Length;i++){
+        int n_pts=100;
+
+        for (int i=0;i<n_pts;i++){
             for (int I=0;I<4;I++){
-                verts.Add(base_verts[I]+new Vector3(Mathf.Cos(Mathf.PI*(1.0F-0.1F)),Mathf.Sin(Mathf.PI*.1F),0.1F));
+                verts.Add(mesh_pts[I].position-mesh_locat);
             }
+            mesh_help_trans.localPosition+=new Vector3(0,0,0.006F);
+            mesh_help_trans.localEulerAngles+=new Vector3(0,0,15);
         }
 
         int shift=0;
-        for (int i=1;i<pts.Length;i++){
+        for (int i=1;i<n_pts;i++){
             for (int I=0;I<24;I++){
                 triangles.Add(base_triangles[I]+shift);
             }

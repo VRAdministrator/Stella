@@ -3,48 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.IO;
-using System.Linq;
-
 
 
 public class gen_protein : MonoBehaviour
 {
-    //public InputActionProperty stick;
     public grab_script left_grab_info,right_grab_info;
     public GameObject left_hand,right_hand;
     public InputActionProperty left_grab,right_grab,left_grip,right_grip;
     public GameObject atom_model;
     public GameObject bond_model;
-    public GameObject helix_model;
     
     private float predistance,base_scale,cur_scale;
-    private GameObject temp_atom;
     private List<GameObject> Cs,Ns,Os,Ss,atoms,bonds_obs;
     private bool pre_up_turn,mid_turn,pregrabed;
     private int frame,mode,protein_index,pre_index;
-    //private float cur_scale;
 
-    public GameObject mesh_helper;
-    public GameObject mesh_pt1;
-    public GameObject mesh_pt2;
-    public GameObject mesh_pt3;
-    public GameObject mesh_pt4;
+    public GameObject loop_helper;
+    public GameObject loop_pt1;
+    public GameObject loop_pt2;
+    public GameObject loop_pt3;
+    public GameObject loop_pt4;
 
-    private Transform mesh_help_trans;
+    public GameObject helix_helper;
+    public GameObject helix_pt1;
+    public GameObject helix_pt2;
+    public GameObject helix_pt3;
+    public GameObject helix_pt4;
+
+    private Transform loop_help_trans;
+    private Transform[] loop_pts;
+
+    private Transform helix_help_trans;
+    private Transform[] helix_pts;
+
     private Vector3 mesh_locat;
     private MeshRenderer mesh_render;
+    private MeshFilter MeshFilter;
+    private Mesh Mesh;
 
-    protected MeshFilter MeshFilter;
-    protected Mesh Mesh;
-    protected Transform[] mesh_pts;
-
-
-    public ref struct CustomRef
-    {
-        public Vector3 Pos;
-        public string El;
-    }
 
     private int[] base_triangles=new int[]{
             //bottom
@@ -215,7 +211,7 @@ public class gen_protein : MonoBehaviour
         mesh_render=GetComponent<MeshRenderer>();
         mesh_render.enabled=false;
         Transform trans=GetComponent<Transform>();
-        Vector3 proir_position=trans.position;
+        Vector3 prior_position=trans.position;
         trans.position=new Vector3(0,0,0);
         atoms=new List<GameObject>();
         Cs=new List<GameObject>();
@@ -238,7 +234,7 @@ public class gen_protein : MonoBehaviour
         List<int> end_sheet=new List<int>();
         for (;start<len_string;){  
             if (text.Substring(start,4)=="ATOM"){
-                temp_atom=Instantiate(atom_model,trans);
+                GameObject temp_atom=Instantiate(atom_model,trans);
                 Vector3 temp_pos=new Vector3(str_to_float(text,start+32),str_to_float(text,start+40),str_to_float(text,start+48));
                 atom_pos.Add(temp_pos);
                 center_pt+=temp_pos;
@@ -328,54 +324,42 @@ public class gen_protein : MonoBehaviour
             bond.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
             bonds_obs[i]=bond;
         }
-        /*
-        int size=amino_pos.Count-1;
-        Vector3 dif=new Vector3();
-        bones_obs=new List<GameObject>();
-        int pt=0;
-        int len_helix=start_helix.Count;
+
+        int size=amino_pos.Count;
+        int[] amino_types=new int[size];
+        int helix_pos=0;
+        int helix_count=start_helix.Count;
+		int sheet_pos=0;
+		int sheet_count=start_sheet.Count;
         for (int i=0;i<size;i++){
-            if (pt<len_helix){
-                if (start_helix[pt]==i){
-                    Vector3 end_vt=amino_pos[end_helix[pt]];
-                    Vector3 start_vt=amino_pos[start_helix[pt]];
-                    int turns=(int)(Mathf.Ceil((float)(end_helix[pt]-start_helix[pt])/3.5F));
-                    Vector3 offset=(end_vt-start_vt)/turns;
-                    float z_strech=0.4F*Mathf.Sqrt(Mathf.Pow(end_vt.x-start_vt.x,2)+Mathf.Pow(end_vt.y-start_vt.y,2)+Mathf.Pow(end_vt.z-start_vt.z,2))/((float)(turns)*0.0265F);
-                    start_vt+=offset/2;
-                    for (int I=0;I<turns;I++){
-                        GameObject helix=Instantiate(helix_model,trans);
-                        helix.transform.localScale=new Vector3(0.4F,0.4F,z_strech);
-                        //helix.transform.localScale=new Vector3(0.4F,z_strech,0.4F)*0.03F;
-                        helix.transform.position=start_vt;
-                        helix.transform.LookAt(amino_pos[end_helix[pt]]);
-                        //helix.transform.Rotate(90.0f,0.0f,0.0f, Space.Self);
-                        bones_obs.Add(helix);
-                        helix.GetComponent<Renderer>().enabled=false;
-                        start_vt+=offset;
-                    }
-                    i=end_helix[pt]-1;
-                    pt++;
-                    continue;
+            if (helix_pos<helix_count&&start_helix[helix_pos]==i){
+                int end_pos=end_helix[helix_pos];
+                for (;i<end_pos;i++){
+                    amino_types[i]=1;
                 }
+                i--;
+                helix_pos++;
+            }else if (sheet_pos<sheet_count&&start_sheet[sheet_pos]==i){
+                int end_pos=end_sheet[sheet_pos];
+                for (;i<end_pos;i++){
+                    amino_types[i]=2;
+                }
+                i--;
+                sheet_pos++;
             }
-            GameObject bone=Instantiate(bond_model,trans);
-            dif=amino_pos[i]-amino_pos[i+1];
-            bone.transform.localScale=new Vector3(0.003F,MathF.Sqrt(dif.x*dif.x+dif.y*dif.y+dif.z*dif.z)*0.5F,0.003F);
-            bone.transform.position=(amino_pos[i]+amino_pos[i+1])/2;
-            bone.transform.LookAt(amino_pos[i]);
-            bone.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-            bones_obs.Add(bone);
-            bone.GetComponent<Renderer>().enabled=false;
         }
-        */
-        mesh_help_trans=mesh_helper.transform;
         mesh_locat=transform.position;
-        mesh_pts=new Transform[]{mesh_pt1.transform,mesh_pt2.transform,mesh_pt3.transform,mesh_pt4.transform};
+
+        loop_help_trans=loop_helper.transform;
+        loop_pts=new Transform[]{loop_pt1.transform,loop_pt2.transform,loop_pt3.transform,loop_pt4.transform};
+
+        helix_help_trans=helix_helper.transform;
+        helix_pts=new Transform[]{helix_pt1.transform,helix_pt2.transform,helix_pt3.transform,helix_pt4.transform};
+
         Mesh=new Mesh();
-        Mesh.name="test mesh";
-        gen_tube_mesh(amino_pos.ToArray());
-        int spacer=Cs.Count()/100;
+        Mesh.name="cartoon mesh";
+        gen_cartoon_mesh(amino_pos.ToArray(),amino_types);
+        int spacer=Cs.Count/100;
         for (int i=0;i<Cs.Count;i++){
             if (i%spacer!=0){
                 continue;
@@ -384,7 +368,7 @@ public class gen_protein : MonoBehaviour
             temp_collider.radius=0.05F;
             temp_collider.center=Cs[i].transform.position;
         }
-        trans.position=proir_position;
+        trans.position=prior_position;
 
     }
     void LateUpdate(){
@@ -490,8 +474,10 @@ public class gen_protein : MonoBehaviour
         }
     }
 
-    private void gen_tube_mesh(Vector3[] pts){
-        List<Vector3> neo_pts=new List<Vector3>();
+    private void gen_cartoon_mesh(Vector3[] pts,int[] amino_types){//enter list of ints as well spesifying type with 0=
+		List<Vector3> verts=new List<Vector3>();//this can be converted into an Array
+		List<int> triangles=new List<int>();//same with this
+		List<Vector3> neo_pts=new List<Vector3>();
         int size=pts.Length-1;
         neo_pts.Add(pts[0]);
         for (int i=1;i<size-1;i++){
@@ -504,7 +490,7 @@ public class gen_protein : MonoBehaviour
             float start_x=x_step+cur_pt.x;
             float start_z=angle_to_curve(pt1_angle.y);
             float start_y=angle_to_curve(pt1_angle.z);
-            float y_resize=dif_pt.y/(angle_to_curve(pt2_angle.z)-start_y);
+            float y_resize=dif_pt.y/(angle_to_curve(pt2_angle.z)-start_y);//could be a lot better if turned into function and used later in the amino_type loop
             float z_resize=dif_pt.z/(angle_to_curve(pt2_angle.y)-start_z);
             if (float.IsNaN(y_resize)){
                 y_resize=0;
@@ -522,34 +508,78 @@ public class gen_protein : MonoBehaviour
         }
         neo_pts.Add(pts[size-1]);
         neo_pts.Add(pts[size]);
-        pts=neo_pts.ToArray();
-
-        List<Vector3> verts=new List<Vector3>();
-        List<int> triangles=new List<int>();
-        Vector3 temp_vec;
-        mesh_help_trans.localPosition=pts[0];
-        temp_vec=dif_to_euler(pts[1]-pts[0]);
-        mesh_help_trans.eulerAngles=temp_vec;
-        for (int i=0;i<4;i++){
-            verts.Add(mesh_pts[i].position-mesh_locat);
-        }
+		if (amino_types[0]==0){
+			loop_help_trans.localPosition=neo_pts[0];
+			loop_help_trans.eulerAngles=dif_to_euler(neo_pts[1]-neo_pts[0]);
+			for (int i=0;i<4;i++){
+				verts.Add(loop_pts[i].position-mesh_locat);
+			}
+		}//create code to handle cases of helix and sheet starts instead
+        List<Vector3> helix_string=new List<Vector3>();
+		int loop_pos=1;
+		int loop_end=neo_pts.Count-1;
+		int helix_pos=0;
+		int helix_end=0;
         int end_pt=pts.Length-1;
-        for (int i=1;i<end_pt;i++){
-            mesh_help_trans.localPosition=pts[i];
-            temp_vec=(dif_to_euler(pts[i+1]-pts[i])+dif_to_euler(pts[i]-pts[i-1]))/2.0F;//-new Vector3(0,90,0)
-            mesh_help_trans.eulerAngles=temp_vec;
-            for (int I=0;I<4;I++){
-                verts.Add(mesh_pts[I].position-mesh_locat);
-            }
+        float helix_turn=0;
+		for (int i=1;i<end_pt;i++){
+			switch (amino_types[i]){
+				case 0:
+					int loop_jump=loop_pos+4;
+					if (loop_end<loop_jump){
+						loop_jump=loop_end;
+					}
+					for (int n=loop_pos;n<loop_jump;n++){
+						loop_help_trans.localPosition=neo_pts[n];
+						loop_help_trans.eulerAngles=(dif_to_euler(neo_pts[n+1]-neo_pts[n])+dif_to_euler(neo_pts[n]-neo_pts[n-1]))/2.0F;
+						for (int I=0;I<4;I++){
+							verts.Add(loop_pts[I].position-mesh_locat);
+						}
+					}
+					helix_pos=0;
+					break;
+				case 1:
+					if (helix_pos==0){
+						helix_string.Add(pts[i]);
+						for (int I=i+1;I<end_pt&&amino_types[I]==1;I++){
+							helix_string.Add(pts[I]);
+						}
+						Vector3 pre_pt=helix_string[0];
+						helix_end=helix_string.Count-1;
+						for (int I=1;I<helix_end;I++){
+							(pre_pt,helix_string[I])=(helix_string[I],(pre_pt+helix_string[I+1])/2);
+						}
+						helix_string[0]=helix_string[1]*2-helix_string[2];
+						helix_string[helix_end]=helix_string[helix_end-1]*2-helix_string[helix_end-2];
+						helix_help_trans.localPosition=helix_string[0];
+						helix_help_trans.LookAt(pts[i]);
+						helix_turn=helix_help_trans.eulerAngles.z;//maybe y instead
+					}
+					if (helix_pos!=helix_end){
+						helix_help_trans.LookAt(helix_string[helix_pos+1]);
+					}
+					for (int I=0;I<4;I++){
+						helix_help_trans.localPosition=helix_string[helix_pos];
+						Vector3 temp_vec=helix_help_trans.eulerAngles;
+						temp_vec.x=helix_turn;
+						helix_help_trans.eulerAngles=temp_vec;
+						for (int n=0;n<4;n++){
+							verts.Add(helix_pts[n].position-mesh_locat);
+						}
+						helix_turn+=22.5F;//chance this may need to be negative to adjust for things
+					}
+					helix_pos+=1;
+					break;
+			}
+			loop_pos+=4;
         }
-        mesh_help_trans.localPosition=pts[end_pt];
-        temp_vec=dif_to_euler(pts[end_pt]-pts[end_pt-1]);
-        mesh_help_trans.eulerAngles=temp_vec;
+        loop_help_trans.localPosition=neo_pts[loop_end];
+        loop_help_trans.eulerAngles=dif_to_euler(neo_pts[loop_end]-neo_pts[loop_end-1]);
         for (int i=0;i<4;i++){
-            verts.Add(mesh_pts[i].position-mesh_locat);
+            verts.Add(loop_pts[i].position-mesh_locat);//again assumes that the end point is a loop
         }
         int shift=0;
-        for (int i=1;i<pts.Length;i++){
+        for (int i=1;i<neo_pts.Count;i++){
             for (int I=0;I<24;I++){
                 triangles.Add(base_triangles[I]+shift);
             }
