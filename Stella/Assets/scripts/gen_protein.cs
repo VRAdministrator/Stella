@@ -358,6 +358,23 @@ public class gen_protein : MonoBehaviour
 
         Mesh=new Mesh();
         Mesh.name="cartoon mesh";
+
+		//test data:
+		/*
+		amino_pos=new List<Vector3>{
+			new Vector3(0.1F,0.0F,0.0F),
+			new Vector3(0.2F,0.0F,0.0F),
+			new Vector3(0.3F,0.1F,0.1F),
+			new Vector3(0.4F,0.2F,0.0F),
+			new Vector3(0.5F,0.1F,-0.1F),
+			new Vector3(0.6F,0,0),
+			new Vector3(0.7F,0,0),
+			new Vector3(0.8F,0,0),
+		};
+		amino_types=new int[]{0,1,1,1,1,1,0,0};
+		*/
+		//end here
+
         gen_cartoon_mesh(amino_pos.ToArray(),amino_types);
         int spacer=Cs.Count/100;
         for (int i=0;i<Cs.Count;i++){
@@ -479,6 +496,7 @@ public class gen_protein : MonoBehaviour
 		List<int> triangles=new List<int>();//same with this
 		List<Vector3> neo_pts=new List<Vector3>();
         int size=pts.Length-1;
+		int triangle_total=0;
         neo_pts.Add(pts[0]);
         for (int i=1;i<size-1;i++){
             Vector3 cur_pt=pts[i];
@@ -514,14 +532,16 @@ public class gen_protein : MonoBehaviour
 			for (int i=0;i<4;i++){
 				verts.Add(loop_pts[i].position-mesh_locat);
 			}
+			triangle_total++;
 		}//create code to handle cases of helix and sheet starts instead
         List<Vector3> helix_string=new List<Vector3>();
+		List<Vector2> helix_turns=new List<Vector2>();
 		int loop_pos=1;
 		int loop_end=neo_pts.Count-1;
 		int helix_pos=0;
 		int helix_end=0;
-        int end_pt=pts.Length-1;
-        float helix_turn=0;
+        int end_pt=pts.Length;
+        Vector3 helix_turn=new Vector3();
 		for (int i=1;i<end_pt;i++){
 			switch (amino_types[i]){
 				case 0:
@@ -535,13 +555,20 @@ public class gen_protein : MonoBehaviour
 						for (int I=0;I<4;I++){
 							verts.Add(loop_pts[I].position-mesh_locat);
 						}
+						triangle_total++;
 					}
 					helix_pos=0;
 					break;
 				case 1:
 					if (helix_pos==0){
-						helix_string.Add(pts[i]);
-						for (int I=i+1;I<end_pt&&amino_types[I]==1;I++){
+						helix_string.Clear();
+						helix_turns.Clear();
+						loop_help_trans.localPosition=neo_pts[loop_pos];
+						loop_help_trans.eulerAngles=(dif_to_euler(neo_pts[loop_pos+1]-neo_pts[loop_pos])+dif_to_euler(neo_pts[loop_pos]-neo_pts[loop_pos-1]))/2.0F;
+						for (int I=0;I<4;I++){
+							verts.Add(loop_pts[I].position-mesh_locat);
+						}
+						for (int I=i;I<end_pt&&amino_types[I]==1;I++){
 							helix_string.Add(pts[I]);
 						}
 						Vector3 pre_pt=helix_string[0];
@@ -553,20 +580,49 @@ public class gen_protein : MonoBehaviour
 						helix_string[helix_end]=helix_string[helix_end-1]*2-helix_string[helix_end-2];
 						helix_help_trans.localPosition=helix_string[0];
 						helix_help_trans.LookAt(pts[i]);
-						helix_turn=helix_help_trans.eulerAngles.z;//maybe y instead
-					}
-					if (helix_pos!=helix_end){
-						helix_help_trans.LookAt(helix_string[helix_pos+1]);
-					}
-					for (int I=0;I<4;I++){
-						helix_help_trans.localPosition=helix_string[helix_pos];
+						helix_turn.z=helix_help_trans.eulerAngles.z;//neither x or y
+						helix_help_trans.LookAt(helix_string[1]);
 						Vector3 temp_vec=helix_help_trans.eulerAngles;
-						temp_vec.x=helix_turn;
-						helix_help_trans.eulerAngles=temp_vec;
+						(helix_turn.x,helix_turn.y)=(temp_vec.x,temp_vec.y);
+						helix_turns.Add(new Vector2(temp_vec.x,temp_vec.y));
+						for (int I=1;I<helix_end;I++){
+							helix_help_trans.localPosition=helix_string[I];
+							helix_help_trans.LookAt(helix_string[I+1]);
+							temp_vec=helix_help_trans.eulerAngles;
+							helix_turns.Add(new Vector2(temp_vec.x,temp_vec.y));
+						}
+						helix_turns.Add(helix_turns[helix_end-1]);
+					}
+					if (helix_pos==helix_end){
+						helix_help_trans.localPosition=helix_string[helix_end];
+						helix_help_trans.eulerAngles=helix_turn;
 						for (int n=0;n<4;n++){
 							verts.Add(helix_pts[n].position-mesh_locat);
 						}
-						helix_turn+=22.5F;//chance this may need to be negative to adjust for things
+						triangle_total++;
+						for (int n=0;n<4;n++){
+							loop_help_trans.localPosition=neo_pts[loop_pos+n];
+							loop_help_trans.eulerAngles=(dif_to_euler(neo_pts[loop_pos+n+1]-neo_pts[loop_pos+n])+dif_to_euler(neo_pts[loop_pos+n]-neo_pts[loop_pos+n-1]))/2.0F;
+							for (int I=0;I<4;I++){
+								verts.Add(loop_pts[I].position-mesh_locat);
+							}
+							triangle_total++;
+						}
+						break;
+					}
+					Vector2 helix_angle_dif=(helix_turns[helix_pos+1]-helix_turns[helix_pos])/4;
+					Vector3 helix_distance_dif=(helix_string[helix_pos+1]-helix_string[helix_pos])/4;
+					for (int I=0;I<4;I++){
+						helix_help_trans.localPosition=helix_string[helix_pos]+I*helix_distance_dif;
+						helix_help_trans.eulerAngles=helix_turn;
+						for (int n=0;n<4;n++){
+							verts.Add(helix_pts[n].position-mesh_locat);
+						}
+						triangle_total++;
+						helix_turn.x+=helix_angle_dif.x;
+						helix_turn.y+=helix_angle_dif.y;
+						helix_turn.z+=22.5F;//sometimes clockwise, sometimes counter clockwise, design detactor
+
 					}
 					helix_pos+=1;
 					break;
@@ -578,8 +634,9 @@ public class gen_protein : MonoBehaviour
         for (int i=0;i<4;i++){
             verts.Add(loop_pts[i].position-mesh_locat);//again assumes that the end point is a loop
         }
+        triangle_total++;
         int shift=0;
-        for (int i=1;i<neo_pts.Count;i++){
+        for (int i=1;i<triangle_total;i++){
             for (int I=0;I<24;I++){
                 triangles.Add(base_triangles[I]+shift);
             }
