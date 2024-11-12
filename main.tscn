@@ -97,7 +97,7 @@ shape = SubResource("CapsuleShape3D_25kuw")
 mesh = SubResource("CapsuleMesh_sbtsp")
 
 [node name="protein" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 1, 0)
 script = ExtResource("1_2ekmo")
 
 [node name="GUI" type="MeshInstance3D" parent="."]

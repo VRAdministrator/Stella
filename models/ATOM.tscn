@@ -4,8 +4,6 @@
 albedo_color = Color(1, 0, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_exkn1"]
-radius = 0.05
-height = 0.1
 
 [node name="Atom" type="MeshInstance3D"]
 material_override = SubResource("StandardMaterial3D_wkmek")
