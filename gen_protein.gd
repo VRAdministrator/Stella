@@ -4,15 +4,17 @@ extends Node3D
 
 
 @onready var atom_model=preload("res://models/ATOM.tscn")
+@onready var bond_model=preload("res://models/BOND.tscn")
 
 @onready var carbon_color=preload("res://colors/carbon_color.tres")
 @onready var nitrogen_color=preload("res://colors/nitrogen_color.tres")
 @onready var oxygen_color=preload("res://colors/oxygen_color.tres")
 @onready var sulfur_color=preload("res://colors/sulfur_color.tres")
+@onready var bond_color=preload("res://colors/bond_color.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void: 
-	pass#_external_pdb_load("/home/havenj/Downloads/1mbo.pdb")
+	_external_pdb_load("/home/havenj/Downloads/1mbo.pdb")
 
 func _external_pdb_load(path:String):
 	var file=FileAccess.open(path,FileAccess.READ)
@@ -21,6 +23,14 @@ func _external_pdb_load(path:String):
 	var lines:PackedStringArray=content.split("\n")
 	load_pdb(lines)
 
+func disable_ball_n_stick():
+	bond_color.albedo_color=Color.TRANSPARENT
+
+func enable_ball_n_stick(atoms:Array[Node3D]):
+	#bond_color.albedo_color=Color.WHITE
+	for atom in atoms:
+		atom.scale=Vector3(1,1,1)
+
 func load_pdb(lines:PackedStringArray):
 	var atom_positions:PackedVector3Array
 	var elements:PackedStringArray
@@ -28,6 +38,7 @@ func load_pdb(lines:PackedStringArray):
 	
 	
 	var atoms:Array[Node3D]
+	var bonds:Array[Node3D]
 	var hydrogens:Array[Node3D]
 	var carbons:Array[Node3D]
 	var nitrogens:Array[Node3D]
@@ -62,13 +73,26 @@ func load_pdb(lines:PackedStringArray):
 			atom_diameters.append(scaling_factor)
 			temp_atom.scale=Vector3.ONE*scaling_factor
 			add_child(temp_atom)
-			
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
 	
-	#var bonds_n_atoms=get_bonds(elements,atom_positions)#maybe return distance as well
-	#var bond_positions:=bonds_n_atoms[0]
+	var AnB_atoms:Array[PackedInt32Array]=compute_bonds(elements,atom_positions)#maybe return distance as well
+	var A_atoms:PackedInt32Array=AnB_atoms[0]
+	var B_atoms:PackedInt32Array=AnB_atoms[1]
+	var num_bonds:int=A_atoms.size()
+	bonds.resize(num_bonds)
+	for i in range(num_bonds):
+		var temp_bond:Node3D=bond_model.instantiate()
+		var A_position:Vector3=atom_positions[A_atoms[i]]
+		var bond_pos:Vector3=(A_position+atom_positions[B_atoms[i]])/2
+		temp_bond.look_at_from_position(bond_pos,A_position)
+		add_child(temp_bond)
+		bonds[i]=temp_bond
+	print(bonds[0].rotation_degrees)
+	enable_ball_n_stick(atoms)
+
+
 
 
 const spacefil_scale:float=0.01*2#convert picometers to angstrom and radius to diameter 
@@ -82,13 +106,13 @@ var Element_Bond_Thresholds:Dictionary={0:1.42, 1:1.42, 3:2.7, 4:2.7, 6:1.75, 7:
 var Element_Pair_Thresholds:Dictionary={0:0.8, 20:1.31, 27:1.3, 35:1.3, 44:1.05, 54:1, 60:1.84, 72:1.88, 84:1.75, 85:1.56, 86:1.76, 98:1.6, 99:1.68, 100:1.63, 112:1.55, 113:1.59, 114:1.36, 129:1.45, 144:1.6, 170:1.4, 180:1.55, 202:2.4, 222:2.24, 224:1.91, 225:1.98, 243:2.02, 269:2, 293:1.9, 480:2.3, 512:2.3, 544:2.3, 612:2.1, 629:1.54, 665:1, 813:2.6, 854:2.27, 894:1.93, 896:2.1, 937:2.05, 938:2.06, 981:1.62, 1258:2.68, 1309:2.33, 1484:1, 1763:2.14, 1823:2.48, 1882:2.1, 1944:1.72, 2380:2.34, 3367:2.44, 3733:2.11, 3819:2.6, 3821:2.36, 4736:2.75, 5724:2.73, 5959:2.63, 6519:2.84, 6750:2.87, 8991:2.81}
 const MetalsSet:PackedStringArray=["LI", "NA", "K", "RB", "CS", "FR", "BE", "MG", "CA", "SR", "BA", "RA","AL", "GA", "IN", "SN", "TL", "PB", "BI", "SC", "TI", "V", "CR", "MN", "FE", "CO", "NI", "CU", "ZN", "Y", "ZR", "NB", "MO", "TC", "RU", "RH", "PD", "AG", "CD", "LA", "HF", "TA", "W", "RE", "OS", "IR", "PT", "AU", "HG", "AC", "RF", "DB", "SG", "BH", "HS", "MT", "CE", "PR", "ND", "PM", "SM", "EU", "GD", "TB", "DY", "HO", "ER", "TM", "YB", "LU", "TH", "PA", "U", "NP", "PU", "AM", "CM", "BK", "CF", "ES", "FM", "MD", "NO", "LR"]
 
-func quary_3d(pos:Vector3,positions:PackedVector3Array,max:float,start:int)->Array:
+func quary_3d(pos:Vector3,positions:PackedVector3Array,max_dis:float,start:int)->Array:
 	var atoms:PackedInt32Array
 	var distances:PackedFloat32Array
 	for i in range(start+1,positions.size()):
 		var temp_pos:Vector3=positions[i]
 		var dis:float=pos.distance_to(temp_pos)
-		if max<dis||dis==0:continue
+		if max_dis<dis||dis==0:continue
 		atoms.append(i)
 		distances.append(dis)
 	return [atoms,distances]
@@ -155,13 +179,3 @@ func compute_bonds(eles:PackedStringArray,positions:PackedVector3Array)->Array[P
 				A_atoms.append(ai)
 				B_atoms.append(bi)
 	return [A_atoms,B_atoms]
-
-func get_bonds(eles:PackedStringArray,positions:PackedVector3Array)->Array:
-	var atom_lists:Array[PackedInt32Array]=compute_bonds(eles,positions)
-	var A_atoms:PackedInt32Array=atom_lists[0]
-	var B_atoms:PackedInt32Array=atom_lists[1]
-	var bond_positions:PackedVector3Array
-	var num_bonds:int=A_atoms.size()
-	bond_positions.resize(num_bonds)
-	for i in range(num_bonds):bond_positions[i]=(positions[A_atoms[i]]+positions[B_atoms[i]])/2
-	return [bond_positions,A_atoms]#add reading connect values as well

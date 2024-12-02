@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cyrrcun8uhsud"]
+[gd_scene load_steps=18 format=3 uid="uid://cyrrcun8uhsud"]
 
 [ext_resource type="Script" path="res://gen_protein.gd" id="1_2ekmo"]
 [ext_resource type="Script" path="res://main.gd" id="1_wcsej"]
+[ext_resource type="Script" path="res://controls.gd" id="2_2s2s6"]
 [ext_resource type="Script" path="res://gui.gd" id="3_theel"]
 [ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="4_g204v"]
 
@@ -18,6 +19,8 @@ height = 0.1
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sbtsp"]
 radius = 0.01
 height = 0.1
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lrlqn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imtgd"]
 transparency = 1
@@ -63,6 +66,7 @@ skeleton = NodePath("../CollisionShape3D")
 transform = Transform3D(1, 0, 0, 0, 0.0492332, 0.998787, 0, -0.998787, 0.0492332, 0, 22.891, 0)
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("2_2s2s6")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 
@@ -99,6 +103,12 @@ mesh = SubResource("CapsuleMesh_sbtsp")
 [node name="protein" type="Node3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 1, 0)
 script = ExtResource("1_2ekmo")
+
+[node name="Area3D" type="Area3D" parent="protein"]
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="protein/Area3D"]
+shape = SubResource("ConvexPolygonShape3D_lrlqn")
 
 [node name="GUI" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135247, 0.992788, -0.17166)
@@ -283,6 +293,10 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/move_down/Area3D"]
 shape = SubResource("BoxShape3D_5v10f")
 
+[connection signal="close_GUI" from="XROrigin3D" to="GUI" method="clear_options"]
+[connection signal="open_GUI" from="XROrigin3D" to="GUI" method="open_options"]
+[connection signal="button_released" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_released"]
+[connection signal="button_released" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_hand_button_released"]
 [connection signal="load_protein" from="GUI" to="protein" method="_external_pdb_load"]
 [connection signal="area_exited" from="GUI/entry1/Area3D" to="GUI" method="_on_entry1_exited"]
 [connection signal="area_exited" from="GUI/entry2/Area3D" to="GUI" method="_on_entry2_exited"]

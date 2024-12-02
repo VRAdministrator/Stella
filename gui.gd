@@ -13,7 +13,21 @@ extends MeshInstance3D
 @onready var text_entry7:Label3D=$entry7
 @onready var text_entry8:Label3D=$entry8
 
+@onready var area_entry1:Area3D=$entry1/Area3D
+@onready var area_entry2:Area3D=$entry2/Area3D
+@onready var area_entry3:Area3D=$entry3/Area3D
+@onready var area_entry4:Area3D=$entry4/Area3D
+@onready var area_entry5:Area3D=$entry5/Area3D
+@onready var area_entry6:Area3D=$entry6/Area3D
+@onready var area_entry7:Area3D=$entry7/Area3D
+@onready var area_entry8:Area3D=$entry8/Area3D
+
+@onready var parent_dir_area:Area3D=$parent_dir/Area3D
+@onready var move_up_area:Area3D=$move_up/Area3D
+@onready var move_down_area:Area3D=$move_down/Area3D
+
 @onready var text_entries:Array[Label3D]=[text_entry1,text_entry2,text_entry3,text_entry4,text_entry5,text_entry6,text_entry7,text_entry8]
+@onready var area_entries:Array[Area3D]=[area_entry1,area_entry2,area_entry3,area_entry4,area_entry5,area_entry6,area_entry7,area_entry8]
 @onready var entry_texts:PackedStringArray
 var cwd:String
 var dir_start_pt:int=0
@@ -36,10 +50,10 @@ func refresh_dir():
 	dir_list.append_array(DirAccess.get_files_at(cwd))
 	var temp_list=dir_list.slice(dir_start_pt,dir_start_pt+8)
 	for i in range(temp_list.size()):
-		var name:String=temp_list[i]
+		var entry_name:String=temp_list[i]
 		var text_entry:Label3D=text_entries[i]
-		entry_texts[i]=name
-		text_entry.text=name
+		entry_texts[i]=entry_name
+		text_entry.text=entry_name
 	for i in range(temp_list.size(),8):
 		text_entries[i].text=""
 		entry_texts[i]=""
@@ -72,6 +86,21 @@ func _on_entry5_exited(_none)->void:click_entry(4)
 func _on_entry6_exited(_none)->void:click_entry(5)
 func _on_entry7_exited(_none)->void:click_entry(6)
 func _on_entry8_exited(_none)->void:click_entry(7)
+
+func clear_options():
+	for entry in area_entries:
+		entry.monitoring=false
+	parent_dir_area.monitoring=false
+	move_up_area.monitoring=false
+	move_down_area.monitoring=false
+	
+
+func open_options():
+	for entry in area_entries:
+		entry.monitoring=true
+	parent_dir_area.monitoring=true
+	move_up_area.monitoring=true
+	move_down_area.monitoring=true
 
 func _on_dir_up(_none):
 	if dir_start_pt==0:return
