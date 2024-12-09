@@ -295,8 +295,10 @@ shape = SubResource("BoxShape3D_5v10f")
 
 [connection signal="close_GUI" from="XROrigin3D" to="GUI" method="clear_options"]
 [connection signal="open_GUI" from="XROrigin3D" to="GUI" method="open_options"]
-[connection signal="button_released" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_released"]
-[connection signal="button_released" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_hand_button_released"]
+[connection signal="button_pressed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_pressed"]
+[connection signal="input_float_changed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_float_change"]
+[connection signal="button_pressed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_hand_button_pressed"]
+[connection signal="input_float_changed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_float_change"]
 [connection signal="load_protein" from="GUI" to="protein" method="_external_pdb_load"]
 [connection signal="area_exited" from="GUI/entry1/Area3D" to="GUI" method="_on_entry1_exited"]
 [connection signal="area_exited" from="GUI/entry2/Area3D" to="GUI" method="_on_entry2_exited"]
