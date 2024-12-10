@@ -45,12 +45,13 @@ func load_pdb(lines:PackedStringArray):
 	var oxygens:Array[Node3D]
 	var sulfurs:Array[Node3D]
 	
+	var center_pt:Vector3=Vector3.ZERO
 	for line in lines:
 		if line.substr(0,4)=="ATOM":
 			var temp_atom:MeshInstance3D=atom_model.instantiate()
 			var temp_pos=Vector3(line.substr(32).to_float(),line.substr(40).to_float(),line.substr(48).to_float())
 			atom_positions.append(temp_pos)
-			temp_atom.position=temp_pos
+			center_pt+=temp_pos
 			var element=line.substr(77,1)
 			elements.append(element)
 			atoms.append(temp_atom)
@@ -76,7 +77,10 @@ func load_pdb(lines:PackedStringArray):
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
-	
+	center_pt/=atom_positions.size()
+	for i in range(atom_positions.size()):
+		atom_positions[i]-=center_pt
+		atoms[i].position=atom_positions[i]
 	var AnB_atoms:Array[PackedInt32Array]=compute_bonds(elements,atom_positions)#maybe return distance as well
 	var A_atoms:PackedInt32Array=AnB_atoms[0]
 	var B_atoms:PackedInt32Array=AnB_atoms[1]
