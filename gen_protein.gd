@@ -1,7 +1,7 @@
 extends Node3D
 
-#var atom_model=preload("res://models/ATOM.tscn")
 
+@onready var protein_collision:CollisionShape3D=$Area3D/CollisionShape3D
 
 @onready var atom_model=preload("res://models/ATOM.tscn")
 @onready var bond_model=preload("res://models/BOND.tscn")
@@ -12,8 +12,13 @@ extends Node3D
 @onready var sulfur_color=preload("res://colors/sulfur_color.tres")
 @onready var bond_color=preload("res://colors/bond_color.tres")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void: 
+const gr:float=(1+sqrt(5))/2
+var icosahedron:PackedVector3Array=PackedVector3Array([Vector3(0,1,gr),Vector3(0,-1,gr),Vector3(0,1,-gr),Vector3(0,-1,-gr),Vector3(1,gr,0),Vector3(-1,gr,0),Vector3(1,-gr,0),Vector3(-1,-gr,0),Vector3(gr,0,1),Vector3(-gr,0,1),Vector3(gr,0,-1),Vector3(-gr,0,-1)])
+
+
+func _ready() -> void:
+	for i in range(12):
+		icosahedron[i]*=10000
 	_external_pdb_load("/home/havenj/Downloads/1mbo.pdb")
 
 func _external_pdb_load(path:String):
@@ -39,7 +44,7 @@ func load_pdb(lines:PackedStringArray):
 	
 	var atoms:Array[Node3D]
 	var bonds:Array[Node3D]
-	var hydrogens:Array[Node3D]
+	#var hydrogens:Array[Node3D]
 	var carbons:Array[Node3D]
 	var nitrogens:Array[Node3D]
 	var oxygens:Array[Node3D]
@@ -93,11 +98,24 @@ func load_pdb(lines:PackedStringArray):
 		temp_bond.look_at_from_position(bond_pos,A_position)
 		add_child(temp_bond)
 		bonds[i]=temp_bond
-	print(bonds[0].rotation_degrees)
 	enable_ball_n_stick(atoms)
+	create_collilder(atom_positions)
 
 
-
+func create_collilder(atom_positions:PackedVector3Array):
+	var shrinkwrap:PackedVector3Array
+	shrinkwrap.resize(12)
+	for i in range(12):
+		var shortest_dis:float=100000
+		var shortest_atom:Vector3
+		for pos in atom_positions:
+			var test_pos:float=icosahedron[i].distance_to(pos)
+			if test_pos<shortest_dis:
+				shortest_atom=pos
+				shortest_dis=test_pos
+		shrinkwrap[i]=shortest_atom
+	protein_collision.shape.points=shrinkwrap
+	
 
 const spacefil_scale:float=0.01*2#convert picometers to angstrom and radius to diameter 
 

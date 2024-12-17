@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cyrrcun8uhsud"]
+[gd_scene load_steps=20 format=3 uid="uid://cyrrcun8uhsud"]
 
 [ext_resource type="Script" path="res://gen_protein.gd" id="1_2ekmo"]
 [ext_resource type="Script" path="res://main.gd" id="1_wcsej"]
@@ -49,6 +49,12 @@ orientation = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_5v10f"]
 size = Vector3(0.075, 0.075, 0)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_pw8qa"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p0whk"]
+size = Vector3(0.1, 0.1, 0.1)
+
 [node name="main" type="Node3D"]
 script = ExtResource("1_wcsej")
 
@@ -76,8 +82,6 @@ tracker = &"left_hand"
 [node name="Area3D" type="Area3D" parent="XROrigin3D/left_hand"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
-collision_mask = 0
-monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/left_hand/Area3D"]
 shape = SubResource("CapsuleShape3D_25kuw")
@@ -91,8 +95,6 @@ tracker = &"right_hand"
 [node name="Area3D" type="Area3D" parent="XROrigin3D/right_hand"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
-collision_mask = 0
-monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/right_hand/Area3D"]
 shape = SubResource("CapsuleShape3D_25kuw")
@@ -105,6 +107,7 @@ transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 1, 0)
 script = ExtResource("1_2ekmo")
 
 [node name="Area3D" type="Area3D" parent="protein"]
+collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="protein/Area3D"]
@@ -293,12 +296,29 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/move_down/Area3D"]
 shape = SubResource("BoxShape3D_5v10f")
 
+[node name="test_cube" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.627347, 0.543987, 0)
+
+[node name="Area3D" type="Area3D" parent="test_cube"]
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="test_cube/Area3D"]
+shape = SubResource("BoxShape3D_pw8qa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="test_cube"]
+mesh = SubResource("BoxMesh_p0whk")
+
 [connection signal="close_GUI" from="XROrigin3D" to="GUI" method="clear_options"]
 [connection signal="open_GUI" from="XROrigin3D" to="GUI" method="open_options"]
 [connection signal="button_pressed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_pressed"]
 [connection signal="input_float_changed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_float_change"]
+[connection signal="area_entered" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D" method="_left_area_entered"]
+[connection signal="area_exited" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D" method="_left_area_exited"]
 [connection signal="button_pressed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_hand_button_pressed"]
 [connection signal="input_float_changed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_float_change"]
+[connection signal="area_entered" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D" method="_right_area_entered"]
+[connection signal="area_exited" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D" method="_right_area_exited"]
 [connection signal="load_protein" from="GUI" to="protein" method="_external_pdb_load"]
 [connection signal="area_exited" from="GUI/entry1/Area3D" to="GUI" method="_on_entry1_exited"]
 [connection signal="area_exited" from="GUI/entry2/Area3D" to="GUI" method="_on_entry2_exited"]
