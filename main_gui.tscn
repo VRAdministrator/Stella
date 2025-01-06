@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbxjmijds021s"]
+
+[ext_resource type="Script" path="res://main_gui.gd" id="1_upwcn"]
+
+[node name="GUI" type="CanvasLayer"]
+script = ExtResource("1_upwcn")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_right = 1500.0
+offset_bottom = 1000.0
+color = Color(0.211765, 0.211765, 0.211765, 0.721569)
+
+[node name="import_Button" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 80
+text = "Import"
+
+[node name="style_Button" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 125.0
+offset_right = 320.0
+offset_bottom = 250.0
+theme_override_font_sizes/font_size = 80
+text = "Style"
+
+[node name="color_Button" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 250.0
+offset_right = 320.0
+offset_bottom = 375.0
+theme_override_font_sizes/font_size = 80
+text = "Color"
+
+[node name="blank_Button1" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 375.0
+offset_right = 320.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 80
+text = "Blank
+"
+
+[node name="blank_Button2" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 500.0
+offset_right = 320.0
+offset_bottom = 625.0
+theme_override_font_sizes/font_size = 80
+text = "Blank"
+
+[node name="blank_Button3" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 625.0
+offset_right = 320.0
+offset_bottom = 750.0
+theme_override_font_sizes/font_size = 80
+text = "Blank"
+
+[node name="reset_Button" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 750.0
+offset_right = 320.0
+offset_bottom = 875.0
+theme_override_font_sizes/font_size = 80
+text = "Reset"
+
+[node name="settings_Button" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 875.0
+offset_right = 320.0
+offset_bottom = 1000.0
+theme_override_font_sizes/font_size = 80
+text = "Settings"
+
+[connection signal="pressed" from="Control/ColorRect/import_Button" to="." method="_on_import_button_pressed"]
+[connection signal="pressed" from="Control/ColorRect/style_Button" to="." method="_on_style_button_pressed"]
+[connection signal="pressed" from="Control/ColorRect/color_Button" to="." method="_on_color_button_pressed"]
+[connection signal="pressed" from="Control/ColorRect/reset_Button" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Control/ColorRect/settings_Button" to="." method="_on_settings_button_pressed"]

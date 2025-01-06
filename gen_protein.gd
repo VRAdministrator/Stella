@@ -2,6 +2,7 @@ extends Node3D
 
 
 @onready var protein_collision:CollisionShape3D=$Area3D/CollisionShape3D
+@onready var GUI:Node3D=$"../Viewport2Din3D"
 
 @onready var atom_model=preload("res://models/ATOM.tscn")
 @onready var bond_model=preload("res://models/BOND.tscn")
@@ -19,14 +20,20 @@ var icosahedron:PackedVector3Array=PackedVector3Array([Vector3(0,1,gr),Vector3(0
 func _ready() -> void:
 	for i in range(12):
 		icosahedron[i]*=10000
-	_external_pdb_load("/home/havenj/Downloads/1mbo.pdb")
 
-func _external_pdb_load(path:String):
-	var file=FileAccess.open(path,FileAccess.READ)
+var protein_count:int=0
+
+func _physics_process(delta: float) -> void:
+	var num_proteins:int=ProteinInfos.proteins.size()
+	for i in range(protein_count,num_proteins):
+		load_protien(ProteinInfos.proteins[i])
+
+func load_protien(protein:protein_info):
+	var file=FileAccess.open(protein.file_path,FileAccess.READ)
 	var content=file.get_as_text()
 	file.close()
 	var lines:PackedStringArray=content.split("\n")
-	load_pdb(lines)
+	load_pdb(lines,protein)
 
 func disable_ball_n_stick():
 	bond_color.albedo_color=Color.TRANSPARENT
@@ -36,70 +43,59 @@ func enable_ball_n_stick(atoms:Array[Node3D]):
 	for atom in atoms:
 		atom.scale=Vector3(1,1,1)
 
-func load_pdb(lines:PackedStringArray):
-	var atom_positions:PackedVector3Array
-	var elements:PackedStringArray
-	var atom_diameters:PackedFloat32Array
-	
-	
-	var atoms:Array[Node3D]
-	var bonds:Array[Node3D]
-	#var hydrogens:Array[Node3D]
-	var carbons:Array[Node3D]
-	var nitrogens:Array[Node3D]
-	var oxygens:Array[Node3D]
-	var sulfurs:Array[Node3D]
+func load_pdb(lines:PackedStringArray,protein:protein_info):
 	
 	var center_pt:Vector3=Vector3.ZERO
 	for line in lines:
 		if line.substr(0,4)=="ATOM":
 			var temp_atom:MeshInstance3D=atom_model.instantiate()
 			var temp_pos=Vector3(line.substr(32).to_float(),line.substr(40).to_float(),line.substr(48).to_float())
-			atom_positions.append(temp_pos)
+			protein.atom_positions.append(temp_pos)
 			center_pt+=temp_pos
 			var element=line.substr(77,1)
-			elements.append(element)
-			atoms.append(temp_atom)
+			protein.elements.append(element)
+			protein.atoms.append(temp_atom)
 			var atom_ei:int=idx(element)
 			match atom_ei:
 				1:pass#why are there no hydrogens
 				6:
-					carbons.append(temp_atom)
+					protein.carbons.append(temp_atom)
 					temp_atom.material_override=carbon_color
 				7:
-					nitrogens.append(temp_atom)
+					protein.nitrogens.append(temp_atom)
 					temp_atom.material_override=nitrogen_color
 				8:
-					oxygens.append(temp_atom)
+					protein.oxygens.append(temp_atom)
 					temp_atom.material_override=oxygen_color
 				16:
-					sulfurs.append(temp_atom)
+					protein.sulfurs.append(temp_atom)
 					temp_atom.material_override=sulfur_color
 			var scaling_factor:float=spacefil_scale*atomic_radii[atom_ei]
-			atom_diameters.append(scaling_factor)
+			protein.atom_diameters.append(scaling_factor)
 			temp_atom.scale=Vector3.ONE*scaling_factor
 			add_child(temp_atom)
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
-	center_pt/=atom_positions.size()
-	for i in range(atom_positions.size()):
-		atom_positions[i]-=center_pt
-		atoms[i].position=atom_positions[i]
-	var AnB_atoms:Array[PackedInt32Array]=compute_bonds(elements,atom_positions)#maybe return distance as well
+	var atom_count:int=protein.atom_positions.size()
+	center_pt/=atom_count
+	for i in range(atom_count):
+		protein.atom_positions[i]-=center_pt
+		protein.atoms[i].position=protein.atom_positions[i]
+	var AnB_atoms:Array[PackedInt32Array]=compute_bonds(protein.elements,protein.atom_positions)
 	var A_atoms:PackedInt32Array=AnB_atoms[0]
 	var B_atoms:PackedInt32Array=AnB_atoms[1]
 	var num_bonds:int=A_atoms.size()
-	bonds.resize(num_bonds)
+	protein.bonds.resize(num_bonds)
 	for i in range(num_bonds):
 		var temp_bond:Node3D=bond_model.instantiate()
-		var A_position:Vector3=atom_positions[A_atoms[i]]
-		var bond_pos:Vector3=(A_position+atom_positions[B_atoms[i]])/2
+		var A_position:Vector3=protein.atom_positions[A_atoms[i]]
+		var bond_pos:Vector3=(A_position+protein.atom_positions[B_atoms[i]])/2
 		temp_bond.look_at_from_position(bond_pos,A_position)
 		add_child(temp_bond)
-		bonds[i]=temp_bond
-	enable_ball_n_stick(atoms)
-	create_collilder(atom_positions)
+		protein.bonds[i]=temp_bond
+	enable_ball_n_stick(protein.atoms)
+	create_collilder(protein.atom_positions)
 
 
 func create_collilder(atom_positions:PackedVector3Array):

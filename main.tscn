@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://cyrrcun8uhsud"]
+[gd_scene load_steps=14 format=3 uid="uid://cyrrcun8uhsud"]
 
 [ext_resource type="Script" path="res://gen_protein.gd" id="1_2ekmo"]
 [ext_resource type="Script" path="res://main.gd" id="1_wcsej"]
 [ext_resource type="Script" path="res://controls.gd" id="2_2s2s6"]
-[ext_resource type="Script" path="res://gui.gd" id="3_theel"]
-[ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="4_g204v"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_akp6j"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="6_ifgtj"]
+[ext_resource type="PackedScene" uid="uid://dbxjmijds021s" path="res://main_gui.tscn" id="7_erlh2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqawy"]
 size = Vector3(10, 0.1, 10)
@@ -21,33 +22,6 @@ radius = 0.01
 height = 0.1
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lrlqn"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imtgd"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0.21025, 0.21025, 0.21025, 0.721569)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_b168l"]
-size = Vector2(1, 0.667)
-orientation = 2
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5ufv1"]
-size = Vector3(0.9, 0.06, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ncdjf"]
-transparency = 1
-shading_mode = 0
-albedo_texture = ExtResource("4_g204v")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjf3c"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_6uqoi"]
-material = SubResource("StandardMaterial3D_hjf3c")
-size = Vector2(0.075, 0.075)
-orientation = 2
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5v10f"]
-size = Vector3(0.075, 0.075, 0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pw8qa"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -102,6 +76,11 @@ shape = SubResource("CapsuleShape3D_25kuw")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/right_hand/Area3D"]
 mesh = SubResource("CapsuleMesh_sbtsp")
 
+[node name="FunctionPointer" parent="XROrigin3D/right_hand" instance=ExtResource("3_akp6j")]
+show_laser = 2
+laser_length = 1
+collision_mask = 5242882
+
 [node name="protein" type="Node3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 1, 0)
 script = ExtResource("1_2ekmo")
@@ -112,189 +91,6 @@ monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="protein/Area3D"]
 shape = SubResource("ConvexPolygonShape3D_lrlqn")
-
-[node name="GUI" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135247, 0.992788, -0.17166)
-material_override = SubResource("StandardMaterial3D_imtgd")
-mesh = SubResource("PlaneMesh_b168l")
-script = ExtResource("3_theel")
-
-[node name="full_path" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.404, 0.289, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "/home/havenj/Documents"
-horizontal_alignment = 0
-
-[node name="entry1" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, 0.199896, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry1"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry1/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry2" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, 0.129896, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry2"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry2/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry3" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, 0.0598962, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry3"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry3/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry4" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, -0.0101038, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry4"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry4/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry5" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, -0.0801038, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry5"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry5/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry6" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, -0.150104, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry6"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry6/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry7" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, -0.220104, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry7"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry7/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="entry8" type="Label3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.495, -0.290104, 0)
-sorting_offset = 1.0
-pixel_size = 0.0015
-text = "ENTRY1"
-horizontal_alignment = 0
-
-[node name="Area3D" type="Area3D" parent="GUI/entry8"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/entry8/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 0)
-shape = SubResource("BoxShape3D_5ufv1")
-
-[node name="parent_dir" type="MeshInstance3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.453659, 0.289407, 0)
-sorting_offset = 1.0
-material_override = SubResource("StandardMaterial3D_ncdjf")
-mesh = SubResource("PlaneMesh_6uqoi")
-
-[node name="Area3D" type="Area3D" parent="GUI/parent_dir"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/parent_dir/Area3D"]
-shape = SubResource("BoxShape3D_5v10f")
-
-[node name="move_up" type="MeshInstance3D" parent="GUI"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.454, 0.289, 0)
-sorting_offset = 1.0
-material_override = SubResource("StandardMaterial3D_ncdjf")
-mesh = SubResource("PlaneMesh_6uqoi")
-
-[node name="Area3D" type="Area3D" parent="GUI/move_up"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/move_up/Area3D"]
-shape = SubResource("BoxShape3D_5v10f")
-
-[node name="move_down" type="MeshInstance3D" parent="GUI"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.454, -0.289, 0)
-sorting_offset = 1.0
-material_override = SubResource("StandardMaterial3D_ncdjf")
-mesh = SubResource("PlaneMesh_6uqoi")
-
-[node name="Area3D" type="Area3D" parent="GUI/move_down"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GUI/move_down/Area3D"]
-shape = SubResource("BoxShape3D_5v10f")
 
 [node name="test_cube" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.627347, 0.543987, 0)
@@ -309,8 +105,14 @@ shape = SubResource("BoxShape3D_pw8qa")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="test_cube"]
 mesh = SubResource("BoxMesh_p0whk")
 
-[connection signal="close_GUI" from="XROrigin3D" to="GUI" method="clear_options"]
-[connection signal="open_GUI" from="XROrigin3D" to="GUI" method="open_options"]
+[node name="Viewport2Din3D" parent="." instance=ExtResource("6_ifgtj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+collision_layer = 5242882
+scene = ExtResource("7_erlh2")
+viewport_size = Vector2(1500, 1000)
+unshaded = true
+scene_properties_keys = PackedStringArray("main_gui.gd")
+
 [connection signal="button_pressed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_pressed"]
 [connection signal="input_float_changed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_float_change"]
 [connection signal="area_entered" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D" method="_left_area_entered"]
@@ -319,15 +121,3 @@ mesh = SubResource("BoxMesh_p0whk")
 [connection signal="input_float_changed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_float_change"]
 [connection signal="area_entered" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D" method="_right_area_entered"]
 [connection signal="area_exited" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D" method="_right_area_exited"]
-[connection signal="load_protein" from="GUI" to="protein" method="_external_pdb_load"]
-[connection signal="area_exited" from="GUI/entry1/Area3D" to="GUI" method="_on_entry1_exited"]
-[connection signal="area_exited" from="GUI/entry2/Area3D" to="GUI" method="_on_entry2_exited"]
-[connection signal="area_exited" from="GUI/entry3/Area3D" to="GUI" method="_on_entry3_exited"]
-[connection signal="area_exited" from="GUI/entry4/Area3D" to="GUI" method="_on_entry4_exited"]
-[connection signal="area_exited" from="GUI/entry5/Area3D" to="GUI" method="_on_entry5_exited"]
-[connection signal="area_exited" from="GUI/entry6/Area3D" to="GUI" method="_on_entry6_exited"]
-[connection signal="area_exited" from="GUI/entry7/Area3D" to="GUI" method="_on_entry7_exited"]
-[connection signal="area_exited" from="GUI/entry8/Area3D" to="GUI" method="_on_entry8_exited"]
-[connection signal="area_exited" from="GUI/parent_dir/Area3D" to="GUI" method="_on_dir_back"]
-[connection signal="area_exited" from="GUI/move_up/Area3D" to="GUI" method="_on_dir_up"]
-[connection signal="area_exited" from="GUI/move_down/Area3D" to="GUI" method="_on_dir_down"]

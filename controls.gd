@@ -1,12 +1,10 @@
 extends XROrigin3D
 
-signal open_GUI
-signal close_GUI
 @onready var root:Node3D=$".."
 @onready var left_hand:XRController3D=$left_hand
 @onready var right_hand:XRController3D=$right_hand
-@onready var GUI:MeshInstance3D=$"../GUI"
-@onready var protien_model:Node3D=$"../protein"
+@onready var GUI:Node3D=$"../Viewport2Din3D"
+@onready var protien_model:Node3D=$"../protein"#will need to change to allow for multiple protiens
 
 var left_trigger_held:bool=false
 var left_grip_held:bool=false
@@ -45,15 +43,15 @@ func handle_protien_scale()->void:
 		return
 	controller_distance=-1
 	
-func handle_menu_open()->void:
+func handle_menu_open()->void:#fix this
 	if menu_open==preclick_condition:return
 	preclick_condition=menu_open
 	if menu_open:
 		GUI.visible=true
-		open_GUI.emit()
+		GUI.process_mode=Node.PROCESS_MODE_INHERIT
 	else:
 		GUI.visible=false
-		close_GUI.emit()
+		GUI.process_mode=Node.PROCESS_MODE_DISABLED
 
 func handle_grab():
 	if left_hand_grab:
@@ -88,8 +86,8 @@ func grab_object(hand:XRController3D,objects:Array[Node3D])->Node3D:
 		closest=test_dis
 		object=test_ob
 	object=object.get_parent_node_3d()
-	var pos:Vector3=object.global_position
-	var rot:Vector3=object.global_rotation
+	var pos:Vector3=object.position
+	var rot:Vector3=object.rotation
 	root.remove_child(object)
 	hand.add_child(object)
 	object.global_position=pos
@@ -101,8 +99,8 @@ func let_go_object(object:Node3D,hand:XRController3D):
 	var rot:Vector3=object.global_rotation
 	hand.remove_child(object)
 	root.add_child(object)
-	object.global_position=pos
-	object.global_rotation=rot
+	object.position=pos
+	object.rotation=rot
 
 func _on_left_hand_button_pressed(action: String) -> void:
 	if process_sym_input(action):return

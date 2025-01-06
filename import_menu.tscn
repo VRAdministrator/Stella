@@ -1,0 +1,143 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0wbiaj1525sa"]
+
+[ext_resource type="Script" path="res://import_menu.gd" id="1_na27c"]
+[ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="2_l7hkd"]
+
+[node name="Import_Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 320.0
+offset_right = 1500.0
+offset_bottom = 1000.0
+script = ExtResource("1_na27c")
+
+[node name="full_path" type="Label" parent="."]
+layout_mode = 2
+offset_left = 115.0
+offset_top = 25.0
+offset_right = 1085.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 40
+text = "/home/havenj/Documents"
+
+[node name="move_up" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1180.0
+offset_right = 1700.0
+offset_bottom = 520.0
+rotation = 1.5708
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("2_l7hkd")
+flat = true
+
+[node name="move_down" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1076.0
+offset_top = 1000.0
+offset_right = 1596.0
+offset_bottom = 1520.0
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("2_l7hkd")
+flat = true
+
+[node name="parent_dir" type="Button" parent="."]
+layout_mode = 0
+offset_right = 520.0
+offset_bottom = 520.0
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("2_l7hkd")
+flat = true
+
+[node name="entry1" type="Button" parent="."]
+layout_mode = 0
+offset_top = 150.0
+offset_right = 1060.0
+offset_bottom = 241.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY1"
+flat = true
+alignment = 0
+
+[node name="entry2" type="Button" parent="."]
+layout_mode = 0
+offset_top = 241.0
+offset_right = 1060.0
+offset_bottom = 332.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY2"
+flat = true
+alignment = 0
+
+[node name="entry3" type="Button" parent="."]
+layout_mode = 0
+offset_top = 332.0
+offset_right = 1060.0
+offset_bottom = 423.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY3"
+flat = true
+alignment = 0
+
+[node name="entry4" type="Button" parent="."]
+layout_mode = 0
+offset_top = 420.0
+offset_right = 1060.0
+offset_bottom = 511.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY4"
+flat = true
+alignment = 0
+
+[node name="entry5" type="Button" parent="."]
+layout_mode = 0
+offset_top = 510.0
+offset_right = 1060.0
+offset_bottom = 601.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY5"
+flat = true
+alignment = 0
+
+[node name="entry6" type="Button" parent="."]
+layout_mode = 0
+offset_top = 600.0
+offset_right = 1060.0
+offset_bottom = 691.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY6"
+flat = true
+alignment = 0
+
+[node name="entry7" type="Button" parent="."]
+layout_mode = 0
+offset_top = 690.0
+offset_right = 1060.0
+offset_bottom = 781.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY7
+"
+flat = true
+alignment = 0
+
+[node name="entry8" type="Button" parent="."]
+layout_mode = 0
+offset_top = 780.0
+offset_right = 1060.0
+offset_bottom = 871.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY8"
+flat = true
+alignment = 0
+
+[connection signal="pressed" from="move_up" to="." method="_on_dir_up"]
+[connection signal="pressed" from="move_down" to="." method="_on_dir_down"]
+[connection signal="pressed" from="parent_dir" to="." method="_on_dir_back"]
+[connection signal="pressed" from="entry1" to="." method="_on_entry1_pressed"]
+[connection signal="pressed" from="entry2" to="." method="_on_entry2_pressed"]
+[connection signal="pressed" from="entry3" to="." method="_on_entry3_pressed"]
+[connection signal="pressed" from="entry4" to="." method="_on_entry4_pressed"]
+[connection signal="pressed" from="entry5" to="." method="_on_entry5_pressed"]
+[connection signal="pressed" from="entry6" to="." method="_on_entry6_pressed"]
+[connection signal="pressed" from="entry7" to="." method="_on_entry7_pressed"]
+[connection signal="pressed" from="entry8" to="." method="_on_entry8_pressed"]
