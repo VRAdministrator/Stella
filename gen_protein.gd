@@ -16,17 +16,27 @@ extends Node3D
 const gr:float=(1+sqrt(5))/2
 var icosahedron:PackedVector3Array=PackedVector3Array([Vector3(0,1,gr),Vector3(0,-1,gr),Vector3(0,1,-gr),Vector3(0,-1,-gr),Vector3(1,gr,0),Vector3(-1,gr,0),Vector3(1,-gr,0),Vector3(-1,-gr,0),Vector3(gr,0,1),Vector3(-gr,0,1),Vector3(gr,0,-1),Vector3(-gr,0,-1)])
 
-
 func _ready() -> void:
 	for i in range(12):
 		icosahedron[i]*=10000
 
 var protein_count:int=0
+var styles:Array[String]
 
 func _physics_process(delta: float) -> void:
 	var num_proteins:int=ProteinInfos.proteins.size()
 	for i in range(protein_count,num_proteins):
 		load_protien(ProteinInfos.proteins[i])
+		styles.append("ball_n_stick")
+	protein_count=num_proteins
+	for i in range(num_proteins):
+		var protein:protein_info=ProteinInfos.proteins[i]
+		if protein.style!=styles[i]:
+			pass#fill this in later
+			#match protein.style:
+				
+	
+	
 
 func load_protien(protein:protein_info):
 	var file=FileAccess.open(protein.file_path,FileAccess.READ)
@@ -39,7 +49,7 @@ func disable_ball_n_stick():
 	bond_color.albedo_color=Color.TRANSPARENT
 
 func enable_ball_n_stick(atoms:Array[Node3D]):
-	#bond_color.albedo_color=Color.WHITE
+	bond_color.albedo_color=Color.WHITE
 	for atom in atoms:
 		atom.scale=Vector3(1,1,1)
 
@@ -94,8 +104,8 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 		temp_bond.look_at_from_position(bond_pos,A_position)
 		add_child(temp_bond)
 		protein.bonds[i]=temp_bond
-	enable_ball_n_stick(protein.atoms)
 	create_collilder(protein.atom_positions)
+	enable_ball_n_stick(protein.atoms)
 
 
 func create_collilder(atom_positions:PackedVector3Array):

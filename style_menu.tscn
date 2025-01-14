@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://rkqp3i5nnk4x"]
+
+[ext_resource type="Script" path="res://style_menu.gd" id="1_shmp5"]
+
+[node name="Import_Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 320.0
+offset_right = 1500.0
+offset_bottom = 1000.0
+script = ExtResource("1_shmp5")
+
+[node name="ball_n_stick" type="Button" parent="."]
+layout_mode = 0
+offset_top = 150.0
+offset_right = 1060.0
+offset_bottom = 241.0
+theme_override_font_sizes/font_size = 60
+text = "Ball and Stick"
+flat = true
+alignment = 0
+
+[node name="spacefill" type="Button" parent="."]
+layout_mode = 0
+offset_top = 241.0
+offset_right = 1060.0
+offset_bottom = 332.0
+theme_override_font_sizes/font_size = 60
+text = "spacefill"
+flat = true
+alignment = 0
+
+[node name="entry3" type="Button" parent="."]
+layout_mode = 0
+offset_top = 332.0
+offset_right = 1060.0
+offset_bottom = 423.0
+theme_override_font_sizes/font_size = 60
+flat = true
+alignment = 0
+
+[node name="entry4" type="Button" parent="."]
+layout_mode = 0
+offset_top = 420.0
+offset_right = 1060.0
+offset_bottom = 511.0
+theme_override_font_sizes/font_size = 60
+flat = true
+alignment = 0
+
+[node name="entry5" type="Button" parent="."]
+layout_mode = 0
+offset_top = 510.0
+offset_right = 1060.0
+offset_bottom = 601.0
+theme_override_font_sizes/font_size = 60
+flat = true
+alignment = 0
+
+[node name="entry6" type="Button" parent="."]
+layout_mode = 0
+offset_top = 600.0
+offset_right = 1060.0
+offset_bottom = 691.0
+theme_override_font_sizes/font_size = 60
+flat = true
+alignment = 0
+
+[node name="entry7" type="Button" parent="."]
+layout_mode = 0
+offset_top = 690.0
+offset_right = 1060.0
+offset_bottom = 781.0
+theme_override_font_sizes/font_size = 60
+text = "
+"
+flat = true
+alignment = 0
+
+[node name="entry8" type="Button" parent="."]
+layout_mode = 0
+offset_top = 780.0
+offset_right = 1060.0
+offset_bottom = 871.0
+theme_override_font_sizes/font_size = 60
+flat = true
+alignment = 0
+
+[connection signal="pressed" from="ball_n_stick" to="." method="_on_ball_n_stick_pressed"]
+[connection signal="pressed" from="spacefill" to="." method="_on_spacefill_pressed"]
