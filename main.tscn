@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://cyrrcun8uhsud"]
 
-[ext_resource type="Script" path="res://gen_protein.gd" id="1_2ekmo"]
-[ext_resource type="Script" path="res://main.gd" id="1_wcsej"]
-[ext_resource type="Script" path="res://controls.gd" id="2_2s2s6"]
+[ext_resource type="Script" uid="uid://ddnpcl0x5nt1v" path="res://gen_protein.gd" id="1_2ekmo"]
+[ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://main.gd" id="1_wcsej"]
+[ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://controls.gd" id="2_2s2s6"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_akp6j"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="6_ifgtj"]
 [ext_resource type="PackedScene" uid="uid://dbxjmijds021s" path="res://main_gui.tscn" id="7_erlh2"]

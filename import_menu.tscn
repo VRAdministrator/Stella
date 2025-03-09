@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0wbiaj1525sa"]
 
-[ext_resource type="Script" path="res://import_menu.gd" id="1_na27c"]
+[ext_resource type="Script" uid="uid://blad2s5nnk6a1" path="res://import_menu.gd" id="1_na27c"]
 [ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="2_l7hkd"]
 
 [node name="Import_Menu" type="Control"]

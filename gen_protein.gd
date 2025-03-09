@@ -32,11 +32,27 @@ func _physics_process(delta: float) -> void:
 	for i in range(num_proteins):
 		var protein:protein_info=ProteinInfos.proteins[i]
 		if protein.style!=styles[i]:
-			pass#fill this in later
-			#match protein.style:
-				
+			change_style(protein,styles[i],protein.style)
+			styles[i]=protein.style
 	
 	
+
+func change_style(protein:protein_info,old_style:String,new_style:String):
+	print(old_style,new_style)
+	match new_style:
+		"ball_n_stick":
+			match old_style:
+				"spacefil":
+					for bond in protein.bonds:bond.visible=false
+					for i in range(protein.atoms.size()):protein.atoms[i].scale*=protein.atom_diameters[i]
+		"spacefil":
+			match old_style:
+				"ball_n_stick":
+					for bond in protein.bonds:bond.visible=true
+					for atom in protein.atoms:atom.scale=Vector3.ONE
+	
+	
+
 
 func load_protien(protein:protein_info):
 	var file=FileAccess.open(protein.file_path,FileAccess.READ)
@@ -44,14 +60,6 @@ func load_protien(protein:protein_info):
 	file.close()
 	var lines:PackedStringArray=content.split("\n")
 	load_pdb(lines,protein)
-
-func disable_ball_n_stick():
-	bond_color.albedo_color=Color.TRANSPARENT
-
-func enable_ball_n_stick(atoms:Array[Node3D]):
-	bond_color.albedo_color=Color.WHITE
-	for atom in atoms:
-		atom.scale=Vector3(1,1,1)
 
 func load_pdb(lines:PackedStringArray,protein:protein_info):
 	
@@ -82,7 +90,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 					temp_atom.material_override=sulfur_color
 			var scaling_factor:float=spacefil_scale*atomic_radii[atom_ei]
 			protein.atom_diameters.append(scaling_factor)
-			temp_atom.scale=Vector3.ONE*scaling_factor
+			temp_atom.scale=Vector3.ONE
 			add_child(temp_atom)
 		#elif line.substr(0,5)=="HELIX":
 			
@@ -105,7 +113,6 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 		add_child(temp_bond)
 		protein.bonds[i]=temp_bond
 	create_collilder(protein.atom_positions)
-	enable_ball_n_stick(protein.atoms)
 
 
 func create_collilder(atom_positions:PackedVector3Array):
