@@ -38,18 +38,18 @@ func _physics_process(delta: float) -> void:
 	
 
 func change_style(protein:protein_info,old_style:String,new_style:String):
-	print(old_style,new_style)
 	match new_style:
 		"ball_n_stick":
 			match old_style:
 				"spacefil":
-					for bond in protein.bonds:bond.visible=false
-					for i in range(protein.atoms.size()):protein.atoms[i].scale*=protein.atom_diameters[i]
-		"spacefil":
-			match old_style:
-				"ball_n_stick":
 					for bond in protein.bonds:bond.visible=true
 					for atom in protein.atoms:atom.scale=Vector3.ONE
+		"spacefil":
+			print("here")
+			match old_style:
+				"ball_n_stick":
+					for bond in protein.bonds:bond.visible=false
+					for i in range(protein.atoms.size()):protein.atoms[i].scale*=protein.atom_diameters[i]
 	
 	
 
