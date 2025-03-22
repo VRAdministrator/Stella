@@ -6,7 +6,8 @@ extends XROrigin3D
 @onready var GUI:Node3D=$"../Viewport2Din3D"
 @onready var protein_model:Node3D=$"../protein/model"
 @onready var protein_area3D:Area3D=$"../protein/Area3D"
-
+@onready var right_pointer:XRToolsFunctionPointer=$right_hand/FunctionPointer
+@onready var left_pointer:XRToolsFunctionPointer=$left_hand/FunctionPointer
 
 var left_trigger_held:bool=false
 var left_grip_held:bool=false
@@ -17,6 +18,8 @@ var left_hand_grab:bool=false
 var right_hand_grab:bool=false
 var left_hand_object:Node3D
 var right_hand_object:Node3D
+
+var pointer_position_right:bool=true
 
 var left_area_objects:Array[Node3D]
 var right_area_objects:Array[Node3D]
@@ -32,6 +35,7 @@ func _physics_process(_delta: float) -> void:
 	handle_protien_scale()
 	handle_menu_open()
 	handle_grab()
+	handle_pointer_position()
 
 func handle_protien_scale()->void:
 	if (left_trigger_held||left_grip_held)&&(right_trigger_held||right_grip_held):
@@ -60,7 +64,7 @@ func handle_menu_open()->void:#fix this
 func handle_grab():
 	if left_hand_grab:
 		if !(left_grip_held||left_trigger_held):
-			let_go_object(left_hand_object,left_hand)
+			release_object(left_hand_object,left_hand)
 			left_hand_grab=false
 	else:
 		if left_grip_held||left_trigger_held:
@@ -70,7 +74,7 @@ func handle_grab():
 				left_hand_object=object
 	if right_hand_grab:
 		if !(right_grip_held||right_trigger_held):
-			let_go_object(right_hand_object,right_hand)
+			release_object(right_hand_object,right_hand)
 			right_hand_grab=false
 	else:
 		if right_grip_held||right_trigger_held:
@@ -78,7 +82,24 @@ func handle_grab():
 			if object!=null:
 				right_hand_grab=true
 				right_hand_object=object
-		
+
+func handle_pointer_position():
+	if (left_trigger_held!=right_trigger_held)&&(pointer_position_right!=right_trigger_held):
+		if left_trigger_held:
+			right_pointer.process_mode=Node.PROCESS_MODE_DISABLED
+			right_pointer.visible=false
+			left_pointer.process_mode=Node.PROCESS_MODE_INHERIT
+			left_pointer.visible=true
+			pointer_position_right=false
+			return
+		else:
+			left_pointer.process_mode=Node.PROCESS_MODE_DISABLED
+			left_pointer.visible=false
+			right_pointer.process_mode=Node.PROCESS_MODE_INHERIT
+			right_pointer.visible=true
+			pointer_position_right=true
+			return
+
 func grab_object(hand:XRController3D,objects:Array[Node3D])->Node3D:
 	if objects.size()==0:return null
 	var object:Node3D
@@ -98,7 +119,7 @@ func grab_object(hand:XRController3D,objects:Array[Node3D])->Node3D:
 	object.global_rotation=rot
 	return object
 
-func let_go_object(object:Node3D,hand:XRController3D):
+func release_object(object:Node3D,hand:XRController3D):
 	var pos:Vector3=object.global_position
 	var rot:Vector3=object.global_rotation
 	hand.remove_child(object)
