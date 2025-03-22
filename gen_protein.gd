@@ -3,6 +3,7 @@ extends Node3D
 
 @onready var protein_collision:CollisionShape3D=$Area3D/CollisionShape3D
 @onready var GUI:Node3D=$"../Viewport2Din3D"
+@onready var model:Node3D=$model
 
 @onready var atom_model=preload("res://models/ATOM.tscn")
 @onready var bond_model=preload("res://models/BOND.tscn")
@@ -45,7 +46,6 @@ func change_style(protein:protein_info,old_style:String,new_style:String):
 					for bond in protein.bonds:bond.visible=true
 					for atom in protein.atoms:atom.scale=Vector3.ONE
 		"spacefil":
-			print("here")
 			match old_style:
 				"ball_n_stick":
 					for bond in protein.bonds:bond.visible=false
@@ -89,7 +89,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 			var scaling_factor:float=spacefil_scale*atomic_radii[atom_ei]
 			protein.atom_diameters.append(scaling_factor)
 			temp_atom.scale=Vector3.ONE
-			add_child(temp_atom)
+			model.add_child(temp_atom)
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
@@ -108,7 +108,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 		var A_position:Vector3=protein.atom_positions[A_atoms[i]]
 		var bond_pos:Vector3=(A_position+protein.atom_positions[B_atoms[i]])/2
 		temp_bond.look_at_from_position(bond_pos,A_position)
-		add_child(temp_bond)
+		model.add_child(temp_bond)
 		protein.bonds[i]=temp_bond
 	create_collilder(protein.atom_positions)
 

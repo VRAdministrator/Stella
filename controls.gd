@@ -4,7 +4,9 @@ extends XROrigin3D
 @onready var left_hand:XRController3D=$left_hand
 @onready var right_hand:XRController3D=$right_hand
 @onready var GUI:Node3D=$"../Viewport2Din3D"
-@onready var protien_model:Node3D=$"../protein"#will need to change to allow for multiple protiens
+@onready var protein_model:Node3D=$"../protein/model"
+@onready var protein_area3D:Area3D=$"../protein/Area3D"
+
 
 var left_trigger_held:bool=false
 var left_grip_held:bool=false
@@ -38,8 +40,10 @@ func handle_protien_scale()->void:
 			return
 		var current_distance:float=left_hand.position.distance_to(right_hand.position)
 		protein_prescale*=current_distance/controller_distance
-		controller_distance=current_distance
-		protien_model.scale=Vector3.ONE*protein_prescale
+		controller_distance=current_distance #rework to effect all proteins spawned
+		var protein_scale:Vector3=Vector3.ONE*protein_prescale
+		protein_model.scale=protein_scale
+		protein_area3D.scale=protein_scale
 		return
 	controller_distance=-1
 	
@@ -101,8 +105,6 @@ func let_go_object(object:Node3D,hand:XRController3D):
 	root.add_child(object)
 	object.position=pos
 	object.rotation=rot
-	object.global_rotation.x=rot.x
-	print(object.global_rotation-rot)
 
 func _on_left_hand_button_pressed(action: String) -> void:
 	if process_sym_input(action):return
