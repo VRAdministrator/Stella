@@ -63,6 +63,11 @@ shape = SubResource("CapsuleShape3D_25kuw")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/left_hand/Area3D"]
 mesh = SubResource("CapsuleMesh_sbtsp")
 
+[node name="FunctionPointer" parent="XROrigin3D/left_hand" instance=ExtResource("3_akp6j")]
+show_laser = 2
+laser_length = 1
+collision_mask = 5242882
+
 [node name="right_hand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
 
@@ -75,11 +80,6 @@ shape = SubResource("CapsuleShape3D_25kuw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/right_hand/Area3D"]
 mesh = SubResource("CapsuleMesh_sbtsp")
-
-[node name="FunctionPointer" parent="XROrigin3D/right_hand" instance=ExtResource("3_akp6j")]
-show_laser = 2
-laser_length = 1
-collision_mask = 5242882
 
 [node name="protein" type="Node3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 1, 0)

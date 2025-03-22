@@ -50,8 +50,6 @@ func change_style(protein:protein_info,old_style:String,new_style:String):
 				"ball_n_stick":
 					for bond in protein.bonds:bond.visible=false
 					for i in range(protein.atoms.size()):protein.atoms[i].scale*=protein.atom_diameters[i]
-	
-	
 
 
 func load_protien(protein:protein_info):

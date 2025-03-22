@@ -101,6 +101,8 @@ func let_go_object(object:Node3D,hand:XRController3D):
 	root.add_child(object)
 	object.position=pos
 	object.rotation=rot
+	object.global_rotation.x=rot.x
+	print(object.global_rotation-rot)
 
 func _on_left_hand_button_pressed(action: String) -> void:
 	if process_sym_input(action):return
