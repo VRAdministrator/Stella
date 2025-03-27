@@ -4,8 +4,6 @@ extends XROrigin3D
 @onready var left_hand:XRController3D=$left_hand
 @onready var right_hand:XRController3D=$right_hand
 @onready var GUI:Node3D=$"../Viewport2Din3D"
-@onready var protein_model:Node3D=$"../protein/model"
-@onready var protein_area3D:Area3D=$"../protein/Area3D"
 @onready var right_pointer:XRToolsFunctionPointer=$right_hand/FunctionPointer
 @onready var left_pointer:XRToolsFunctionPointer=$left_hand/FunctionPointer
 
@@ -27,11 +25,22 @@ var right_area_objects:Array[Node3D]
 var protein_prescale:float=0.01
 var controller_distance:float
 
+var selected_protein:protein_info
+var num_proteins:int
+
 func _physics_process(_delta: float) -> void:
-	handle_protien_scale()
-	handle_menu_open()
-	handle_grab()
 	handle_pointer_position()
+	handle_menu_open()
+	match ProteinInfos.proteins.size():
+		0:return
+		var new_size when new_size<num_proteins:
+			var protein:protein_info=ProteinInfos.proteins[new_size-1]
+			if protein.bonds.size()!=0:
+				selected_protein=protein
+				num_proteins=new_size
+	handle_grab()
+	handle_protien_scale()
+	
 
 func handle_protien_scale()->void:
 	if (left_trigger_held||left_grip_held)&&(right_trigger_held||right_grip_held):
@@ -40,10 +49,10 @@ func handle_protien_scale()->void:
 			return
 		var current_distance:float=left_hand.position.distance_to(right_hand.position)
 		protein_prescale*=current_distance/controller_distance
-		controller_distance=current_distance #rework to effect all proteins spawned
-		var protein_scale:Vector3=Vector3.ONE*protein_prescale
-		protein_model.scale=protein_scale
-		protein_area3D.scale=protein_scale
+		controller_distance=current_distance
+		var protein_scale:Vector3=Vector3.ONE*protein_prescale#emplament global scale option
+		selected_protein.model.scale=protein_scale
+		selected_protein.area.scale=protein_scale
 		return
 	controller_distance=-1
 	
@@ -57,7 +66,7 @@ func handle_menu_open()->void:#fix this
 		GUI.visible=false
 		GUI.process_mode=Node.PROCESS_MODE_DISABLED
 
-func handle_grab():
+func handle_grab():#could be a lot better
 	if left_hand_grab:
 		if !(left_grip_held||left_trigger_held):
 			release_object(left_hand_object,left_hand)

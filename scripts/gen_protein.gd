@@ -1,12 +1,10 @@
 extends Node3D
 
-
-@onready var protein_collision:CollisionShape3D=$Area3D/CollisionShape3D
 @onready var GUI:Node3D=$"../Viewport2Din3D"
-@onready var model:Node3D=$model
 
 @onready var atom_model=preload("res://scenes/potein_parts/ATOM.tscn")
 @onready var bond_model=preload("res://scenes/potein_parts/BOND.tscn")
+@onready var protein_model=preload("res://scenes/potein_parts/protein.tscn")
 
 @onready var carbon_color=preload("res://colors/carbon_color.tres")
 @onready var nitrogen_color=preload("res://colors/nitrogen_color.tres")
@@ -24,7 +22,7 @@ func _ready() -> void:
 var protein_count:int=0
 var styles:Array[String]
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var num_proteins:int=ProteinInfos.proteins.size()
 	for i in range(protein_count,num_proteins):
 		load_protien(ProteinInfos.proteins[i])
@@ -60,7 +58,11 @@ func load_protien(protein:protein_info):
 	load_pdb(lines,protein)
 
 func load_pdb(lines:PackedStringArray,protein:protein_info):
-	
+	protein.root=protein_model.instantiate()
+	protein.model_base=protein.root.get_child(1)
+	protein.area=protein.root.get_child(0)
+	protein.collider=protein.area.get_child(0)
+	add_child(protein.root)
 	var center_pt:Vector3=Vector3.ZERO
 	for line in lines:
 		if line.substr(0,4)=="ATOM":
@@ -89,7 +91,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 			var scaling_factor:float=spacefil_scale*atomic_radii[atom_ei]
 			protein.atom_diameters.append(scaling_factor)
 			temp_atom.scale=Vector3.ONE
-			model.add_child(temp_atom)
+			protein.model.add_child(temp_atom)
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
@@ -108,12 +110,12 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 		var A_position:Vector3=protein.atom_positions[A_atoms[i]]
 		var bond_pos:Vector3=(A_position+protein.atom_positions[B_atoms[i]])/2
 		temp_bond.look_at_from_position(bond_pos,A_position)
-		model.add_child(temp_bond)
+		protein.model.add_child(temp_bond)
 		protein.bonds[i]=temp_bond
-	create_collilder(protein.atom_positions)
+	create_collilder(protein.atom_positions,protein)
 
 
-func create_collilder(atom_positions:PackedVector3Array):
+func create_collilder(atom_positions:PackedVector3Array,protein:protein_info):
 	var shrinkwrap:PackedVector3Array
 	shrinkwrap.resize(12)
 	for i in range(12):
@@ -125,7 +127,7 @@ func create_collilder(atom_positions:PackedVector3Array):
 				shortest_atom=pos
 				shortest_dis=test_pos
 		shrinkwrap[i]=shortest_atom
-	protein_collision.shape.points=shrinkwrap
+	protein.collider.shape.points=shrinkwrap
 	
 
 const spacefil_scale:float=0.01*2#convert picometers to angstrom and radius to diameter 
@@ -166,7 +168,9 @@ func threshold(i:int)->float:
 	return r
 
 func pair(a:int,b:int)->int:
+	@warning_ignore("integer_division")
 	if a<b:return (a+b)*(a+b+1)/2+b
+	@warning_ignore("integer_division")
 	return (a+b)*(a+b+1)/2+a
 
 func pair_threshold(i:int,j:int)->float:
