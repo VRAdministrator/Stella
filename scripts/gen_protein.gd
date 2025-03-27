@@ -5,8 +5,8 @@ extends Node3D
 @onready var GUI:Node3D=$"../Viewport2Din3D"
 @onready var model:Node3D=$model
 
-@onready var atom_model=preload("res://models/ATOM.tscn")
-@onready var bond_model=preload("res://models/BOND.tscn")
+@onready var atom_model=preload("res://scenes/potein_parts/ATOM.tscn")
+@onready var bond_model=preload("res://scenes/potein_parts/BOND.tscn")
 
 @onready var carbon_color=preload("res://colors/carbon_color.tres")
 @onready var nitrogen_color=preload("res://colors/nitrogen_color.tres")

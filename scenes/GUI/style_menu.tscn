@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://rkqp3i5nnk4x"]
 
-[ext_resource type="Script" uid="uid://usjawje6sskc" path="res://style_menu.gd" id="1_shmp5"]
+[ext_resource type="Script" uid="uid://usjawje6sskc" path="res://scripts/style_menu.gd" id="1_j466n"]
 
 [node name="Import_Menu" type="Control"]
 layout_mode = 3
@@ -8,7 +8,7 @@ anchors_preset = 0
 offset_left = 320.0
 offset_right = 1500.0
 offset_bottom = 1000.0
-script = ExtResource("1_shmp5")
+script = ExtResource("1_j466n")
 
 [node name="ball_n_stick" type="Button" parent="."]
 layout_mode = 0

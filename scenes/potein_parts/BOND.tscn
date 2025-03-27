@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7wsiqrx4keya"]
 
-[ext_resource type="Material" uid="uid://7qghovp1g2oq" path="res://colors/bond_color.tres" id="1_qei6g"]
+[ext_resource type="Material" uid="uid://7qghovp1g2oq" path="res://colors/bond_color.tres" id="1_73bie"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_g5m2k"]
-material = ExtResource("1_qei6g")
+material = ExtResource("1_73bie")
 top_radius = 0.14
 bottom_radius = 0.14
 rings = 2

@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://cyrrcun8uhsud"]
 
-[ext_resource type="Script" uid="uid://ddnpcl0x5nt1v" path="res://gen_protein.gd" id="1_2ekmo"]
-[ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://main.gd" id="1_wcsej"]
-[ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://controls.gd" id="2_2s2s6"]
-[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_akp6j"]
-[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="6_ifgtj"]
-[ext_resource type="PackedScene" uid="uid://dbxjmijds021s" path="res://main_gui.tscn" id="7_erlh2"]
+[ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://scripts/main.gd" id="1_tefeu"]
+[ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://scripts/controls.gd" id="2_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_tipki"]
+[ext_resource type="Script" uid="uid://ddnpcl0x5nt1v" path="res://scripts/gen_protein.gd" id="4_85g3d"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="5_choun"]
+[ext_resource type="PackedScene" uid="uid://dbxjmijds021s" path="res://scenes/GUI/main_gui.tscn" id="6_ya4ey"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqawy"]
 size = Vector3(10, 0.1, 10)
@@ -30,7 +30,7 @@ size = Vector3(0.1, 0.1, 0.1)
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="main" type="Node3D"]
-script = ExtResource("1_wcsej")
+script = ExtResource("1_tefeu")
 
 [node name="floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
@@ -46,7 +46,7 @@ skeleton = NodePath("../CollisionShape3D")
 transform = Transform3D(1, 0, 0, 0, 0.0492332, 0.998787, 0, -0.998787, 0.0492332, 0, 22.891, 0)
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-script = ExtResource("2_2s2s6")
+script = ExtResource("2_o6xl0")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 
@@ -63,7 +63,7 @@ shape = SubResource("CapsuleShape3D_25kuw")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/left_hand/Area3D"]
 mesh = SubResource("CapsuleMesh_sbtsp")
 
-[node name="FunctionPointer" parent="XROrigin3D/left_hand" instance=ExtResource("3_akp6j")]
+[node name="FunctionPointer" parent="XROrigin3D/left_hand" instance=ExtResource("3_tipki")]
 process_mode = 4
 show_laser = 2
 laser_length = 1
@@ -82,14 +82,14 @@ shape = SubResource("CapsuleShape3D_25kuw")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/right_hand/Area3D"]
 mesh = SubResource("CapsuleMesh_sbtsp")
 
-[node name="FunctionPointer" parent="XROrigin3D/right_hand" instance=ExtResource("3_akp6j")]
+[node name="FunctionPointer" parent="XROrigin3D/right_hand" instance=ExtResource("3_tipki")]
 show_laser = 2
 laser_length = 1
 collision_mask = 5242882
 
 [node name="protein" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("1_2ekmo")
+script = ExtResource("4_85g3d")
 
 [node name="Area3D" type="Area3D" parent="protein"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
@@ -115,10 +115,10 @@ shape = SubResource("BoxShape3D_pw8qa")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="test_cube"]
 mesh = SubResource("BoxMesh_p0whk")
 
-[node name="Viewport2Din3D" parent="." instance=ExtResource("6_ifgtj")]
+[node name="Viewport2Din3D" parent="." instance=ExtResource("5_choun")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 collision_layer = 5242882
-scene = ExtResource("7_erlh2")
+scene = ExtResource("6_ya4ey")
 viewport_size = Vector2(1500, 1000)
 unshaded = true
 scene_properties_keys = PackedStringArray("main_gui.gd")

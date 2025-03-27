@@ -24,10 +24,6 @@ var pointer_position_right:bool=true
 var left_area_objects:Array[Node3D]
 var right_area_objects:Array[Node3D]
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
 var protein_prescale:float=0.01
 var controller_distance:float
 

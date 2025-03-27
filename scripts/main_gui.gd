@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-var import_scene:PackedScene=preload("res://import_menu.tscn")
-var style_scene:PackedScene=preload("res://style_menu.tscn")
+var import_scene:PackedScene=preload("res://scenes/GUI/import_menu.tscn")
+var style_scene:PackedScene=preload("res://scenes/GUI/style_menu.tscn")
 
 var current_scene:Node
 
