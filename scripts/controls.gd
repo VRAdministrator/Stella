@@ -1,6 +1,6 @@
 extends XROrigin3D
 
-@onready var root:Node3D=$".."
+@onready var proteins_root:Node3D=$"../proteins"
 @onready var left_hand:XRController3D=$left_hand
 @onready var right_hand:XRController3D=$right_hand
 @onready var GUI:Node3D=$"../Viewport2Din3D"
@@ -26,18 +26,18 @@ var protein_prescale:float=0.01
 var controller_distance:float
 
 var selected_protein:protein_info
-var num_proteins:int
+var num_proteins:int=0
 
 func _physics_process(_delta: float) -> void:
 	handle_pointer_position()
 	handle_menu_open()
 	match ProteinInfos.proteins.size():
 		0:return
-		var new_size when new_size<num_proteins:
+		var new_size when num_proteins<new_size:
 			var protein:protein_info=ProteinInfos.proteins[new_size-1]
-			if protein.bonds.size()!=0:
-				selected_protein=protein
-				num_proteins=new_size
+			if protein.bonds.size()==0:return
+			selected_protein=protein
+			num_proteins=new_size
 	handle_grab()
 	handle_protien_scale()
 	
@@ -51,7 +51,7 @@ func handle_protien_scale()->void:
 		protein_prescale*=current_distance/controller_distance
 		controller_distance=current_distance
 		var protein_scale:Vector3=Vector3.ONE*protein_prescale#emplament global scale option
-		selected_protein.model.scale=protein_scale
+		selected_protein.model_base.scale=protein_scale
 		selected_protein.area.scale=protein_scale
 		return
 	controller_distance=-1
@@ -118,7 +118,7 @@ func grab_object(hand:XRController3D,objects:Array[Node3D])->Node3D:
 	object=object.get_parent_node_3d()
 	var pos:Vector3=object.position
 	var rot:Vector3=object.rotation
-	root.remove_child(object)
+	proteins_root.remove_child(object)
 	hand.add_child(object)
 	object.global_position=pos
 	object.global_rotation=rot
@@ -128,7 +128,7 @@ func release_object(object:Node3D,hand:XRController3D):
 	var pos:Vector3=object.global_position
 	var rot:Vector3=object.global_rotation
 	hand.remove_child(object)
-	root.add_child(object)
+	proteins_root.add_child(object)
 	object.position=pos
 	object.rotation=rot
 

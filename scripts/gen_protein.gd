@@ -91,7 +91,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 			var scaling_factor:float=spacefil_scale*atomic_radii[atom_ei]
 			protein.atom_diameters.append(scaling_factor)
 			temp_atom.scale=Vector3.ONE
-			protein.model.add_child(temp_atom)
+			protein.model_base.add_child(temp_atom)
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
@@ -110,7 +110,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 		var A_position:Vector3=protein.atom_positions[A_atoms[i]]
 		var bond_pos:Vector3=(A_position+protein.atom_positions[B_atoms[i]])/2
 		temp_bond.look_at_from_position(bond_pos,A_position)
-		protein.model.add_child(temp_bond)
+		protein.model_base.add_child(temp_bond)
 		protein.bonds[i]=temp_bond
 	create_collilder(protein.atom_positions,protein)
 
