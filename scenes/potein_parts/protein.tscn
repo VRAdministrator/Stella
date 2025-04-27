@@ -1,11 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0ay8qhua65au"]
+[gd_scene load_steps=6 format=3 uid="uid://b0ay8qhua65au"]
 
-[ext_resource type="Script" uid="uid://ddnpcl0x5nt1v" path="res://scripts/gen_protein.gd" id="1_m8t54"]
+[ext_resource type="SphereMesh" uid="uid://tsiju3aek1ap" path="res://scenes/potein_parts/ATOM_mesh.tres" id="1_m8t54"]
+[ext_resource type="CylinderMesh" uid="uid://wlb75yk2eslb" path="res://scenes/potein_parts/BOND_mesh.tres" id="2_0n2yi"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7mycd"]
 
+[sub_resource type="MultiMesh" id="MultiMesh_0n2yi"]
+transform_format = 1
+use_colors = true
+mesh = ExtResource("1_m8t54")
+
+[sub_resource type="MultiMesh" id="MultiMesh_5yk28"]
+transform_format = 1
+mesh = ExtResource("2_0n2yi")
+
 [node name="protein" type="Node3D"]
-script = ExtResource("1_m8t54")
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
@@ -17,3 +26,9 @@ shape = SubResource("ConvexPolygonShape3D_7mycd")
 
 [node name="model" type="Node3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+
+[node name="atoms" type="MultiMeshInstance3D" parent="model"]
+multimesh = SubResource("MultiMesh_0n2yi")
+
+[node name="bonds" type="MultiMeshInstance3D" parent="model"]
+multimesh = SubResource("MultiMesh_5yk28")

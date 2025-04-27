@@ -35,7 +35,7 @@ func _physics_process(_delta: float) -> void:
 		0:return
 		var new_size when num_proteins<new_size:
 			var protein:protein_info=ProteinInfos.proteins[new_size-1]
-			if protein.bonds.size()==0:return
+			if protein.bonds==null||protein.bonds.instance_count==0:return
 			selected_protein=protein
 			num_proteins=new_size
 	handle_grab()
