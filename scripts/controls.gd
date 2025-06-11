@@ -19,13 +19,11 @@ var right_hand_object:Node3D
 
 var pointer_position_right:bool=true
 
-var left_area_objects:Array[Node3D]
-var right_area_objects:Array[Node3D]
+var left_area_objects:Array[Area3D]
+var right_area_objects:Array[Area3D]
 
-var protein_prescale:float=0.01
 var controller_distance:float
 
-var selected_protein:protein_info
 var num_proteins:int=0
 
 func _physics_process(_delta: float) -> void:
@@ -36,7 +34,7 @@ func _physics_process(_delta: float) -> void:
 		var new_size when num_proteins<new_size:
 			var protein:protein_info=ProteinInfos.proteins[new_size-1]
 			if protein.bonds==null||protein.bonds.instance_count==0:return
-			selected_protein=protein
+			ProteinInfos.selected_protein=protein
 			num_proteins=new_size
 	handle_grab()
 	handle_protien_scale()
@@ -48,11 +46,11 @@ func handle_protien_scale()->void:
 			controller_distance=left_hand.position.distance_to(right_hand.position)
 			return
 		var current_distance:float=left_hand.position.distance_to(right_hand.position)
-		protein_prescale*=current_distance/controller_distance
+		ProteinInfos.selected_protein.scale*=current_distance/controller_distance
 		controller_distance=current_distance
-		var protein_scale:Vector3=Vector3.ONE*protein_prescale#emplament global scale option
-		selected_protein.model_base.scale=protein_scale
-		selected_protein.area.scale=protein_scale
+		var protein_scale:Vector3=Vector3.ONE*ProteinInfos.selected_protein.scale
+		ProteinInfos.selected_protein.model_base.scale=protein_scale
+		ProteinInfos.selected_protein.area.scale=protein_scale
 		return
 	controller_distance=-1
 	
@@ -105,16 +103,16 @@ func handle_pointer_position():
 			pointer_position_right=true
 			return
 
-func grab_object(hand:XRController3D,objects:Array[Node3D])->Node3D:
-	if objects.size()==0:return null
+func grab_object(hand:XRController3D,areas:Array[Area3D])->Node3D:
+	if areas.size()==0:return null
 	var object:Node3D
 	var hand_pos:Vector3=hand.global_position
 	var closest:float=1000
-	for test_ob in objects:
-		var test_dis:float=hand_pos.distance_to(test_ob.global_position)
+	for test_ar in areas:
+		var test_dis:float=hand_pos.distance_to(test_ar.global_position)
 		if test_dis>closest:continue
 		closest=test_dis
-		object=test_ob
+		object=test_ar
 	object=object.get_parent_node_3d()
 	var pos:Vector3=object.position
 	var rot:Vector3=object.rotation
@@ -122,6 +120,10 @@ func grab_object(hand:XRController3D,objects:Array[Node3D])->Node3D:
 	hand.add_child(object)
 	object.global_position=pos
 	object.global_rotation=rot
+	for protein in ProteinInfos.proteins:
+		if protein.root==object:
+			ProteinInfos.selected_protein=protein
+			break
 	return object
 
 func release_object(object:Node3D,hand:XRController3D):

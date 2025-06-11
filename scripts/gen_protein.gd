@@ -24,8 +24,6 @@ func _physics_process(_delta: float) -> void:
 		if protein.style!=styles[i]:
 			change_style(protein,styles[i],protein.style)
 			styles[i]=protein.style
-	
-	
 
 func change_style(protein:protein_info,old_style:String,new_style:String):
 	match new_style:
@@ -68,7 +66,7 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 	protein.bonds=protein.model_base.get_child(1).multimesh
 	add_child(protein.root)
 	var center_pt:Vector3=Vector3.ZERO
-	var atom_count:int
+	var atom_count:int=0
 	for line in lines:
 		if line.substr(0,4)=="ATOM":
 			var temp_pos=Vector3(line.substr(32).to_float(),line.substr(40).to_float(),line.substr(48).to_float())
@@ -110,7 +108,6 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 		temp_trans=temp_trans.rotated_local(Vector3.LEFT,PI/2)
 		protein.bonds.set_instance_transform(i,temp_trans)
 	create_collilder(protein.atom_positions,protein)
-
 
 func create_collilder(atom_positions:PackedVector3Array,protein:protein_info):
 	var shrinkwrap:PackedVector3Array

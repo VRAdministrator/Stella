@@ -1,0 +1,129 @@
+[gd_scene load_steps=3 format=3 uid="uid://tjvuwxdyu1kp"]
+
+[ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="1_1cwt3"]
+[ext_resource type="Script" uid="uid://ry7wnk2epelu" path="res://scripts/protein_select_menu.gd" id="1_3dvxu"]
+
+[node name="ProteinSelectMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 320.0
+offset_top = 125.0
+offset_right = 348.0
+offset_bottom = 352.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3dvxu")
+
+[node name="move_up" type="Button" parent="."]
+offset_left = 1180.0
+offset_right = 1700.0
+offset_bottom = 520.0
+rotation = 1.5708
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("1_1cwt3")
+flat = true
+
+[node name="move_down" type="Button" parent="."]
+offset_left = 1076.0
+offset_top = 875.0
+offset_right = 1596.0
+offset_bottom = 1395.0
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("1_1cwt3")
+flat = true
+
+[node name="entry1" type="Button" parent="."]
+offset_right = 1060.0
+offset_bottom = 91.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY1"
+flat = true
+alignment = 0
+
+[node name="entry2" type="Button" parent="."]
+offset_top = 91.0
+offset_right = 1060.0
+offset_bottom = 182.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY2"
+flat = true
+alignment = 0
+
+[node name="entry3" type="Button" parent="."]
+offset_top = 182.0
+offset_right = 1060.0
+offset_bottom = 273.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY3"
+flat = true
+alignment = 0
+
+[node name="entry4" type="Button" parent="."]
+offset_top = 270.0
+offset_right = 1060.0
+offset_bottom = 361.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY4"
+flat = true
+alignment = 0
+
+[node name="entry5" type="Button" parent="."]
+offset_top = 360.0
+offset_right = 1060.0
+offset_bottom = 451.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY5"
+flat = true
+alignment = 0
+
+[node name="entry6" type="Button" parent="."]
+offset_top = 450.0
+offset_right = 1060.0
+offset_bottom = 541.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY6"
+flat = true
+alignment = 0
+
+[node name="entry7" type="Button" parent="."]
+offset_top = 540.0
+offset_right = 1060.0
+offset_bottom = 631.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY7
+"
+flat = true
+alignment = 0
+
+[node name="entry8" type="Button" parent="."]
+offset_top = 630.0
+offset_right = 1060.0
+offset_bottom = 721.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY8"
+flat = true
+alignment = 0
+
+[node name="entry9" type="Button" parent="."]
+offset_top = 728.0
+offset_right = 1060.0
+offset_bottom = 819.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY9"
+flat = true
+alignment = 0
+
+[connection signal="pressed" from="move_up" to="." method="_on_list_up"]
+[connection signal="pressed" from="move_down" to="." method="_on_list_down"]
+[connection signal="pressed" from="entry1" to="." method="_on_entry1_pressed"]
+[connection signal="pressed" from="entry2" to="." method="_on_entry2_pressed"]
+[connection signal="pressed" from="entry3" to="." method="_on_entry3_pressed"]
+[connection signal="pressed" from="entry4" to="." method="_on_entry4_pressed"]
+[connection signal="pressed" from="entry5" to="." method="_on_entry5_pressed"]
+[connection signal="pressed" from="entry6" to="." method="_on_entry6_pressed"]
+[connection signal="pressed" from="entry7" to="." method="_on_entry7_pressed"]
+[connection signal="pressed" from="entry8" to="." method="_on_entry8_pressed"]
+[connection signal="pressed" from="entry9" to="." method="_on_entry9_pressed"]

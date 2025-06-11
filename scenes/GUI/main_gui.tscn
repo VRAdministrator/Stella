@@ -26,30 +26,30 @@ offset_bottom = 125.0
 theme_override_font_sizes/font_size = 80
 text = "Import"
 
-[node name="style_Button" type="Button" parent="Control/ColorRect"]
+[node name="select_Button" type="Button" parent="Control/ColorRect"]
 layout_mode = 0
 offset_top = 125.0
 offset_right = 320.0
 offset_bottom = 250.0
 theme_override_font_sizes/font_size = 80
-text = "Style"
+text = "Select
+"
 
-[node name="color_Button" type="Button" parent="Control/ColorRect"]
+[node name="style_Button" type="Button" parent="Control/ColorRect"]
 layout_mode = 0
 offset_top = 250.0
 offset_right = 320.0
 offset_bottom = 375.0
 theme_override_font_sizes/font_size = 80
-text = "Color"
+text = "Style"
 
-[node name="blank_Button1" type="Button" parent="Control/ColorRect"]
+[node name="color_Button" type="Button" parent="Control/ColorRect"]
 layout_mode = 0
 offset_top = 375.0
 offset_right = 320.0
 offset_bottom = 500.0
 theme_override_font_sizes/font_size = 80
-text = "Blank
-"
+text = "Color"
 
 [node name="blank_Button2" type="Button" parent="Control/ColorRect"]
 layout_mode = 0
@@ -84,6 +84,7 @@ theme_override_font_sizes/font_size = 80
 text = "Settings"
 
 [connection signal="pressed" from="Control/ColorRect/import_Button" to="." method="_on_import_button_pressed"]
+[connection signal="pressed" from="Control/ColorRect/select_Button" to="." method="_on_select_button_pressed"]
 [connection signal="pressed" from="Control/ColorRect/style_Button" to="." method="_on_style_button_pressed"]
 [connection signal="pressed" from="Control/ColorRect/color_Button" to="." method="_on_color_button_pressed"]
 [connection signal="pressed" from="Control/ColorRect/reset_Button" to="." method="_on_reset_button_pressed"]
