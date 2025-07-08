@@ -3,6 +3,7 @@ extends CanvasLayer
 var import_scene:PackedScene=preload("res://scenes/GUI/import_menu.tscn")
 var select_scene:PackedScene=preload("res://scenes/GUI/select_menu.tscn")
 var style_scene:PackedScene=preload("res://scenes/GUI/style_menu.tscn")
+var color_scene:PackedScene=preload("res://scenes/GUI/color_menu.tscn")
 
 var current_scene:Node
 
@@ -27,7 +28,9 @@ func _on_style_button_pressed() -> void:
 	add_child(current_scene)
 
 func _on_color_button_pressed() -> void:
-	pass # Replace with function body.
+	current_scene.free()
+	current_scene=color_scene.instantiate()
+	add_child(current_scene)
 
 func _on_reset_button_pressed() -> void:
 	pass # Replace with function body.

@@ -67,6 +67,8 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 	add_child(protein.root)
 	var center_pt:Vector3=Vector3.ZERO
 	var atom_count:int=0
+	var amino_acid_index:int=0
+	var amino_atom_index:int=0
 	for line in lines:
 		if line.substr(0,4)=="ATOM":
 			var temp_pos=Vector3(line.substr(32).to_float(),line.substr(40).to_float(),line.substr(48).to_float())
@@ -82,10 +84,21 @@ func load_pdb(lines:PackedStringArray,protein:protein_info):
 				16:protein.sulfurs.append(atom_count)
 			protein.atom_diameters.append(spacefil_scale*atomic_radii[element])
 			atom_count+=1
+			if line.substr(23,3).to_int()!=amino_acid_index:
+				amino_acid_index+=1
+				amino_atom_index=1
+				protein.atom_position_type.append(0)
+				continue
+			if 3<amino_atom_index:
+				protein.atom_position_type.append(1)
+			else:
+				protein.atom_position_type.append(0)
+			amino_atom_index+=1
 		#elif line.substr(0,5)=="HELIX":
 			
 		#elif line.substr(0,5)=="SHEET":
 	center_pt/=atom_count
+	protein.selected_atoms.resize(atom_count)
 	protein.atoms.instance_count=atom_count
 	for i in range(atom_count):
 		var temp_trans:Transform3D

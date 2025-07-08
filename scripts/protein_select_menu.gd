@@ -27,7 +27,7 @@ func refresh_entries():
 		var entry:Button=entries[i]
 		entry_texts[i]=entry_name
 		entry.text=entry_name
-	for i in range(temp_list.size(),8):
+	for i in range(temp_list.size(),9):
 		entries[i].text=""
 		entry_texts[i]=""
 
