@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cyrrcun8uhsud"]
+[gd_scene load_steps=12 format=3 uid="uid://cyrrcun8uhsud"]
 
 [ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://scripts/controls.gd" id="2_o6xl0"]
@@ -20,6 +20,9 @@ height = 0.1
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sbtsp"]
 radius = 0.01
 height = 0.1
+
+[sub_resource type="Environment" id="Environment_tefeu"]
+background_mode = 1
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_tefeu")
@@ -89,6 +92,9 @@ scene = ExtResource("6_ya4ey")
 viewport_size = Vector2(1500, 1000)
 unshaded = true
 scene_properties_keys = PackedStringArray("main_gui.gd")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tefeu")
 
 [connection signal="button_pressed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_pressed"]
 [connection signal="input_float_changed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_float_change"]

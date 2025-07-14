@@ -1,8 +1,9 @@
 extends Control
 
-#this menu will need to be updated to handle multiple protiens
 func _on_ball_n_stick_pressed() -> void:
-	ProteinInfos.proteins[0].style="ball_n_stick"#more multiprotein work needed 
+	for protein in ProteinInfos.selected_proteins:
+		protein.style="ball_n_stick"
 
 func _on_spacefill_pressed() -> void:
-	ProteinInfos.proteins[0].style="spacefil"
+	for protein in ProteinInfos.selected_proteins:
+		protein.style="spacefil"

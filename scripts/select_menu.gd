@@ -8,8 +8,6 @@ var protein_menu_enabled:bool=true
 func _ready() -> void:
 	current_submenu=protein_select_scene.instantiate()
 	add_child(current_submenu)
-	
-
 
 func _on_protein_button_pressed() -> void:
 	if protein_menu_enabled:return

@@ -50,5 +50,16 @@ offset_bottom = 383.0
 theme_override_font_sizes/font_size = 40
 text = "Apply"
 
+[node name="transparent" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 75.0
+offset_top = 450.0
+offset_right = 320.0
+offset_bottom = 513.0
+theme_override_font_sizes/font_size = 40
+toggle_mode = true
+text = "Transparent"
+
 [connection signal="gui_input" from="Button" to="." method="_on_button_gui_input"]
 [connection signal="pressed" from="Apply" to="." method="_on_apply_pressed"]

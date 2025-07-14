@@ -34,7 +34,7 @@ func _physics_process(_delta: float) -> void:
 		var new_size when num_proteins<new_size:
 			var protein:protein_info=ProteinInfos.proteins[new_size-1]
 			if protein.bonds==null||protein.bonds.instance_count==0:return
-			ProteinInfos.selected_protein=protein
+			ProteinInfos.selected_proteins=[protein]
 			num_proteins=new_size
 	handle_grab()
 	handle_protien_scale()
@@ -46,25 +46,17 @@ func handle_protien_scale()->void:
 			controller_distance=left_hand.position.distance_to(right_hand.position)
 			return
 		var current_distance:float=left_hand.position.distance_to(right_hand.position)
-		ProteinInfos.selected_protein.scale*=current_distance/controller_distance
+		var distance_scale:float=current_distance/controller_distance
 		controller_distance=current_distance
-		var protein_scale:Vector3=Vector3.ONE*ProteinInfos.selected_protein.scale
-		ProteinInfos.selected_protein.model_base.scale=protein_scale
-		ProteinInfos.selected_protein.area.scale=protein_scale
+		for protein in ProteinInfos.selected_proteins:
+			protein.scale*=distance_scale
+			var protein_scale:Vector3=Vector3.ONE*protein.scale
+			protein.model_base.scale=protein_scale
+			protein.area.scale=protein_scale
 		return
 	controller_distance=-1
-	
-func handle_menu_open()->void:#fix this
-	if menu_open==preclick_condition:return
-	preclick_condition=menu_open
-	if menu_open:
-		GUI.visible=true
-		GUI.process_mode=Node.PROCESS_MODE_INHERIT
-	else:
-		GUI.visible=false
-		GUI.process_mode=Node.PROCESS_MODE_DISABLED
 
-func handle_grab():#could be a lot better
+func handle_grab():
 	if left_hand_grab:
 		if !(left_grip_held||left_trigger_held):
 			release_object(left_hand_object,left_hand)
@@ -122,7 +114,7 @@ func grab_object(hand:XRController3D,areas:Array[Area3D])->Node3D:
 	object.global_rotation=rot
 	for protein in ProteinInfos.proteins:
 		if protein.root==object:
-			ProteinInfos.selected_protein=protein
+			ProteinInfos.selected_proteins=[protein]
 			break
 	return object
 
@@ -177,5 +169,17 @@ func process_sym_input(action:String)->bool:
 	match action:
 		"menu_button":
 			menu_open=!menu_open
+		"secondary_click":
+			ProteinInfos.reset_proteins()
 		_:return false
 	return true
+
+func handle_menu_open()->void:#fix this
+	if menu_open==preclick_condition:return
+	preclick_condition=menu_open
+	if menu_open:
+		GUI.visible=true
+		GUI.process_mode=Node.PROCESS_MODE_INHERIT
+	else:
+		GUI.visible=false
+		GUI.process_mode=Node.PROCESS_MODE_DISABLED

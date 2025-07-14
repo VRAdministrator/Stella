@@ -57,10 +57,6 @@ func click_entry(num:int):
 	var entry_text=entry_texts[num]
 	if entry_text.is_empty():
 		return
-	#if repeat_delay<repeat_limit:
-		#repeat_delay=0
-		#return
-	#repeat_delay=0
 	var temp_cwd=cwd.path_join(entry_text)
 	if FileAccess.file_exists(temp_cwd):
 		if !entry_text.ends_with(".pdb"):

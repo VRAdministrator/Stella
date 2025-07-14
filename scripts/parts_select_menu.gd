@@ -19,11 +19,7 @@ var entry_texts:PackedStringArray
 
 func _ready() -> void:
 	entry_texts.resize(9)
-	var protein:protein_info=ProteinInfos.selected_protein
-	if protein==null:
-		print("issue")
-		return
-	list_entries.append_array(get_element_list(protein))
+	list_entries.append_array(get_element_list())
 	selected_entries.resize(list_entries.size())
 	refresh_entries()
 
@@ -60,6 +56,7 @@ func click_entry(num:int):
 func str_to_atom_list(entry:String,protein:protein_info)->Array[int]:
 	var index_list:Array[int]
 	match entry.substr(3):
+		"hydrogens":index_list=protein.hydrogens
 		"carbons":index_list=protein.carbons
 		"nitrogens":index_list=protein.nitrogens
 		"oxygen":index_list=protein.oxygens
@@ -67,46 +64,44 @@ func str_to_atom_list(entry:String,protein:protein_info)->Array[int]:
 	return index_list
 
 func refresh_selected():
-	var protein:protein_info=ProteinInfos.selected_protein
-	var selected_atoms:Array[bool]=protein.selected_atoms
-	for i in range(selected_atoms.size()):selected_atoms[i]=false
-	if protein==null:
-		return
+	for protein in ProteinInfos.selected_proteins:
+		for i in range(protein.selected_atoms.size()):protein.selected_atoms[i]=false
 	var no_elements:bool=true
-	if !(selected_entries[0]||selected_entries[1]):#all of this code is a bit of a mess due to an oversight
+	if !(selected_entries[0]||selected_entries[1]):
 		for i in range(2,selected_entries.size()):
 			if !selected_entries[i]:continue
 			no_elements=false
-			for index in str_to_atom_list(list_entries[i],protein):selected_atoms[index]=true
+			for protein in ProteinInfos.selected_proteins:
+				for index in str_to_atom_list(list_entries[i],protein):protein.selected_atoms[index]=true
 		if no_elements:
-			for index in range(protein.atom_position_type.size()):
-				selected_atoms[index]=true
+			for protein in ProteinInfos.selected_proteins:
+				for index in range(protein.atom_position_type.size()):protein.selected_atoms[index]=true
 	elif selected_entries[0]:
-		print("backbone")
 		for i in range(2,selected_entries.size()):
 			if !selected_entries[i]:continue
 			no_elements=false
-			for index in str_to_atom_list(list_entries[i],protein):
-				if protein.atom_position_type[index]!=0:continue
-				selected_atoms[index]=true
+			for protein in ProteinInfos.selected_proteins:
+				for index in str_to_atom_list(list_entries[i],protein):
+					if protein.atom_position_type[index]!=0:continue
+					protein.selected_atoms[index]=true
 		if no_elements:
-			for index in range(protein.atom_position_type.size()):
-				if protein.atom_position_type[index]!=0:continue
-				selected_atoms[index]=true
+			for protein in ProteinInfos.selected_proteins:
+				for index in range(protein.atom_position_type.size()):
+					if protein.atom_position_type[index]!=0:continue
+					protein.selected_atoms[index]=true
 	else:
-		print("sidechains")
 		for i in range(2,selected_entries.size()):
 			if !selected_entries[i]:continue
 			no_elements=false
-			for index in str_to_atom_list(list_entries[i],protein):
-				if protein.atom_position_type[index]!=1:continue
-				selected_atoms[index]=true
+			for protein in ProteinInfos.selected_proteins:
+				for index in str_to_atom_list(list_entries[i],protein):
+					if protein.atom_position_type[index]!=1:continue
+					protein.selected_atoms[index]=true
 		if no_elements:
-			for index in range(protein.atom_position_type.size()):
-				if protein.atom_position_type[index]!=1:continue
-				selected_atoms[index]=true
-			
-	protein.selected_atoms=selected_atoms#maybe not needed, unsure
+			for protein in ProteinInfos.selected_proteins:
+				for index in range(protein.atom_position_type.size()):
+					if protein.atom_position_type[index]!=1:continue
+					protein.selected_atoms[index]=true
 
 func _on_entry1_pressed():click_entry(0)
 func _on_entry2_pressed():click_entry(1)
@@ -127,16 +122,18 @@ func _on_list_down():
 	list_start_pt+=1
 	refresh_entries()
 
-func get_element_list(protein:protein_info)->Array[String]:
+func get_element_list()->Array[String]:
 	var elements:Array[int]
-	for ele in protein.elements:
-		if ele in elements:continue
-		elements.append(ele)
+	for protein in ProteinInfos.selected_proteins:
+		for ele in protein.elements:
+			if ele in elements:continue
+			elements.append(ele)
 	var occurence:Array[int]
 	var str_elements:Array[String]
 	str_elements.resize(elements.size())
 	occurence.resize(elements.size())
-	for i in range(elements.size()):occurence[i]=protein.elements.count(elements[i])
+	for protein in ProteinInfos.selected_proteins:
+		for i in range(elements.size()):occurence[i]+=protein.elements.count(elements[i])
 	var occ_copy:Array[int]=occurence
 	occurence.sort()
 	for i in range(elements.size()):
@@ -146,4 +143,4 @@ func get_element_list(protein:protein_info)->Array[String]:
 		str_elements[index]=ele_to_str[elements[i]]
 	return str_elements
 
-var ele_to_str:Dictionary={6:"[ ]carbons",7:"[ ]nitrogens",8:"[ ]oxygen",16:"[ ]sulphur"}
+var ele_to_str:Dictionary={0:"[ ]hydrogens",6:"[ ]carbons",7:"[ ]nitrogens",8:"[ ]oxygen",16:"[ ]sulphur"}

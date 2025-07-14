@@ -17,8 +17,8 @@ var bonds:MultiMesh
 
 
 var selected_atoms:Array[bool]
-#var hydrogens:Array[int]
 var atom_position_type:Array[int]#0 for backbone,1 for side chain, 2 for otherstuff
+var hydrogens:Array[int]
 var carbons:Array[int]
 var nitrogens:Array[int]
 var oxygens:Array[int]
