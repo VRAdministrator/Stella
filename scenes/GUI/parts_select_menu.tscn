@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjtf3wusd7nnb"]
+[gd_scene format=3 uid="uid://cjtf3wusd7nnb"]
 
 [ext_resource type="Script" uid="uid://cd2rpkejl3603" path="res://scripts/parts_select_menu.gd" id="1_nlcne"]
 [ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="2_vaiqa"]
 
-[node name="ProteinSelectMenu" type="Control"]
+[node name="ProteinSelectMenu" type="Control" unique_id=1077072877]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nlcne")
 
-[node name="move_up" type="Button" parent="."]
+[node name="move_up" type="Button" parent="." unique_id=1004484128]
 layout_mode = 0
 offset_left = 1180.0
 offset_right = 1700.0
@@ -25,7 +25,7 @@ scale = Vector2(0.2, 0.2)
 icon = ExtResource("2_vaiqa")
 flat = true
 
-[node name="move_down" type="Button" parent="."]
+[node name="move_down" type="Button" parent="." unique_id=1518942206]
 layout_mode = 0
 offset_left = 1076.0
 offset_top = 875.0
@@ -36,7 +36,7 @@ scale = Vector2(0.2, 0.2)
 icon = ExtResource("2_vaiqa")
 flat = true
 
-[node name="entry1" type="Button" parent="."]
+[node name="entry1" type="Button" parent="." unique_id=1817004376]
 layout_mode = 0
 offset_right = 1060.0
 offset_bottom = 91.0
@@ -44,7 +44,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry1"
 alignment = 0
 
-[node name="entry2" type="Button" parent="."]
+[node name="entry2" type="Button" parent="." unique_id=1645583589]
 layout_mode = 0
 offset_top = 91.0
 offset_right = 1060.0
@@ -53,7 +53,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry2"
 alignment = 0
 
-[node name="entry3" type="Button" parent="."]
+[node name="entry3" type="Button" parent="." unique_id=662851306]
 layout_mode = 0
 offset_top = 182.0
 offset_right = 1060.0
@@ -62,7 +62,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry3"
 alignment = 0
 
-[node name="entry4" type="Button" parent="."]
+[node name="entry4" type="Button" parent="." unique_id=778202851]
 layout_mode = 0
 offset_top = 273.0
 offset_right = 1060.0
@@ -71,7 +71,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry4"
 alignment = 0
 
-[node name="entry5" type="Button" parent="."]
+[node name="entry5" type="Button" parent="." unique_id=277087648]
 layout_mode = 0
 offset_top = 364.0
 offset_right = 1060.0
@@ -80,7 +80,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry5"
 alignment = 0
 
-[node name="entry6" type="Button" parent="."]
+[node name="entry6" type="Button" parent="." unique_id=1278328023]
 layout_mode = 0
 offset_top = 455.0
 offset_right = 1060.0
@@ -89,7 +89,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry6"
 alignment = 0
 
-[node name="entry7" type="Button" parent="."]
+[node name="entry7" type="Button" parent="." unique_id=1070093360]
 layout_mode = 0
 offset_top = 546.0
 offset_right = 1060.0
@@ -99,7 +99,7 @@ text = "entry7
 "
 alignment = 0
 
-[node name="entry8" type="Button" parent="."]
+[node name="entry8" type="Button" parent="." unique_id=317549780]
 layout_mode = 0
 offset_top = 637.0
 offset_right = 1060.0
@@ -108,7 +108,7 @@ theme_override_font_sizes/font_size = 60
 text = "entry8"
 alignment = 0
 
-[node name="entry9" type="Button" parent="."]
+[node name="entry9" type="Button" parent="." unique_id=671983304]
 layout_mode = 0
 offset_top = 728.0
 offset_right = 1060.0

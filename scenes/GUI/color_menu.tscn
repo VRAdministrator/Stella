@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://csd245fmvaga"]
+[gd_scene format=3 uid="uid://csd245fmvaga"]
 
 [ext_resource type="Script" uid="uid://bccjq13k1tlkf" path="res://scripts/color_menu.gd" id="1_dijxh"]
 [ext_resource type="Texture2D" uid="uid://bfq0jowoaivhw" path="res://assets/Color_circle_(RGB).svg" id="2_uja3s"]
 [ext_resource type="Texture2D" uid="uid://b0wue07dsyssk" path="res://assets/toppng.com-target-icon-vector-target-icon-400x400.png" id="3_uja3s"]
 
-[node name="ColorMenu" type="Control"]
+[node name="ColorMenu" type="Control" unique_id=1275484045]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dijxh")
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1529973314]
 layout_mode = 0
 offset_right = 400.0
 offset_bottom = 400.0
@@ -24,7 +24,7 @@ icon = ExtResource("2_uja3s")
 flat = true
 expand_icon = true
 
-[node name="TextureRect" type="TextureRect" parent="Button"]
+[node name="TextureRect" type="TextureRect" parent="Button" unique_id=1168603899]
 layout_mode = 0
 offset_left = 195.0
 offset_top = 195.0
@@ -34,14 +34,14 @@ mouse_filter = 2
 texture = ExtResource("3_uja3s")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=213960959]
 layout_mode = 0
 offset_left = 600.0
 offset_top = 100.0
 offset_right = 800.0
 offset_bottom = 300.0
 
-[node name="Apply" type="Button" parent="."]
+[node name="Apply" type="Button" parent="." unique_id=210118404]
 layout_mode = 0
 offset_left = 641.5
 offset_top = 320.0
@@ -50,7 +50,7 @@ offset_bottom = 383.0
 theme_override_font_sizes/font_size = 40
 text = "Apply"
 
-[node name="transparent" type="Button" parent="."]
+[node name="transparent" type="Button" parent="." unique_id=542662967]
 visible = false
 layout_mode = 0
 offset_left = 75.0

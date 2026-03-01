@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://rkqp3i5nnk4x"]
+[gd_scene format=3 uid="uid://rkqp3i5nnk4x"]
 
 [ext_resource type="Script" uid="uid://usjawje6sskc" path="res://scripts/style_menu.gd" id="1_j466n"]
 
-[node name="Import_Menu" type="Control"]
+[node name="Import_Menu" type="Control" unique_id=55858280]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 320.0
@@ -10,7 +10,7 @@ offset_right = 1500.0
 offset_bottom = 1000.0
 script = ExtResource("1_j466n")
 
-[node name="ball_n_stick" type="Button" parent="."]
+[node name="ball_n_stick" type="Button" parent="." unique_id=592527822]
 layout_mode = 0
 offset_top = 150.0
 offset_right = 1060.0
@@ -20,7 +20,7 @@ text = "Ball and Stick"
 flat = true
 alignment = 0
 
-[node name="spacefill" type="Button" parent="."]
+[node name="spacefill" type="Button" parent="." unique_id=296501002]
 layout_mode = 0
 offset_top = 241.0
 offset_right = 1060.0
@@ -30,7 +30,7 @@ text = "spacefill"
 flat = true
 alignment = 0
 
-[node name="entry3" type="Button" parent="."]
+[node name="entry3" type="Button" parent="." unique_id=480283058]
 layout_mode = 0
 offset_top = 332.0
 offset_right = 1060.0
@@ -39,7 +39,7 @@ theme_override_font_sizes/font_size = 60
 flat = true
 alignment = 0
 
-[node name="entry4" type="Button" parent="."]
+[node name="entry4" type="Button" parent="." unique_id=530359140]
 layout_mode = 0
 offset_top = 420.0
 offset_right = 1060.0
@@ -48,7 +48,7 @@ theme_override_font_sizes/font_size = 60
 flat = true
 alignment = 0
 
-[node name="entry5" type="Button" parent="."]
+[node name="entry5" type="Button" parent="." unique_id=87070034]
 layout_mode = 0
 offset_top = 510.0
 offset_right = 1060.0
@@ -57,7 +57,7 @@ theme_override_font_sizes/font_size = 60
 flat = true
 alignment = 0
 
-[node name="entry6" type="Button" parent="."]
+[node name="entry6" type="Button" parent="." unique_id=1658356645]
 layout_mode = 0
 offset_top = 600.0
 offset_right = 1060.0
@@ -66,7 +66,7 @@ theme_override_font_sizes/font_size = 60
 flat = true
 alignment = 0
 
-[node name="entry7" type="Button" parent="."]
+[node name="entry7" type="Button" parent="." unique_id=1945617040]
 layout_mode = 0
 offset_top = 690.0
 offset_right = 1060.0
@@ -77,7 +77,7 @@ text = "
 flat = true
 alignment = 0
 
-[node name="entry8" type="Button" parent="."]
+[node name="entry8" type="Button" parent="." unique_id=1716734599]
 layout_mode = 0
 offset_top = 780.0
 offset_right = 1060.0

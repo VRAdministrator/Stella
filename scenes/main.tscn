@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cyrrcun8uhsud"]
+[gd_scene format=3 uid="uid://cyrrcun8uhsud"]
 
 [ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://scripts/controls.gd" id="2_o6xl0"]
@@ -24,68 +24,70 @@ height = 0.1
 [sub_resource type="Environment" id="Environment_tefeu"]
 background_mode = 1
 
-[node name="main" type="Node3D"]
+[node name="main" type="Node3D" unique_id=439455117]
 script = ExtResource("1_tefeu")
 
-[node name="floor" type="StaticBody3D" parent="."]
+[node name="floor" type="StaticBody3D" parent="." unique_id=1110218205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor" unique_id=486606320]
 shape = SubResource("BoxShape3D_hqawy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=55602744]
 mesh = SubResource("BoxMesh_n5oc0")
 skeleton = NodePath("../CollisionShape3D")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=657142008]
 transform = Transform3D(1, 0, 0, 0, 0.0492332, 0.998787, 0, -0.998787, 0.0492332, 0, 22.891, 0)
 
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=834825716]
 script = ExtResource("2_o6xl0")
 
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1806160245]
 
-[node name="left_hand" type="XRController3D" parent="XROrigin3D"]
+[node name="left_hand" type="XRController3D" parent="XROrigin3D" unique_id=890707431]
 tracker = &"left_hand"
 
-[node name="Area3D" type="Area3D" parent="XROrigin3D/left_hand"]
+[node name="Area3D" type="Area3D" parent="XROrigin3D/left_hand" unique_id=1963288293]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/left_hand/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/left_hand/Area3D" unique_id=1089000130]
 shape = SubResource("CapsuleShape3D_25kuw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/left_hand/Area3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/left_hand/Area3D" unique_id=788723095]
 mesh = SubResource("CapsuleMesh_sbtsp")
 
-[node name="FunctionPointer" parent="XROrigin3D/left_hand" instance=ExtResource("3_tipki")]
+[node name="FunctionPointer" parent="XROrigin3D/left_hand" unique_id=1100449085 instance=ExtResource("3_tipki")]
 process_mode = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0.05, -0.1)
 show_laser = 2
 laser_length = 1
 collision_mask = 5242882
 
-[node name="right_hand" type="XRController3D" parent="XROrigin3D"]
+[node name="right_hand" type="XRController3D" parent="XROrigin3D" unique_id=1070223647]
 tracker = &"right_hand"
 
-[node name="Area3D" type="Area3D" parent="XROrigin3D/right_hand"]
+[node name="Area3D" type="Area3D" parent="XROrigin3D/right_hand" unique_id=1081470382]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/right_hand/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/right_hand/Area3D" unique_id=1455719429]
 shape = SubResource("CapsuleShape3D_25kuw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/right_hand/Area3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/right_hand/Area3D" unique_id=964721701]
 mesh = SubResource("CapsuleMesh_sbtsp")
 
-[node name="FunctionPointer" parent="XROrigin3D/right_hand" instance=ExtResource("3_tipki")]
+[node name="FunctionPointer" parent="XROrigin3D/right_hand" unique_id=2041728955 instance=ExtResource("3_tipki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, 0.05, -0.1)
 show_laser = 2
 laser_length = 1
 collision_mask = 5242882
 
-[node name="proteins" type="Node3D" parent="."]
+[node name="proteins" type="Node3D" parent="." unique_id=1382952671]
 script = ExtResource("4_85g3d")
 
-[node name="Viewport2Din3D" parent="." instance=ExtResource("5_choun")]
+[node name="Viewport2Din3D" parent="." unique_id=322414963 instance=ExtResource("5_choun")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 collision_layer = 5242882
 scene = ExtResource("6_ya4ey")
@@ -93,7 +95,7 @@ viewport_size = Vector2(1500, 1000)
 unshaded = true
 scene_properties_keys = PackedStringArray("main_gui.gd")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1275050650]
 environment = SubResource("Environment_tefeu")
 
 [connection signal="button_pressed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_pressed"]

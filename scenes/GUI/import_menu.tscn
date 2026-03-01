@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0wbiaj1525sa"]
+[gd_scene format=3 uid="uid://c0wbiaj1525sa"]
 
 [ext_resource type="Script" uid="uid://blad2s5nnk6a1" path="res://scripts/import_menu.gd" id="1_na27c"]
 [ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="2_l7hkd"]
 
-[node name="Import_Menu" type="Control"]
+[node name="Import_Menu" type="Control" unique_id=34781464]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 320.0
@@ -11,8 +11,8 @@ offset_right = 1500.0
 offset_bottom = 1000.0
 script = ExtResource("1_na27c")
 
-[node name="full_path" type="Label" parent="."]
-layout_mode = 2
+[node name="full_path" type="Label" parent="." unique_id=1452163883]
+layout_mode = 0
 offset_left = 115.0
 offset_top = 25.0
 offset_right = 1085.0
@@ -20,7 +20,7 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 40
 text = "/home/havenj/Documents"
 
-[node name="move_up" type="Button" parent="."]
+[node name="move_up" type="Button" parent="." unique_id=1640376792]
 layout_mode = 0
 offset_left = 1180.0
 offset_right = 1700.0
@@ -30,7 +30,7 @@ scale = Vector2(0.2, 0.2)
 icon = ExtResource("2_l7hkd")
 flat = true
 
-[node name="move_down" type="Button" parent="."]
+[node name="move_down" type="Button" parent="." unique_id=2099566741]
 layout_mode = 0
 offset_left = 1076.0
 offset_top = 1000.0
@@ -41,7 +41,7 @@ scale = Vector2(0.2, 0.2)
 icon = ExtResource("2_l7hkd")
 flat = true
 
-[node name="parent_dir" type="Button" parent="."]
+[node name="parent_dir" type="Button" parent="." unique_id=904756695]
 layout_mode = 0
 offset_right = 520.0
 offset_bottom = 520.0
@@ -49,7 +49,7 @@ scale = Vector2(0.2, 0.2)
 icon = ExtResource("2_l7hkd")
 flat = true
 
-[node name="entry1" type="Button" parent="."]
+[node name="entry1" type="Button" parent="." unique_id=1148881103]
 layout_mode = 0
 offset_top = 150.0
 offset_right = 1060.0
@@ -59,7 +59,7 @@ text = "ENTRY1"
 flat = true
 alignment = 0
 
-[node name="entry2" type="Button" parent="."]
+[node name="entry2" type="Button" parent="." unique_id=1239701716]
 layout_mode = 0
 offset_top = 241.0
 offset_right = 1060.0
@@ -69,7 +69,7 @@ text = "ENTRY2"
 flat = true
 alignment = 0
 
-[node name="entry3" type="Button" parent="."]
+[node name="entry3" type="Button" parent="." unique_id=75099345]
 layout_mode = 0
 offset_top = 332.0
 offset_right = 1060.0
@@ -79,7 +79,7 @@ text = "ENTRY3"
 flat = true
 alignment = 0
 
-[node name="entry4" type="Button" parent="."]
+[node name="entry4" type="Button" parent="." unique_id=972663771]
 layout_mode = 0
 offset_top = 420.0
 offset_right = 1060.0
@@ -89,7 +89,7 @@ text = "ENTRY4"
 flat = true
 alignment = 0
 
-[node name="entry5" type="Button" parent="."]
+[node name="entry5" type="Button" parent="." unique_id=143595273]
 layout_mode = 0
 offset_top = 510.0
 offset_right = 1060.0
@@ -99,7 +99,7 @@ text = "ENTRY5"
 flat = true
 alignment = 0
 
-[node name="entry6" type="Button" parent="."]
+[node name="entry6" type="Button" parent="." unique_id=339677585]
 layout_mode = 0
 offset_top = 600.0
 offset_right = 1060.0
@@ -109,7 +109,7 @@ text = "ENTRY6"
 flat = true
 alignment = 0
 
-[node name="entry7" type="Button" parent="."]
+[node name="entry7" type="Button" parent="." unique_id=1773432938]
 layout_mode = 0
 offset_top = 690.0
 offset_right = 1060.0
@@ -120,7 +120,7 @@ text = "ENTRY7
 flat = true
 alignment = 0
 
-[node name="entry8" type="Button" parent="."]
+[node name="entry8" type="Button" parent="." unique_id=167109759]
 layout_mode = 0
 offset_top = 780.0
 offset_right = 1060.0

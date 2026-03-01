@@ -1,4 +1,4 @@
-[gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://wlb75yk2eslb"]
+[gd_resource type="CylinderMesh" format=3 uid="uid://wlb75yk2eslb"]
 
 [ext_resource type="Material" uid="uid://7qghovp1g2oq" path="res://colors/bond_color.tres" id="1_b2aw1"]
 

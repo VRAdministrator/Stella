@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbxjmijds021s"]
+[gd_scene format=3 uid="uid://dbxjmijds021s"]
 
 [ext_resource type="Script" uid="uid://uslc0in3hvgn" path="res://scripts/main_gui.gd" id="1_upwcn"]
 
-[node name="GUI" type="CanvasLayer"]
+[node name="GUI" type="CanvasLayer" unique_id=161971490]
 script = ExtResource("1_upwcn")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1197379962]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,20 +13,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=282612206]
 layout_mode = 0
 offset_right = 1500.0
 offset_bottom = 1000.0
 color = Color(0.211765, 0.211765, 0.211765, 0.721569)
 
-[node name="import_Button" type="Button" parent="Control/ColorRect"]
+[node name="import_Button" type="Button" parent="Control/ColorRect" unique_id=478965721]
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 125.0
 theme_override_font_sizes/font_size = 80
 text = "Import"
 
-[node name="select_Button" type="Button" parent="Control/ColorRect"]
+[node name="select_Button" type="Button" parent="Control/ColorRect" unique_id=2052954197]
 layout_mode = 0
 offset_top = 125.0
 offset_right = 320.0
@@ -35,7 +35,7 @@ theme_override_font_sizes/font_size = 80
 text = "Select
 "
 
-[node name="style_Button" type="Button" parent="Control/ColorRect"]
+[node name="style_Button" type="Button" parent="Control/ColorRect" unique_id=1578292971]
 layout_mode = 0
 offset_top = 250.0
 offset_right = 320.0
@@ -43,7 +43,7 @@ offset_bottom = 375.0
 theme_override_font_sizes/font_size = 80
 text = "Style"
 
-[node name="color_Button" type="Button" parent="Control/ColorRect"]
+[node name="color_Button" type="Button" parent="Control/ColorRect" unique_id=20883301]
 layout_mode = 0
 offset_top = 375.0
 offset_right = 320.0
@@ -51,7 +51,7 @@ offset_bottom = 500.0
 theme_override_font_sizes/font_size = 80
 text = "Color"
 
-[node name="blank_Button2" type="Button" parent="Control/ColorRect"]
+[node name="blank_Button2" type="Button" parent="Control/ColorRect" unique_id=86801631]
 layout_mode = 0
 offset_top = 500.0
 offset_right = 320.0
@@ -59,7 +59,7 @@ offset_bottom = 625.0
 theme_override_font_sizes/font_size = 80
 text = "Blank"
 
-[node name="blank_Button3" type="Button" parent="Control/ColorRect"]
+[node name="blank_Button3" type="Button" parent="Control/ColorRect" unique_id=2128824690]
 layout_mode = 0
 offset_top = 625.0
 offset_right = 320.0
@@ -67,7 +67,7 @@ offset_bottom = 750.0
 theme_override_font_sizes/font_size = 80
 text = "Blank"
 
-[node name="reset_Button" type="Button" parent="Control/ColorRect"]
+[node name="reset_Button" type="Button" parent="Control/ColorRect" unique_id=612909504]
 layout_mode = 0
 offset_top = 750.0
 offset_right = 320.0
@@ -75,7 +75,7 @@ offset_bottom = 875.0
 theme_override_font_sizes/font_size = 80
 text = "Reset"
 
-[node name="settings_Button" type="Button" parent="Control/ColorRect"]
+[node name="settings_Button" type="Button" parent="Control/ColorRect" unique_id=1187329872]
 layout_mode = 0
 offset_top = 875.0
 offset_right = 320.0

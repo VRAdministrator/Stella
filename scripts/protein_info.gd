@@ -1,7 +1,7 @@
 class_name protein_info
 
 var file_path:String
-var style:String="ball_n_stick"
+#var style:String="ball_n_stick"
 var scale:float=0.01
 
 var root:Node3D
@@ -18,6 +18,7 @@ var bonds:MultiMesh
 
 var selected_atoms:Array[bool]
 var atom_position_type:Array[int]#0 for backbone,1 for side chain, 2 for otherstuff
+var residue_styles:Array[String]#defalt:"ball_n_stick"
 var hydrogens:Array[int]
 var carbons:Array[int]
 var nitrogens:Array[int]

@@ -4,6 +4,7 @@ extends XROrigin3D
 @onready var left_hand:XRController3D=$left_hand
 @onready var right_hand:XRController3D=$right_hand
 @onready var GUI:Node3D=$"../Viewport2Din3D"
+@onready var player:XRCamera3D=$XRCamera3D
 @onready var right_pointer:XRToolsFunctionPointer=$right_hand/FunctionPointer
 @onready var left_pointer:XRToolsFunctionPointer=$left_hand/FunctionPointer
 
@@ -178,6 +179,10 @@ func handle_menu_open()->void:#fix this
 	if menu_open==preclick_condition:return
 	preclick_condition=menu_open
 	if menu_open:
+		#GUI.position=player.basis.z*Vector3(0,1,1)
+		#GUI.transform.basis=Basis()
+		#GUI.transform.rotate_=player.basis.z*Vector3(-2,0,-2)+Vector3(0,1,0)
+		#GUI.rotation.y=
 		GUI.visible=true
 		GUI.process_mode=Node.PROCESS_MODE_INHERIT
 	else:

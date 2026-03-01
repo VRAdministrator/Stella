@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://il4qpiovn8tb"]
+[gd_scene format=3 uid="uid://il4qpiovn8tb"]
 
 [ext_resource type="Script" uid="uid://nx73mnvpkd71" path="res://scripts/select_menu.gd" id="1_xwddv"]
 
-[node name="SelectMenu" type="Control"]
+[node name="SelectMenu" type="Control" unique_id=37192090]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,14 +14,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xwddv")
 
-[node name="protein_Button" type="Button" parent="."]
+[node name="protein_Button" type="Button" parent="." unique_id=554898367]
 layout_mode = 0
 offset_right = 590.0
 offset_bottom = 125.0
 theme_override_font_sizes/font_size = 80
 text = "Protein"
 
-[node name="parts_Button" type="Button" parent="."]
+[node name="parts_Button" type="Button" parent="." unique_id=443775847]
 layout_mode = 0
 offset_left = 590.0
 offset_right = 1180.0

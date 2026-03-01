@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0ay8qhua65au"]
+[gd_scene format=3 uid="uid://b0ay8qhua65au"]
 
 [ext_resource type="SphereMesh" uid="uid://tsiju3aek1ap" path="res://scenes/potein_parts/ATOM_mesh.tres" id="1_m8t54"]
 [ext_resource type="CylinderMesh" uid="uid://wlb75yk2eslb" path="res://scenes/potein_parts/BOND_mesh.tres" id="2_0n2yi"]
@@ -14,21 +14,21 @@ mesh = ExtResource("1_m8t54")
 transform_format = 1
 mesh = ExtResource("2_0n2yi")
 
-[node name="protein" type="Node3D"]
+[node name="protein" type="Node3D" unique_id=1821101201]
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." unique_id=165963473]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 collision_mask = 0
 monitoring = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=937167116]
 shape = SubResource("ConvexPolygonShape3D_7mycd")
 
-[node name="model" type="Node3D" parent="."]
+[node name="model" type="Node3D" parent="." unique_id=1499748453]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
-[node name="atoms" type="MultiMeshInstance3D" parent="model"]
+[node name="atoms" type="MultiMeshInstance3D" parent="model" unique_id=1688676130]
 multimesh = SubResource("MultiMesh_0n2yi")
 
-[node name="bonds" type="MultiMeshInstance3D" parent="model"]
+[node name="bonds" type="MultiMeshInstance3D" parent="model" unique_id=522560100]
 multimesh = SubResource("MultiMesh_5yk28")
