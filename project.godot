@@ -29,6 +29,10 @@ enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 
 import/blender/enabled=false
 
+[physics]
+
+common/enable_object_picking=false
+
 [xr]
 
 openxr/enabled=true

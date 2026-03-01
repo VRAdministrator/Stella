@@ -1,7 +1,7 @@
 class_name protein_info
 
 var file_path:String
-#var style:String="ball_n_stick"
+var style:String="ball_n_stick"
 var scale:float=0.01
 
 var root:Node3D

@@ -133,6 +133,7 @@ func create_collilder(atom_positions:PackedVector3Array,protein:protein_info):
 				shortest_dis=test_pos
 		shrinkwrap[i]=shortest_atom
 	protein.collider.shape.points=shrinkwrap
+	protein.collider.disabled=false
 	
 
 const spacefil_scale:float=0.01*2#converts picometers to angstrom and radius to diameter 

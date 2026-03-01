@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://scripts/controls.gd" id="2_o6xl0"]
+[ext_resource type="Script" uid="uid://kg33egkkqluy" path="res://scripts/hand.gd" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_tipki"]
 [ext_resource type="Script" uid="uid://ddnpcl0x5nt1v" path="res://scripts/gen_protein.gd" id="4_85g3d"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="5_choun"]
@@ -47,6 +48,7 @@ script = ExtResource("2_o6xl0")
 
 [node name="left_hand" type="XRController3D" parent="XROrigin3D" unique_id=890707431]
 tracker = &"left_hand"
+script = ExtResource("3_o6xl0")
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D/left_hand" unique_id=1963288293]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -67,6 +69,7 @@ collision_mask = 5242882
 
 [node name="right_hand" type="XRController3D" parent="XROrigin3D" unique_id=1070223647]
 tracker = &"right_hand"
+script = ExtResource("3_o6xl0")
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D/right_hand" unique_id=1081470382]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -99,10 +102,10 @@ scene_properties_keys = PackedStringArray("main_gui.gd")
 environment = SubResource("Environment_tefeu")
 
 [connection signal="button_pressed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_hand_button_pressed"]
-[connection signal="input_float_changed" from="XROrigin3D/left_hand" to="XROrigin3D" method="_on_left_float_change"]
-[connection signal="area_entered" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D" method="_left_area_entered"]
-[connection signal="area_exited" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D" method="_left_area_exited"]
+[connection signal="input_float_changed" from="XROrigin3D/left_hand" to="XROrigin3D/left_hand" method="_on_float_change"]
+[connection signal="area_entered" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D/left_hand" method="_on_area_entered"]
+[connection signal="area_exited" from="XROrigin3D/left_hand/Area3D" to="XROrigin3D/left_hand" method="_on_area_exited"]
 [connection signal="button_pressed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_hand_button_pressed"]
-[connection signal="input_float_changed" from="XROrigin3D/right_hand" to="XROrigin3D" method="_on_right_float_change"]
-[connection signal="area_entered" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D" method="_right_area_entered"]
-[connection signal="area_exited" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D" method="_right_area_exited"]
+[connection signal="input_float_changed" from="XROrigin3D/right_hand" to="XROrigin3D/right_hand" method="_on_float_change"]
+[connection signal="area_entered" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D/right_hand" method="_on_area_entered"]
+[connection signal="area_exited" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D/right_hand" method="_on_area_exited"]
