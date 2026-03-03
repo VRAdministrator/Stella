@@ -21,10 +21,10 @@ func _ready():
 	refresh_entries()
 
 func refresh_entries():
-	var temp_list=ProteinInfos.protein_names.slice(list_start_pt,list_start_pt+9)
+	var temp_list=ProteinRegistry.protein_names.slice(list_start_pt,list_start_pt+9)
 	for i in range(temp_list.size()):
 		var entry_name:String=temp_list[i]
-		if ProteinInfos.proteins[list_start_pt+i] in ProteinInfos.selected_proteins:
+		if ProteinRegistry.proteins[list_start_pt+i] in ProteinRegistry.selected_proteins:
 			entry_name="[*]"+entry_name
 		else:entry_name="[ ]"+entry_name
 		var entry:Button=entries[i]
@@ -38,14 +38,14 @@ func click_entry(num:int):
 	var entry_text=entry_texts[num]
 	if entry_text.is_empty():
 		return
-	var pt:int=ProteinInfos.protein_names.find(entry_text.substr(3))
+	var pt:int=ProteinRegistry.protein_names.find(entry_text.substr(3))
 	if entry_text.begins_with("[*]"):
-		ProteinInfos.selected_proteins.pop_at(pt)
+		ProteinRegistry.selected_proteins.pop_at(pt)
 		entry_text[1]=" "
 		entry_texts[num]=entry_text
 		entries[num].text=entry_text
 		return
-	ProteinInfos.selected_proteins.append(ProteinInfos.proteins[pt])
+	ProteinRegistry.selected_proteins.append(ProteinRegistry.proteins[pt])
 	entry_text[1]="*"
 	entry_texts[num]=entry_text
 	entries[num].text=entry_text

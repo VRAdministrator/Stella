@@ -34,7 +34,7 @@ func _on_button_gui_input(event: InputEvent) -> void:
 	#Color_display.color=current_color
 
 func _on_apply_pressed() -> void:
-	for protein in ProteinInfos.selected_proteins:
+	for protein in ProteinRegistry.selected_proteins:
 		for i in range(protein.atoms.instance_count):
 			if !protein.selected_atoms[i]:continue
 			protein.atoms.set_instance_color(i,current_color)

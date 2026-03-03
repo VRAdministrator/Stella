@@ -33,7 +33,7 @@ func _on_color_button_pressed() -> void:
 	add_child(current_scene)
 
 func _on_reset_button_pressed() -> void:
-	ProteinInfos.reset_proteins()
+	ProteinRegistry.reset_proteins()
 
 func _on_settings_button_pressed() -> void:
 	pass # Replace with function body.

@@ -36,9 +36,9 @@ func grab_object() -> void:
 	add_child(object)
 	object.global_position=pos
 	object.global_rotation=rot
-	for protein in ProteinInfos.proteins:
+	for protein in ProteinRegistry.proteins:
 		if protein.root==object:
-			ProteinInfos.selected_proteins=[protein]
+			ProteinRegistry.selected_proteins=[protein]
 			break
 	object_in_hand=object
 	grabbed=true

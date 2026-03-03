@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ProteinInfos="*res://scripts/protein_infos.gd"
 XRToolsUserSettings="*uid://bqgb8i74tm0t"
 XRToolsRumbleManager="*uid://by853dk86g1qw"
+ProteinRegistry="*uid://ca07qnlsdrqhg"
 
 [editor_plugins]
 

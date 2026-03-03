@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://scripts/controls.gd" id="2_o6xl0"]
 [ext_resource type="Script" uid="uid://kg33egkkqluy" path="res://scripts/hand.gd" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_tipki"]
-[ext_resource type="Script" uid="uid://ddnpcl0x5nt1v" path="res://scripts/gen_protein.gd" id="4_85g3d"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="5_choun"]
+[ext_resource type="Script" uid="uid://ca07qnlsdrqhg" path="res://scripts/ProteinRegistry.gd" id="5_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dbxjmijds021s" path="res://scenes/GUI/main_gui.tscn" id="6_ya4ey"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqawy"]
@@ -88,7 +88,7 @@ laser_length = 1
 collision_mask = 5242882
 
 [node name="proteins" type="Node3D" parent="." unique_id=1382952671]
-script = ExtResource("4_85g3d")
+script = ExtResource("5_o6xl0")
 
 [node name="Viewport2Din3D" parent="." unique_id=322414963 instance=ExtResource("5_choun")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)

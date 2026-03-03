@@ -53,7 +53,7 @@ func click_entry(num:int):
 	entries[num].text=entry_text
 	refresh_selected()
 
-func str_to_atom_list(entry:String,protein:protein_info)->Array[int]:
+func str_to_atom_list(entry:String,protein:ProteinInfo)->Array[int]:
 	var index_list:Array[int]
 	match entry.substr(3):
 		"hydrogens":index_list=protein.hydrogens
@@ -64,28 +64,28 @@ func str_to_atom_list(entry:String,protein:protein_info)->Array[int]:
 	return index_list
 
 func refresh_selected():
-	for protein in ProteinInfos.selected_proteins:
+	for protein in ProteinRegistry.selected_proteins:
 		for i in range(protein.selected_atoms.size()):protein.selected_atoms[i]=false
 	var no_elements:bool=true
 	if !(selected_entries[0]||selected_entries[1]):
 		for i in range(2,selected_entries.size()):
 			if !selected_entries[i]:continue
 			no_elements=false
-			for protein in ProteinInfos.selected_proteins:
+			for protein in ProteinRegistry.selected_proteins:
 				for index in str_to_atom_list(list_entries[i],protein):protein.selected_atoms[index]=true
 		if no_elements:
-			for protein in ProteinInfos.selected_proteins:
+			for protein in ProteinRegistry.selected_proteins:
 				for index in range(protein.atom_position_type.size()):protein.selected_atoms[index]=true
 	elif selected_entries[0]:
 		for i in range(2,selected_entries.size()):
 			if !selected_entries[i]:continue
 			no_elements=false
-			for protein in ProteinInfos.selected_proteins:
+			for protein in ProteinRegistry.selected_proteins:
 				for index in str_to_atom_list(list_entries[i],protein):
 					if protein.atom_position_type[index]!=0:continue
 					protein.selected_atoms[index]=true
 		if no_elements:
-			for protein in ProteinInfos.selected_proteins:
+			for protein in ProteinRegistry.selected_proteins:
 				for index in range(protein.atom_position_type.size()):
 					if protein.atom_position_type[index]!=0:continue
 					protein.selected_atoms[index]=true
@@ -93,12 +93,12 @@ func refresh_selected():
 		for i in range(2,selected_entries.size()):
 			if !selected_entries[i]:continue
 			no_elements=false
-			for protein in ProteinInfos.selected_proteins:
+			for protein in ProteinRegistry.selected_proteins:
 				for index in str_to_atom_list(list_entries[i],protein):
 					if protein.atom_position_type[index]!=1:continue
 					protein.selected_atoms[index]=true
 		if no_elements:
-			for protein in ProteinInfos.selected_proteins:
+			for protein in ProteinRegistry.selected_proteins:
 				for index in range(protein.atom_position_type.size()):
 					if protein.atom_position_type[index]!=1:continue
 					protein.selected_atoms[index]=true
@@ -124,7 +124,7 @@ func _on_list_down():
 
 func get_element_list()->Array[String]:
 	var elements:Array[int]
-	for protein in ProteinInfos.selected_proteins:
+	for protein in ProteinRegistry.selected_proteins:
 		for ele in protein.elements:
 			if ele in elements:continue
 			elements.append(ele)
@@ -132,7 +132,7 @@ func get_element_list()->Array[String]:
 	var str_elements:Array[String]
 	str_elements.resize(elements.size())
 	occurence.resize(elements.size())
-	for protein in ProteinInfos.selected_proteins:
+	for protein in ProteinRegistry.selected_proteins:
 		for i in range(elements.size()):occurence[i]+=protein.elements.count(elements[i])
 	var occ_copy:Array[int]=occurence
 	occurence.sort()
