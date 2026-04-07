@@ -20,40 +20,40 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 40
 text = "/home/havenj/Documents"
 
+[node name="parent_dir" type="Button" parent="." unique_id=904756695]
+layout_mode = 0
+offset_right = 520.0
+offset_bottom = 520.0
+scale = Vector2(0.192, 0.192)
+icon = ExtResource("2_l7hkd")
+flat = true
+
 [node name="move_up" type="Button" parent="." unique_id=1640376792]
 layout_mode = 0
 offset_left = 1180.0
 offset_right = 1700.0
 offset_bottom = 520.0
 rotation = 1.5708
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.192, 0.192)
 icon = ExtResource("2_l7hkd")
 flat = true
 
 [node name="move_down" type="Button" parent="." unique_id=2099566741]
 layout_mode = 0
-offset_left = 1076.0
+offset_left = 1080.0
 offset_top = 1000.0
-offset_right = 1596.0
+offset_right = 1600.0
 offset_bottom = 1520.0
 rotation = -1.5708
-scale = Vector2(0.2, 0.2)
-icon = ExtResource("2_l7hkd")
-flat = true
-
-[node name="parent_dir" type="Button" parent="." unique_id=904756695]
-layout_mode = 0
-offset_right = 520.0
-offset_bottom = 520.0
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.192, 0.192)
 icon = ExtResource("2_l7hkd")
 flat = true
 
 [node name="entry1" type="Button" parent="." unique_id=1148881103]
 layout_mode = 0
-offset_top = 150.0
+offset_top = 100.0
 offset_right = 1060.0
-offset_bottom = 241.0
+offset_bottom = 200.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY1"
 flat = true
@@ -61,9 +61,9 @@ alignment = 0
 
 [node name="entry2" type="Button" parent="." unique_id=1239701716]
 layout_mode = 0
-offset_top = 241.0
+offset_top = 200.0
 offset_right = 1060.0
-offset_bottom = 332.0
+offset_bottom = 300.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY2"
 flat = true
@@ -71,9 +71,9 @@ alignment = 0
 
 [node name="entry3" type="Button" parent="." unique_id=75099345]
 layout_mode = 0
-offset_top = 332.0
+offset_top = 300.0
 offset_right = 1060.0
-offset_bottom = 423.0
+offset_bottom = 400.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY3"
 flat = true
@@ -81,9 +81,9 @@ alignment = 0
 
 [node name="entry4" type="Button" parent="." unique_id=972663771]
 layout_mode = 0
-offset_top = 420.0
+offset_top = 400.0
 offset_right = 1060.0
-offset_bottom = 511.0
+offset_bottom = 500.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY4"
 flat = true
@@ -91,9 +91,9 @@ alignment = 0
 
 [node name="entry5" type="Button" parent="." unique_id=143595273]
 layout_mode = 0
-offset_top = 510.0
+offset_top = 500.0
 offset_right = 1060.0
-offset_bottom = 601.0
+offset_bottom = 600.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY5"
 flat = true
@@ -103,7 +103,7 @@ alignment = 0
 layout_mode = 0
 offset_top = 600.0
 offset_right = 1060.0
-offset_bottom = 691.0
+offset_bottom = 700.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY6"
 flat = true
@@ -111,9 +111,9 @@ alignment = 0
 
 [node name="entry7" type="Button" parent="." unique_id=1773432938]
 layout_mode = 0
-offset_top = 690.0
+offset_top = 700.0
 offset_right = 1060.0
-offset_bottom = 781.0
+offset_bottom = 800.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY7
 "
@@ -122,22 +122,23 @@ alignment = 0
 
 [node name="entry8" type="Button" parent="." unique_id=167109759]
 layout_mode = 0
-offset_top = 780.0
+offset_top = 800.0
 offset_right = 1060.0
-offset_bottom = 871.0
+offset_bottom = 900.0
 theme_override_font_sizes/font_size = 60
 text = "ENTRY8"
 flat = true
 alignment = 0
 
-[connection signal="pressed" from="move_up" to="." method="_on_dir_up"]
-[connection signal="pressed" from="move_down" to="." method="_on_dir_down"]
+[node name="entry9" type="Button" parent="." unique_id=1576132499]
+layout_mode = 0
+offset_top = 900.0
+offset_right = 1060.0
+offset_bottom = 1000.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY9
+"
+flat = true
+alignment = 0
+
 [connection signal="pressed" from="parent_dir" to="." method="_on_dir_back"]
-[connection signal="pressed" from="entry1" to="." method="_on_entry1_pressed"]
-[connection signal="pressed" from="entry2" to="." method="_on_entry2_pressed"]
-[connection signal="pressed" from="entry3" to="." method="_on_entry3_pressed"]
-[connection signal="pressed" from="entry4" to="." method="_on_entry4_pressed"]
-[connection signal="pressed" from="entry5" to="." method="_on_entry5_pressed"]
-[connection signal="pressed" from="entry6" to="." method="_on_entry6_pressed"]
-[connection signal="pressed" from="entry7" to="." method="_on_entry7_pressed"]
-[connection signal="pressed" from="entry8" to="." method="_on_entry8_pressed"]

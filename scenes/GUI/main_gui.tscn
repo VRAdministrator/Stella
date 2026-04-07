@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://dbxjmijds021s"]
 
 [ext_resource type="Script" uid="uid://uslc0in3hvgn" path="res://scripts/main_gui.gd" id="1_upwcn"]
+[ext_resource type="PackedScene" uid="uid://c0wbiaj1525sa" path="res://scenes/GUI/import_menu.tscn" id="2_clino"]
+[ext_resource type="PackedScene" uid="uid://il4qpiovn8tb" path="res://scenes/GUI/select_menu.tscn" id="3_rr5ba"]
+[ext_resource type="PackedScene" uid="uid://rkqp3i5nnk4x" path="res://scenes/GUI/style_menu.tscn" id="4_kaudr"]
+[ext_resource type="PackedScene" uid="uid://csd245fmvaga" path="res://scenes/GUI/color_menu.tscn" id="5_4hg11"]
 
 [node name="GUI" type="CanvasLayer" unique_id=161971490]
 script = ExtResource("1_upwcn")
@@ -83,9 +87,22 @@ offset_bottom = 1000.0
 theme_override_font_sizes/font_size = 80
 text = "Settings"
 
-[connection signal="pressed" from="Control/ColorRect/import_Button" to="." method="_on_import_button_pressed"]
-[connection signal="pressed" from="Control/ColorRect/select_Button" to="." method="_on_select_button_pressed"]
-[connection signal="pressed" from="Control/ColorRect/style_Button" to="." method="_on_style_button_pressed"]
-[connection signal="pressed" from="Control/ColorRect/color_Button" to="." method="_on_color_button_pressed"]
-[connection signal="pressed" from="Control/ColorRect/reset_Button" to="." method="_on_reset_button_pressed"]
-[connection signal="pressed" from="Control/ColorRect/settings_Button" to="." method="_on_settings_button_pressed"]
+[node name="Import_Menu" parent="." unique_id=34781464 instance=ExtResource("2_clino")]
+
+[node name="Select_Menu" parent="." unique_id=37192090 instance=ExtResource("3_rr5ba")]
+process_mode = 4
+visible = false
+
+[node name="Style_Menu" parent="." unique_id=55858280 instance=ExtResource("4_kaudr")]
+process_mode = 4
+visible = false
+
+[node name="Color_Menu" parent="." unique_id=1275484045 instance=ExtResource("5_4hg11")]
+process_mode = 4
+visible = false
+
+[connection signal="pressed" from="Control/ColorRect/import_Button" to="." method="_on_button_pressed" binds= [NodePath("Import_Menu")]]
+[connection signal="pressed" from="Control/ColorRect/select_Button" to="." method="_on_button_pressed" binds= [NodePath("Select_Menu")]]
+[connection signal="pressed" from="Control/ColorRect/style_Button" to="." method="_on_button_pressed" binds= [NodePath("Style_Menu")]]
+[connection signal="pressed" from="Control/ColorRect/color_Button" to="." method="_on_button_pressed" binds= [NodePath("Color_Menu")]]
+[connection signal="pressed" from="Control/ColorRect/reset_Button" to="." method="_on_button_pressed" binds= [NodePath(".")]]

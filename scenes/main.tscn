@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://cyrrcun8uhsud"]
 
-[ext_resource type="Script" uid="uid://b200l3agdsubq" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="Script" uid="uid://dhdeoqp4jh1dq" path="res://scripts/controls.gd" id="2_o6xl0"]
 [ext_resource type="Script" uid="uid://kg33egkkqluy" path="res://scripts/hand.gd" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_tipki"]
@@ -26,7 +25,6 @@ height = 0.1
 background_mode = 1
 
 [node name="main" type="Node3D" unique_id=439455117]
-script = ExtResource("1_tefeu")
 
 [node name="floor" type="StaticBody3D" parent="." unique_id=1110218205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)

@@ -1,0 +1,113 @@
+class_name EmpiricalConstants
+
+#source for values from LiteMol
+#Sehnal,D., Deshpande,M., Vařeková,R.S., Mir,S., Berka,K., Midlik,A., Pravda,L., Velankar,S. and Koča,J. (2017) LiteMol suite: interactive web-based visualization of large-scale macromolecular structure data. Nat. Methods, 14, 1121–1122, doi:10.1038/nmeth.4499.
+
+const DEFAULT_BONDING_RADIUS:float=2.001
+const HYDROGEN_BOND_DIST:float=1.15
+const LARGEST_BONDING_THRESHOLD:float=2.88
+
+const ELEMENT_INDEX:Dictionary[String,int]={
+	'H': 1, 'D': 1, 'T': 1, 'HE': 2, 'LI': 3,
+	'BE': 4, 'B': 5, 'C': 6, 'N': 7, 'O': 8,
+	'F': 9, 'NE': 10, 'NA': 11, 'MG': 12, 'AL': 13,
+	'SI': 14, 'P': 15, 'S': 16, 'CL': 17, 'AR': 18,
+	'K': 19, 'CA': 20, 'SC': 21, 'TI': 22, 'V': 23,
+	'CR': 24, 'MN': 25, 'FE': 26, 'CO': 27, 'NI': 28,
+	'CU': 29, 'ZN': 30, 'GA': 31, 'GE': 32, 'AS': 33,
+	'SE': 34, 'BR': 35, 'KR': 36, 'RB': 37, 'SR': 38,
+	'Y': 39, 'ZR': 40, 'NB': 41, 'MO': 42, 'TC': 43,
+	'RU': 44, 'RH': 45, 'PD': 46, 'AG': 47, 'CD': 48,
+	'IN': 49, 'SN': 50, 'SB': 51, 'TE': 52, 'I': 53,
+	'XE': 54, 'CS': 55, 'BA': 56, 'LA': 57, 'CE': 58,
+	'PR': 59, 'ND': 60, 'PM': 61, 'SM': 62, 'EU': 63,
+	'GD': 64, 'TB': 65, 'DY': 66, 'HO': 67, 'ER': 68,
+	'TM': 69, 'YB': 70, 'LU': 71, 'HF': 72, 'TA': 73,
+	'W': 74, 'RE': 75, 'OS': 76, 'IR': 77, 'PT': 78,
+	'AU': 79, 'HG': 80, 'TL': 81, 'PB': 82, 'BI': 83,
+	'PO': 84, 'AT': 85, 'RN': 86, 'FR': 87, 'RA': 88,
+	'AC': 89, 'TH': 90, 'PA': 91, 'U': 92, 'NP': 93,
+	'PU': 94, 'AM': 95, 'CM': 96, 'BK': 97, 'CF': 98,
+	'ES': 99, 'FM': 100, 'MD': 101, 'NO': 102, 'LR': 103,
+	'RF': 104, 'DB': 105, 'SG': 106, 'BH': 107, 'HS': 108,
+	'MT': 109, 'DS': 110, 'RG': 111, 'CN': 112, 'NH': 113,
+	'FL': 114, 'MC': 115, 'LV': 116, 'TS': 117, 'OG': 118}
+const ATOMIC_RADII:PackedFloat32Array=[
+	120,120,140,182,153,192,170,155,152,135,
+	154,227,173,184,210,180,180,175,188,275,
+	231,211,187,179,189,197,194,192,163,140,
+	139,187,211,185,190,183,202,303,249,219,
+	186,207,209,209,207,195,202,172,158,193,
+	217,206,206,198,216,343,268,240,235,239,
+	229,236,229,233,237,221,229,216,235,227,
+	242,221,212,217,210,217,216,202,209,166,
+	209,196,202,207,197,202,220,348,283,260,
+	237,243,240,221,243,244,245,244,245,245]
+const ELEMENT_BOND_THRESHOLDS:Dictionary[int,float]={
+	0:1.42, 1:1.42, 3:2.7, 4:2.7, 6:1.75,
+	7:1.6, 8:1.52, 11:2.7, 12:2.7, 13:2.7,
+	14:1.9, 15:1.9, 16:1.9, 17:1.8, 19:2.7,
+	20:2.7, 21:2.7, 22:2.7, 23:2.7, 24:2.7,
+	25:2.7, 26:2.7, 27:2.7, 28:2.7, 29:2.7,
+	30:2.7, 31:2.7, 33:2.68, 37:2.7, 38:2.7,
+	39:2.7, 40:2.7, 41:2.7, 42:2.7, 43:2.7,
+	44:2.7, 45:2.7, 46:2.7, 47:2.7, 48:2.7,
+	49:2.7, 50:2.7, 55:2.7, 56:2.7, 57:2.7,
+	58:2.7, 59:2.7, 60:2.7, 61:2.7, 62:2.7,
+	63:2.7, 64:2.7, 65:2.7, 66:2.7, 67:2.7,
+	68:2.7, 69:2.7, 70:2.7, 71:2.7, 72:2.7,
+	73:2.7, 74:2.7, 75:2.7, 76:2.7, 77:2.7,
+	78:2.7, 79:2.7, 80:2.7, 81:2.7, 82:2.7,
+	83:2.7, 87:2.7, 88:2.7, 89:2.7, 90:2.7,
+	91:2.7, 92:2.7, 93:2.7, 94:2.7, 95:2.7,
+	96:2.7, 97:2.7, 98:2.7, 99:2.7, 100:2.7,
+	101:2.7, 102:2.7, 103:2.7, 104:2.7, 105:2.7,
+	106:2.7, 107:2.7, 108:2.7, 109:2.88}
+const ELEMENT_PAIR_THRESHOLDS:Dictionary[int,float]={
+	0:0.8, 20:1.31, 27:1.3, 35:1.3, 44:1.05,
+	54:1, 60:1.84, 72:1.88, 84:1.75, 85:1.56,
+	86:1.76, 98:1.6, 99:1.68, 100:1.63, 112:1.55,
+	113:1.59, 114:1.36, 129:1.45, 144:1.6, 170:1.4,
+	180:1.55, 202:2.4, 222:2.24, 224:1.91, 225:1.98,
+	243:2.02, 269:2, 293:1.9, 480:2.3, 512:2.3,
+	544:2.3, 612:2.1, 629:1.54, 665:1, 813:2.6,
+	854:2.27, 894:1.93, 896:2.1, 937:2.05, 938:2.06,
+	981:1.62, 1258:2.68, 1309:2.33, 1484:1, 1763:2.14,
+	1823:2.48, 1882:2.1, 1944:1.72, 2380:2.34, 3367:2.44,
+	3733:2.11, 3819:2.6, 3821:2.36, 4736:2.75, 5724:2.73,
+	5959:2.63, 6519:2.84, 6750:2.87, 8991:2.81}
+#const METALSSET:PackedStringArray=[
+	#"LI", "NA", "K", "RB", "CS", "FR", "BE", "MG", "CA", "SR",
+	#"BA", "RA","AL", "GA", "IN", "SN", "TL", "PB", "BI", "SC",
+	#"TI", "V", "CR", "MN", "FE", "CO", "NI", "CU", "ZN", "Y",
+	#"ZR", "NB", "MO", "TC", "RU", "RH", "PD", "AG", "CD", "LA",
+	#"HF", "TA", "W", "RE", "OS", "IR", "PT", "AU", "HG", "AC",
+	#"RF", "DB", "SG", "BH", "HS", "MT", "CE", "PR", "ND", "PM",
+	#"SM", "EU", "GD", "TB", "DY", "HO", "ER", "TM", "YB", "LU",
+	#"TH", "PA", "U", "NP", "PU", "AM", "CM", "BK", "CF", "ES",
+	#"FM", "MD", "NO", "LR"]
+const ELEMENT_NAMES:Array[String]=[
+	"","Hydrogen", "Helium", "Lithium", "Beryllium",
+	"Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine",
+	"Neon", "Sodium", "Magnesium", "Aluminium", "Silicon",
+	"Phosphorus","Sulfur", "Chlorine", "Argon", "Potassium",
+	"Calcium", "Scandium", "Titanium", "Vanadium", "Chromium",
+	"Manganese", "Iron", "Cobalt", "Nickel", "Copper",
+	"Zinc", "Gallium", "Germanium", "Arsenic", "Selenium",
+	"Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium",
+	"Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium",
+	"Rhodium", "Palladium", "Silver", "Cadmium", "Indium",
+	"Tin", "Antimony", "Tellurium", "Iodine", "Xenon",
+	"Caesium", "Barium", "Lanthanum", "Cerium", "Praseodymium",
+	"Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium",
+	"Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium",
+	"Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten",
+	"Rhenium", "Osmium", "Iridium", "Platinum", "Gold",
+	"Mercury", "Thallium", "Lead", "Bismuth", "Polonium",
+	"Astatine", "Radon", "Francium", "Radium", "Actinium",
+	"Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium",
+	"Americium", "Curium", "Berkelium", "Californium", "Einsteinium",
+	"Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium",
+	"Dubnium", "Seaborgium", "Bohrium", "Hassium", "Meitnerium",
+	"Darmstadtium", "Roentgenium", "Copernicium", "Nihonium", "Flerovium",
+	"Moscovium", "Livermorium", "Tennessine", "Oganesson"]

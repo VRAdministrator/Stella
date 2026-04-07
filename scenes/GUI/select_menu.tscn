@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://il4qpiovn8tb"]
 
 [ext_resource type="Script" uid="uid://nx73mnvpkd71" path="res://scripts/select_menu.gd" id="1_xwddv"]
+[ext_resource type="Texture2D" uid="uid://doi7dih8xggpj" path="res://assets/arrowback.png" id="2_vsmua"]
 
-[node name="SelectMenu" type="Control" unique_id=37192090]
+[node name="Select_Menu" type="Control" unique_id=37192090]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,18 +17,131 @@ script = ExtResource("1_xwddv")
 
 [node name="protein_Button" type="Button" parent="." unique_id=554898367]
 layout_mode = 0
-offset_right = 590.0
-offset_bottom = 125.0
-theme_override_font_sizes/font_size = 80
+offset_right = 540.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 67
 text = "Protein"
 
 [node name="parts_Button" type="Button" parent="." unique_id=443775847]
 layout_mode = 0
-offset_left = 590.0
-offset_right = 1180.0
-offset_bottom = 125.0
-theme_override_font_sizes/font_size = 80
+offset_left = 540.0
+offset_right = 1080.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 67
 text = "Parts"
 
-[connection signal="pressed" from="protein_Button" to="." method="_on_protein_button_pressed"]
-[connection signal="pressed" from="parts_Button" to="." method="_on_parts_button_pressed"]
+[node name="move_up" type="Button" parent="." unique_id=715640847]
+layout_mode = 0
+offset_left = 1180.0
+offset_right = 1700.0
+offset_bottom = 520.0
+rotation = 1.5708
+scale = Vector2(0.192, 0.192)
+icon = ExtResource("2_vsmua")
+flat = true
+
+[node name="move_down" type="Button" parent="." unique_id=1320621908]
+layout_mode = 0
+offset_left = 1080.0
+offset_top = 1000.0
+offset_right = 1600.0
+offset_bottom = 1520.0
+rotation = -1.5708
+scale = Vector2(0.192, 0.192)
+icon = ExtResource("2_vsmua")
+flat = true
+
+[node name="entry1" type="Button" parent="." unique_id=2050765635]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 1060.0
+offset_bottom = 200.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY1"
+flat = true
+alignment = 0
+
+[node name="entry2" type="Button" parent="." unique_id=1684664401]
+layout_mode = 0
+offset_top = 200.0
+offset_right = 1060.0
+offset_bottom = 300.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY2"
+flat = true
+alignment = 0
+
+[node name="entry3" type="Button" parent="." unique_id=1797447925]
+layout_mode = 0
+offset_top = 300.0
+offset_right = 1060.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY3"
+flat = true
+alignment = 0
+
+[node name="entry4" type="Button" parent="." unique_id=1847465490]
+layout_mode = 0
+offset_top = 400.0
+offset_right = 1060.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY4"
+flat = true
+alignment = 0
+
+[node name="entry5" type="Button" parent="." unique_id=756300271]
+layout_mode = 0
+offset_top = 500.0
+offset_right = 1060.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY5"
+flat = true
+alignment = 0
+
+[node name="entry6" type="Button" parent="." unique_id=176327503]
+layout_mode = 0
+offset_top = 600.0
+offset_right = 1060.0
+offset_bottom = 700.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY6"
+flat = true
+alignment = 0
+
+[node name="entry7" type="Button" parent="." unique_id=1152263787]
+layout_mode = 0
+offset_top = 700.0
+offset_right = 1060.0
+offset_bottom = 800.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY7
+"
+flat = true
+alignment = 0
+
+[node name="entry8" type="Button" parent="." unique_id=36274919]
+layout_mode = 0
+offset_top = 800.0
+offset_right = 1060.0
+offset_bottom = 900.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY8"
+flat = true
+alignment = 0
+
+[node name="entry9" type="Button" parent="." unique_id=1359629844]
+layout_mode = 0
+offset_top = 900.0
+offset_right = 1060.0
+offset_bottom = 1000.0
+theme_override_font_sizes/font_size = 60
+text = "ENTRY9
+"
+flat = true
+alignment = 0
+
+[connection signal="pressed" from="protein_Button" to="." method="_on_selection_press" flags=18]
+[connection signal="pressed" from="parts_Button" to="." method="_on_selection_press" flags=18]

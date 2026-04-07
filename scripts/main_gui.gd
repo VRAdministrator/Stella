@@ -1,39 +1,20 @@
 extends CanvasLayer
 
-var import_scene:PackedScene=preload("res://scenes/GUI/import_menu.tscn")
-var select_scene:PackedScene=preload("res://scenes/GUI/select_menu.tscn")
-var style_scene:PackedScene=preload("res://scenes/GUI/style_menu.tscn")
-var color_scene:PackedScene=preload("res://scenes/GUI/color_menu.tscn")
+@onready var import_menu: Control = $Import_Menu
+@onready var select_menu: Control = $Select_Menu
+@onready var style_menu: Control = $Style_Menu
+@onready var color_menu: Control = $Color_Menu
+
+@onready var current_node: Node = import_menu
 
 
-var current_scene:Node
-
-func _ready() -> void:
-	current_scene=import_scene.instantiate()
-	add_child(current_scene)
-
-func _on_import_button_pressed() -> void:
-	current_scene.free()
-	current_scene=import_scene.instantiate()
-	add_child(current_scene)
-
-func _on_select_button_pressed() -> void:
-	current_scene.free()
-	current_scene=select_scene.instantiate()
-	add_child(current_scene)
-
-func _on_style_button_pressed() -> void:
-	current_scene.free()
-	current_scene=style_scene.instantiate()
-	add_child(current_scene)
-
-func _on_color_button_pressed() -> void:
-	current_scene.free()
-	current_scene=color_scene.instantiate()
-	add_child(current_scene)
-
-func _on_reset_button_pressed() -> void:
-	ProteinRegistry.reset_proteins()
-
-func _on_settings_button_pressed() -> void:
-	pass # Replace with function body.
+func _on_button_pressed(node_path: NodePath) -> void:
+	var new_node: Node = get_node(node_path)
+	if new_node == self:
+		ProteinRegistry.reset_proteins()
+		return
+	if new_node == current_node:
+		return
+	MenuEntries.disable_menu(current_node)
+	MenuEntries.enable_menu(new_node)
+	current_node = new_node

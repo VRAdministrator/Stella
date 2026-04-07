@@ -1,9 +1,10 @@
 extends Control
 
-func _on_ball_n_stick_pressed() -> void:#more rework needed
+func _on_ball_n_stick_pressed() -> void:
 	for protein in ProteinRegistry.selected_proteins:
-		protein.style="ball_n_stick"
+		protein.set_style(ProteinInfo.Style.BALL_AND_STICK)
+
 
 func _on_spacefill_pressed() -> void:
 	for protein in ProteinRegistry.selected_proteins:
-		protein.style="spacefill"
+		protein.set_style(ProteinInfo.Style.SPACEFILL)
